@@ -1,0 +1,9 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+data/raw/dataset_cache/
+data/hf_home/
+.env
+.vscode
