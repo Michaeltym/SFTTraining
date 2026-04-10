@@ -1,9 +1,11 @@
 import json
+import torch
 from pathlib import Path
 from datetime import datetime
 
-from src.model import load_model_and_tokenizer
-from src.prompts import EVAL_PROMPTS
+from src.model import load_model
+from src.tokenizer import load_tokenizer
+from src.eval_prompts import EVAL_PROMPTS
 from src.config import (
     EVAL_RESULTS_DIR,
     PRETRAINED_MODEL,
@@ -12,8 +14,10 @@ from src.config import (
 )
 
 
-def run_baseline():
-    model, tokenizer = load_model_and_tokenizer()
+def run_baseline(device: torch.device):
+    model = load_model()
+    model.to(device)
+    tokenizer = load_tokenizer()
     results: dict[str, list[dict[str, str]]] = {}
     pad_token_id = tokenizer.eos_token_id
     for category, prompts in EVAL_PROMPTS.items():

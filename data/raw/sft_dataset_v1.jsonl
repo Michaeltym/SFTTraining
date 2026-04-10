@@ -1,0 +1,112 @@
+{"instruction":"Summarize the text in one sentence.","input":"Artificial intelligence is transforming industries by enabling automation, improving decision-making, and creating new business opportunities.","output":"Artificial intelligence is transforming industries through automation, better decisions, and new business opportunities."}
+{"instruction":"Summarize the text in one sentence.","input":"Remote work allows employees to save commuting time, but it can also create communication challenges and feelings of isolation.","output":"Remote work saves commuting time but can also cause communication challenges and isolation."}
+{"instruction":"Summarize the text in one sentence.","input":"Solar energy is renewable and clean, but adoption can be limited by installation costs and weather conditions.","output":"Solar energy is clean and renewable, though high costs and weather can limit adoption."}
+{"instruction":"Summarize the text in one sentence.","input":"Good documentation helps teams onboard faster, reduces repeated questions, and makes processes easier to maintain over time.","output":"Good documentation speeds onboarding, reduces repeated questions, and improves long-term maintainability."}
+{"instruction":"Summarize the text in one sentence.","input":"Exercise improves cardiovascular health, supports mental well-being, and can help people maintain better energy levels throughout the day.","output":"Exercise supports heart health, mental well-being, and steadier energy throughout the day."}
+{"instruction":"Summarize the text in one sentence.","input":"A strong password should be long, unique, and difficult to guess, and it should not be reused across multiple accounts.","output":"A strong password is long, unique, hard to guess, and never reused."}
+{"instruction":"Summarize the text in one sentence.","input":"Cloud computing lets companies scale infrastructure quickly without buying physical hardware, but it requires careful cost management.","output":"Cloud computing enables fast scaling without physical hardware but requires careful cost control."}
+{"instruction":"Summarize the text in one sentence.","input":"Reading regularly improves vocabulary, strengthens comprehension, and exposes people to new ideas and perspectives.","output":"Regular reading improves vocabulary, comprehension, and exposure to new ideas."}
+{"instruction":"Summarize the text in one sentence.","input":"Customer feedback can reveal product issues, highlight unmet needs, and guide improvements that increase satisfaction.","output":"Customer feedback reveals issues, uncovers unmet needs, and guides product improvements."}
+{"instruction":"Summarize the text in one sentence.","input":"Time management techniques like prioritization and scheduling help people stay focused and complete important work more efficiently.","output":"Prioritization and scheduling improve focus and help people complete important work efficiently."}
+{"instruction":"Summarize the text in one sentence.","input":"Public transportation reduces traffic congestion, lowers emissions, and provides affordable mobility for many people.","output":"Public transportation reduces congestion and emissions while providing affordable mobility."}
+{"instruction":"Summarize the text in one sentence.","input":"Team retrospectives help groups reflect on what went well, identify problems, and agree on practical improvements for the next cycle.","output":"Team retrospectives help groups reflect, find problems, and agree on practical improvements."}
+{"instruction":"Summarize the text in one sentence.","input":"Learning a new language takes consistent practice, patience, and repeated exposure to vocabulary, grammar, and real conversations.","output":"Learning a new language requires patience, consistent practice, and repeated real-world exposure."}
+{"instruction":"Summarize the text in one sentence.","input":"Regular backups protect important files from accidental deletion, hardware failure, ransomware, and other unexpected events.","output":"Regular backups protect important files from deletion, hardware failure, and other unexpected loss."}
+{"instruction":"Summarize the text in one sentence.","input":"Healthy sleep habits improve concentration, support recovery, and reduce the likelihood of long-term health problems.","output":"Healthy sleep habits improve focus, support recovery, and reduce long-term health risks."}
+
+{"instruction":"Answer in exactly 8 words.","input":"What is teamwork?","output":"Teamwork is people cooperating to achieve shared goals."}
+{"instruction":"Answer in exactly 8 words.","input":"What is a database?","output":"A database stores and organizes structured information efficiently."}
+{"instruction":"Answer in exactly 8 words.","input":"Why is exercise important?","output":"Exercise improves health, mood, strength, endurance, and resilience."}
+{"instruction":"Answer in exactly 8 words.","input":"What does a manager do?","output":"A manager plans, supports, coordinates, guides, and evaluates."}
+{"instruction":"Answer in exactly 8 words.","input":"What is cloud computing?","output":"Cloud computing delivers scalable resources over the internet."}
+{"instruction":"Answer in exactly 8 words.","input":"Why do companies use documentation?","output":"Documentation improves clarity, consistency, onboarding, maintenance, and alignment."}
+{"instruction":"Answer in exactly 8 words.","input":"What is customer service?","output":"Customer support resolves problems and builds user trust."}
+{"instruction":"Answer in exactly 8 words.","input":"Why are backups useful?","output":"Backups protect data from loss, accidents, failures, attacks."}
+{"instruction":"Answer in exactly 8 words.","input":"What is leadership?","output":"Leadership means guiding others toward shared goals effectively."}
+{"instruction":"Answer in exactly 8 words.","input":"Why is planning important?","output":"Planning reduces confusion and improves focus, execution, coordination."}
+
+{"instruction":"Answer in exactly 10 words.","input":"What is artificial intelligence?","output":"Artificial intelligence enables machines to perform tasks requiring human intelligence."}
+{"instruction":"Answer in exactly 10 words.","input":"Why is communication important at work?","output":"Clear communication reduces mistakes, aligns teams, and improves collaboration greatly."}
+{"instruction":"Answer in exactly 10 words.","input":"What is a deadline?","output":"A deadline is the final time allowed for task completion."}
+{"instruction":"Answer in exactly 10 words.","input":"Why do teams hold meetings?","output":"Teams hold meetings to align priorities, share updates, and decide."}
+{"instruction":"Answer in exactly 10 words.","input":"What is cybersecurity?","output":"Cybersecurity protects systems, networks, and data from harmful digital threats."}
+
+{"instruction":"Answer using bullet points only.","input":"What are the benefits of remote work?","output":"- Saves commuting time\n- Increases flexibility\n- Can improve work-life balance"}
+{"instruction":"Answer using bullet points only.","input":"How can I improve my writing?","output":"- Read more often\n- Edit carefully\n- Use clear, simple sentences"}
+{"instruction":"Answer using bullet points only.","input":"What should a good password include?","output":"- Sufficient length\n- Unique characters\n- No reuse across accounts"}
+{"instruction":"Answer using bullet points only.","input":"What are common project risks?","output":"- Scope creep\n- Delayed dependencies\n- Poor communication"}
+{"instruction":"Answer using bullet points only.","input":"How do I prepare for an interview?","output":"- Research the company\n- Practice answers\n- Prepare questions"}
+{"instruction":"Answer using bullet points only.","input":"What makes a meeting effective?","output":"- Clear agenda\n- Relevant participants\n- Defined next steps"}
+{"instruction":"Answer using bullet points only.","input":"What are the advantages of exercise?","output":"- Better physical health\n- Improved mood\n- More daily energy"}
+{"instruction":"Answer using bullet points only.","input":"How can teams reduce misunderstandings?","output":"- Communicate clearly\n- Confirm expectations\n- Document decisions"}
+{"instruction":"Answer using bullet points only.","input":"What should be included in a status update?","output":"- Current progress\n- Key blockers\n- Next actions"}
+{"instruction":"Answer using bullet points only.","input":"What are basic habits for productivity?","output":"- Prioritize important work\n- Limit distractions\n- Review progress regularly"}
+{"instruction":"Translate to French.","input":"The meeting is tomorrow at noon.","output":"La réunion est demain à midi."}
+{"instruction":"Translate to French.","input":"Please send the report by Friday.","output":"Veuillez envoyer le rapport d'ici vendredi."}
+{"instruction":"Translate to French.","input":"Our team is working on a new product.","output":"Notre équipe travaille sur un nouveau produit."}
+{"instruction":"Translate to French.","input":"The customer needs an update today.","output":"Le client a besoin d'une mise à jour aujourd'hui."}
+{"instruction":"Translate to French.","input":"This document contains important project details.","output":"Ce document contient des détails importants sur le projet."}
+
+{"instruction":"Return a JSON object with fields name, age, and occupation.","input":"Create a fictional person.","output":"{\"name\": \"Lena Park\", \"age\": 29, \"occupation\": \"Product Designer\"}"}
+{"instruction":"Return a JSON object with fields name, age, and occupation.","input":"Create another fictional person.","output":"{\"name\": \"Marcus Lee\", \"age\": 41, \"occupation\": \"Data Analyst\"}"}
+{"instruction":"Return a JSON object with fields product, price, and in_stock.","input":"Create a sample product.","output":"{\"product\": \"Wireless Mouse\", \"price\": 24.99, \"in_stock\": true}"}
+{"instruction":"Return a JSON object with fields product, price, and in_stock.","input":"Create another sample product.","output":"{\"product\": \"Notebook\", \"price\": 6.5, \"in_stock\": false}"}
+{"instruction":"Return a JSON object with fields city, country, and population_millions.","input":"Create a sample city entry.","output":"{\"city\": \"Oslo\", \"country\": \"Norway\", \"population_millions\": 0.7}"}
+{"instruction":"Return a JSON object with fields city, country, and population_millions.","input":"Create another sample city entry.","output":"{\"city\": \"Busan\", \"country\": \"South Korea\", \"population_millions\": 3.3}"}
+{"instruction":"Return a JSON object with fields task, priority, and done.","input":"Create a sample task.","output":"{\"task\": \"Write release notes\", \"priority\": \"high\", \"done\": false}"}
+{"instruction":"Return a JSON object with fields task, priority, and done.","input":"Create another sample task.","output":"{\"task\": \"Archive old files\", \"priority\": \"low\", \"done\": true}"}
+{"instruction":"Return a JSON object with fields title, author, and year.","input":"Create a fictional book entry.","output":"{\"title\": \"The Quiet Harbor\", \"author\": \"Mina Chen\", \"year\": 2019}"}
+{"instruction":"Return a JSON object with fields title, author, and year.","input":"Create another fictional book entry.","output":"{\"title\": \"Winter Signals\", \"author\": \"David Rowan\", \"year\": 2021}"}
+{"instruction":"Return a JSON object with fields event, date, and location.","input":"Create a sample event.","output":"{\"event\": \"Team Offsite\", \"date\": \"2026-05-14\", \"location\": \"Singapore\"}"}
+{"instruction":"Return a JSON object with fields event, date, and location.","input":"Create another sample event.","output":"{\"event\": \"Product Demo\", \"date\": \"2026-08-02\", \"location\": \"Sydney\"}"}
+{"instruction":"Return a JSON object with fields course, duration_weeks, and level.","input":"Create a sample course.","output":"{\"course\": \"Intro to SQL\", \"duration_weeks\": 6, \"level\": \"beginner\"}"}
+{"instruction":"Return a JSON object with fields course, duration_weeks, and level.","input":"Create another sample course.","output":"{\"course\": \"Advanced Python\", \"duration_weeks\": 8, \"level\": \"advanced\"}"}
+{"instruction":"Return a JSON object with fields department, manager, and headcount.","input":"Create a sample department entry.","output":"{\"department\": \"Finance\", \"manager\": \"Olivia Grant\", \"headcount\": 18}"}
+
+{"instruction":"Return a YAML object with fields name, role, and active.","input":"Create a sample team member.","output":"name: Daniel Cruz\nrole: Engineer\nactive: true"}
+{"instruction":"Return a YAML object with fields name, role, and active.","input":"Create another sample team member.","output":"name: Priya Nair\nrole: Researcher\nactive: false"}
+{"instruction":"Return a YAML object with fields service, port, and enabled.","input":"Create a sample service config.","output":"service: api-gateway\nport: 8080\nenabled: true"}
+{"instruction":"Return a YAML object with fields service, port, and enabled.","input":"Create another sample service config.","output":"service: metrics\nport: 9090\nenabled: false"}
+{"instruction":"Return a YAML object with fields project, owner, and status.","input":"Create a sample project entry.","output":"project: Mercury\nowner: Sara Kim\nstatus: active"}
+{"instruction":"Return a YAML object with fields project, owner, and status.","input":"Create another sample project entry.","output":"project: Atlas\nowner: Brian Holt\nstatus: planned"}
+{"instruction":"Return a YAML object with fields country, capital, and population_millions.","input":"Create a sample country entry.","output":"country: Japan\ncapital: Tokyo\npopulation_millions: 124.5"}
+{"instruction":"Return a YAML object with fields country, capital, and population_millions.","input":"Create another sample country entry.","output":"country: Canada\ncapital: Ottawa\npopulation_millions: 40.1"}
+{"instruction":"Return a YAML object with fields app, version, and stable.","input":"Create a sample app release entry.","output":"app: NotesPro\nversion: 2.4.1\nstable: true"}
+{"instruction":"Return a YAML object with fields app, version, and stable.","input":"Create another sample app release entry.","output":"app: VisionLab\nversion: 0.9.0\nstable: false"}
+{"instruction":"Return a YAML object with fields item, quantity, and warehouse.","input":"Create a sample inventory record.","output":"item: Keyboard\nquantity: 120\nwarehouse: A1"}
+{"instruction":"Return a YAML object with fields item, quantity, and warehouse.","input":"Create another sample inventory record.","output":"item: Monitor\nquantity: 45\nwarehouse: B3"}
+{"instruction":"Return a YAML object with fields meeting, date, and room.","input":"Create a sample meeting entry.","output":"meeting: Sprint Review\ndate: 2026-06-10\nroom: Cedar"}
+{"instruction":"Return a YAML object with fields meeting, date, and room.","input":"Create another sample meeting entry.","output":"meeting: Budget Check\ndate: 2026-07-21\nroom: Maple"}
+{"instruction":"Return a YAML object with fields language, paradigm, and typed.","input":"Create a sample language entry.","output":"language: Go\nparadigm: concurrent\ntyped: true"}
+
+{"instruction":"Return a markdown table with columns Fruit and Color.","input":"Include apple, banana, and grape.","output":"| Fruit | Color |\n|---|---|\n| Apple | Red |\n| Banana | Yellow |\n| Grape | Purple |"}
+{"instruction":"Return a markdown table with columns Tool and Purpose.","input":"Include hammer, screwdriver, and wrench.","output":"| Tool | Purpose |\n|---|---|\n| Hammer | Driving nails |\n| Screwdriver | Turning screws |\n| Wrench | Tightening bolts |"}
+{"instruction":"Return a markdown table with columns Day and Task.","input":"Include Monday: planning, Tuesday: coding, Wednesday: testing.","output":"| Day | Task |\n|---|---|\n| Monday | Planning |\n| Tuesday | Coding |\n| Wednesday | Testing |"}
+{"instruction":"Return a markdown table with columns Language and Use.","input":"Include Python, SQL, and JavaScript.","output":"| Language | Use |\n|---|---|\n| Python | Automation |\n| SQL | Querying data |\n| JavaScript | Web interaction |"}
+{"instruction":"Return a markdown table with columns Plan and Price.","input":"Include Basic 10, Standard 20, Premium 30.","output":"| Plan | Price |\n|---|---|\n| Basic | 10 |\n| Standard | 20 |\n| Premium | 30 |"}
+{"instruction":"Return a markdown table with columns City and Country.","input":"Include Paris, Tokyo, and Sydney.","output":"| City | Country |\n|---|---|\n| Paris | France |\n| Tokyo | Japan |\n| Sydney | Australia |"}
+{"instruction":"Return a markdown table with columns Role and Responsibility.","input":"Include designer, engineer, and manager.","output":"| Role | Responsibility |\n|---|---|\n| Designer | Create user experiences |\n| Engineer | Build systems |\n| Manager | Coordinate work |"}
+{"instruction":"Return a markdown table with columns Metric and Value.","input":"Include sales 120, profit 35, returns 4.","output":"| Metric | Value |\n|---|---|\n| Sales | 120 |\n| Profit | 35 |\n| Returns | 4 |"}
+{"instruction":"Return a markdown table with columns Course and Duration.","input":"Include SQL 6 weeks, Python 8 weeks, Writing 4 weeks.","output":"| Course | Duration |\n|---|---|\n| SQL | 6 weeks |\n| Python | 8 weeks |\n| Writing | 4 weeks |"}
+{"instruction":"Return a markdown table with columns Step and Description.","input":"Include setup, run, and review.","output":"| Step | Description |\n|---|---|\n| Setup | Prepare the environment |\n| Run | Execute the task |\n| Review | Check the results |"}
+
+{"instruction":"Rewrite the text in a more formal tone.","input":"Hey, can you send me the file when you get a chance?","output":"Could you please send me the file when you have a moment?"}
+{"instruction":"Rewrite the text in a more professional tone.","input":"This report is kind of messy and hard to follow.","output":"This report would benefit from clearer organization and improved readability."}
+{"instruction":"Rewrite the text in a more formal tone.","input":"I need this done ASAP.","output":"I would appreciate it if this could be completed as soon as possible."}
+{"instruction":"Rewrite the text in a more professional tone.","input":"Your slides look nice, but a few parts are confusing.","output":"Your slides are visually strong, though a few sections could be clarified."}
+{"instruction":"Rewrite the text in a more formal tone.","input":"We messed up the schedule.","output":"We did not manage the schedule effectively."}
+{"instruction":"Rewrite the text in a more professional tone.","input":"Can you fix this bug today?","output":"Could you please resolve this issue today if possible?"}
+{"instruction":"Rewrite the text in a more formal tone.","input":"Thanks for helping out with this.","output":"Thank you for your assistance with this matter."}
+{"instruction":"Rewrite the text in a more professional tone.","input":"The customer is upset about the delay.","output":"The customer has expressed concern regarding the delay."}
+{"instruction":"Rewrite the text in a more formal tone.","input":"Please check this when you're free.","output":"Please review this when your schedule permits."}
+{"instruction":"Rewrite the text in a more professional tone.","input":"We should talk about this problem soon.","output":"We should discuss this issue promptly."}
+{"instruction":"Rewrite the text in a more formal tone.","input":"I don't think this plan will work.","output":"I do not believe this plan will be effective."}
+{"instruction":"Rewrite the text in a more professional tone.","input":"Your email was unclear.","output":"Your email could benefit from additional clarification."}
+{"instruction":"Rewrite the text in a more formal tone.","input":"Let's meet tomorrow to go over everything.","output":"Let us meet tomorrow to review everything in detail."}
+{"instruction":"Rewrite the text in a more professional tone.","input":"This feature is pretty useful for new users.","output":"This feature is particularly valuable for new users."}
+{"instruction":"Rewrite the text in a more formal tone.","input":"Sorry I replied so late.","output":"I apologize for the delayed response."}
+{"instruction":"Rewrite the text in a more professional tone.","input":"We need more time to finish this.","output":"We require additional time to complete this task."}
+{"instruction":"Rewrite the text in a more formal tone.","input":"Can you explain this part again?","output":"Could you please explain this section again?"}
+{"instruction":"Rewrite the text in a more professional tone.","input":"The meeting went well and everyone liked the demo.","output":"The meeting was successful, and the demo was well received."}
+{"instruction":"Rewrite the text in a more formal tone.","input":"I want to make this sound better.","output":"I would like to improve the wording of this text."}
+{"instruction":"Rewrite the text in a more professional tone.","input":"The draft is okay, but it still needs work.","output":"The draft is a solid start, but it still requires refinement."}
