@@ -30,8 +30,10 @@ def collate_fn_factory(tokenizer):
     return collate_fn
 
 
-def build_dataloader(dataset: CustomDataset, batch_size: int, shuffle: bool):
-    tokenizer = load_tokenizer()
+def build_dataloader(
+    dataset: CustomDataset, batch_size: int, shuffle: bool, model_name: str
+) -> DataLoader:
+    tokenizer = load_tokenizer(model_name=model_name)
     dataloader = DataLoader(
         dataset=dataset,
         batch_size=batch_size,

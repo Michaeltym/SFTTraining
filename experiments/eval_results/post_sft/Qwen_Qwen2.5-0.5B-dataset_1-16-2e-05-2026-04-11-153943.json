@@ -1,0 +1,101 @@
+{
+  "model": "Qwen/Qwen2.5-0.5B",
+  "evaluated_at": "2026-04-11-153943",
+  "generation_config": {
+    "max_new_token": 100,
+    "pad_token_id": 151643,
+    "use_chat_template": false
+  },
+  "results": {
+    "general_qa": [
+      {
+        "prompt": "Explain why the sky is blue in simple terms.",
+        "output": " The sky is blue because it reflects sunlight. When sunlight hits the sky, it bounces off the air molecules and the ground, and the blue light is scattered back towards us. This scattering of blue light is what makes the sky appear blue."
+      },
+      {
+        "prompt": "What is the difference between TCP and UDP?",
+        "output": " TCP (Transmission Control Protocol) and UDP (User Datagram Protocol) are both used for transmitting data over networks, but they differ in several ways. Here are some key differences:\n\n1. **Speed**: TCP is designed to be reliable, meaning it guarantees delivery of data even if there are delays. It uses acknowledgments to ensure that data is delivered correctly. UDP, on the other hand, is faster and less reliable. It does not guarantee delivery, and it can be slower if there are delays.\n\n"
+      },
+      {
+        "prompt": "Why do we have leap years?",
+        "output": " Why do we have leap years? Why do we have leap years? Why do we have leap years? Why do we have leap years? Why do we have leap years? Why do we have leap years? Why do we have leap years? Why do we have leap years? Why do we have leap years? Why do we have leap years? Why do we have leap years? Why do we have leap years? Why do we have leap years? Why do we have leap years? Why do"
+      },
+      {
+        "prompt": "What causes inflation in an economy?",
+        "output": " Inflation occurs when the general price level of goods and services in an economy increases over time. This can happen for a variety of reasons, including:\n\n1. **Demand-Pull Inflation**: When aggregate demand exceeds aggregate supply, prices rise. This can happen if there is an oversupply of goods or services, or if there is an increase in the money supply.\n\n2. **Cost-Push Inflation**: When aggregate supply exceeds aggregate demand, prices fall. This can happen if there is a"
+      }
+    ],
+    "instruction_following": [
+      {
+        "prompt": "Summarize this in one sentence: Artificial intelligence is transforming industries by enabling automation, improving decision-making, and creating new opportunities across sectors.",
+        "output": ""
+      },
+      {
+        "prompt": "List 3 pros and 3 cons of remote work.",
+        "output": " Pros:\n- Flexibility\n- Improved focus\n- Better communication\n- Increased autonomy\n- Reduced commute time\nCons:\n- Reduced face-to-face interaction\n- Limited access to resources\n- Potential distractions\n- Potential lack of accountability"
+      },
+      {
+        "prompt": "Answer in exactly 20 words: What is AI?",
+        "output": " AI stands for Artificial Intelligence. It is the simulation of human intelligence in machines. Machines can perform tasks that typically require human intelligence, such as visual perception, speech recognition, decision-making, and problem-solving. AI can be used in a wide range of applications, including self-driving cars, language translation, and image recognition."
+      },
+      {
+        "prompt": "Explain photosynthesis using bullet points only.",
+        "output": " Photosynthesis is the process by which plants convert light energy into chemical energy. Here are some key points:\n\n- **Light Energy**: Plants absorb sunlight through chlorophyll.\n- **Carbon Dioxide**: Carbon dioxide from the air diffuses into the plant.\n- **Water**: Water molecules combine with carbon dioxide to form glucose.\n- **Glucose**: Glucose is converted into energy-rich molecules.\n- **Energy**: The glucose is used to power cellular processes."
+      },
+      {
+        "prompt": "Translate to French: 'The meeting is tomorrow at noon.'",
+        "output": " Le déjeuner est demain à midi."
+      }
+    ],
+    "formatting_structure": [
+      {
+        "prompt": "Return a JSON object with name, age, and occupation for a fictional person.",
+        "output": " name: Alice\nage: 28\noccupation: Data Analyst"
+      },
+      {
+        "prompt": "Write a markdown table comparing Python, Java, and C++.",
+        "output": " | Language | Execution Time | Memory Usage |\n|---|---|---|\n| Python | Fast | Low |\n| Java | Medium | High |\n| C++ | Slow | High |"
+      },
+      {
+        "prompt": "Return a YAML config for a web server with host, port, and debug fields.",
+        "output": " The host should be \"localhost\", the port should be 8080, and the debug should be false. Additionally, the config should include a secret field with a length of 10 characters. The secret should be generated using the sha256 hash of the current timestamp. The config should also include a cache field with a value of \"redis://localhost:6379/0\". The cache should be cleared after 10 minutes. Finally, the config should include"
+      },
+      {
+        "prompt": "Format a weekly study plan as a table with day, topic, and duration columns.",
+        "output": " | Day | Topic | Duration |\n|---|---|---|\n| Monday | Data Analysis | 2 hours |\n| Tuesday | Programming | 3 hours |\n| Wednesday | Statistics | 1 hour |\n| Thursday | Machine Learning | 2 hours |\n| Friday | Python | 1 hour |"
+      }
+    ],
+    "reasoning": [
+      {
+        "prompt": "If a train travels 60 km/h for 2.5 hours, how far does it go?",
+        "output": " To determine how far the train travels, we can use the formula for distance, which is:\n\n\\[ \\text{Distance} = \\text{Speed} \\times \\text{Time} \\]\n\nGiven:\n- Speed = 60 km/h\n- Time = 2.5 hours\n\nWe can substitute these values into the formula:\n\n\\[ \\text{Distance} = 60 \\, \\text{km/h} \\times 2.5 \\, \\text{hours}"
+      },
+      {
+        "prompt": "A farmer has 17 sheep, all but 9 die. How many are left?",
+        "output": " To determine how many sheep are left after some die, we can follow these steps:\n\n1. Start with the total number of sheep.\n2. Subtract the number of sheep that die.\n\nThe farmer initially has 17 sheep. If 9 sheep die, we subtract 9 from 17:\n\n\\[ 17 - 9 = 8 \\]\n\nSo, the number of sheep left is \\(\\boxed{8}\\)."
+      },
+      {
+        "prompt": "Why is correlation not causation?",
+        "output": " I have a question about the definition of correlation. I have read that correlation is not causation. But I have also read that correlation is causation. What is the difference between the two? I have read that correlation is not causation. But I have also read that correlation is causation. What is the difference between the two? Correlation is a statistical measure that indicates the strength and direction of the linear relationship between two variables. It does not imply causation, meaning it does not prove"
+      },
+      {
+        "prompt": "Solve 3x + 5 = 20.",
+        "output": " To solve the equation 3x + 5 = 20, follow these steps:\n\nStep 1: Subtract 5 from both sides of the equation.\n3x + 5 - 5 = 20 - 5\n3x = 15\n\nStep 2: Divide both sides of the equation by 3.\n(3x) / 3 = 15 / 3\nx = 5\n\nSo, the solution to the equation 3x"
+      }
+    ],
+    "rewriting_style": [
+      {
+        "prompt": "Rewrite this to sound more professional: 'Hey, can you fix this thing ASAP?'",
+        "output": " 'Hey, can you please fix this thing ASAP?'"
+      },
+      {
+        "prompt": "Write a formal apology email for missing a meeting.",
+        "output": " Dear [Recipient],\n\nI hope this email finds you well. I am writing to apologize for the missed meeting. I understand that this may have caused some inconvenience, but I assure you that I have made every effort to ensure that the meeting was successful.\n\nI apologize for any inconvenience caused by the missed meeting. I will do my best to make up for it as soon as possible. If there are any further issues, please let me know.\n\nThank you for your understanding.\n\nBest regards,\n\n[Your Name"
+      },
+      {
+        "prompt": "Explain gravity like a pirate.",
+        "output": " Gravity is the force that pulls objects towards the center of the Earth. It's like a giant invisible hand that pulls everything together. Imagine you're holding a ball, and it's really heavy. If you put a lighter ball on top of it, the ball will fall down because the ball is heavier. Gravity is important for everything around us, from the way we walk to the way we fly."
+      }
+    ]
+  }
+}

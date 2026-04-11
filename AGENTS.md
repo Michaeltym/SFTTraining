@@ -147,6 +147,40 @@ Keep logs:
 - reproducible
 - explicit about what changed and what stayed fixed
 
+### Experiment Log Rules
+
+When writing an experiment log under `experiments/logs/`, include at least:
+
+- model name
+- dataset name
+- learning rate
+- batch size
+- timestamp
+- goal of the run
+- findings
+- next step
+- other important notes needed for reproducibility
+
+Preferred log sections:
+
+- `Run Info`
+- `Goal`
+- `Findings`
+- `Next Step`
+- `Other Important Info`
+
+Log filenames should include at least:
+
+- dataset name
+- model name
+- test/run identifier when relevant
+
+Example:
+
+- `2026-04-11-test_1-dataset_1-Qwen_Qwen2.5-0.5B.md`
+
+If a later run uses `dataset_2`, the log filename should make that distinction explicit.
+
 ## What to Be Careful About
 
 - Do not confuse pretrained base checkpoints with SFT checkpoints.

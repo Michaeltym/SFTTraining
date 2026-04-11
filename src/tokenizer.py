@@ -1,7 +1,7 @@
 from transformers import AutoTokenizer
-from src.config import PRETRAINED_MODEL, HF_CACHE_DIR
+from src.config import HF_CACHE_DIR
 
 
-def load_tokenizer():
-    tokenizer = AutoTokenizer.from_pretrained(PRETRAINED_MODEL, cache_dir=HF_CACHE_DIR)
+def load_tokenizer(model_name: str) -> AutoTokenizer:
+    tokenizer = AutoTokenizer.from_pretrained(model_name, cache_dir=HF_CACHE_DIR)
     return tokenizer

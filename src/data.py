@@ -1,4 +1,3 @@
-from transformers import AutoTokenizer
 from datasets import load_dataset, Dataset
 from typing import TypedDict
 import torch
@@ -34,8 +33,9 @@ def format_jsonl_data(dataset: Dataset) -> list[dict[str, str]]:
 
 def encode_data(
     formatted_data: list[dict[str, str]],
+    model_name: str,
 ) -> list[EncodedData]:
-    tokenizer = load_tokenizer()
+    tokenizer = load_tokenizer(model_name=model_name)
     encoded_data = []
     for datum in formatted_data:
         prompt_text = datum["prompt_text"]

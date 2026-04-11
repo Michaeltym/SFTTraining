@@ -1,0 +1,21 @@
+{"instruction":"Summarize the text in one sentence.","input":"Digital payment systems make transactions faster and more convenient, but they also increase dependence on internet access and platform reliability.","output":"Digital payments improve convenience and speed but increase reliance on internet access and platform stability."}
+{"instruction":"Summarize the text in one sentence.","input":"Regular code reviews help teams catch bugs earlier, share knowledge, and improve consistency across a codebase.","output":"Regular code reviews catch bugs early, spread knowledge, and improve codebase consistency."}
+{"instruction":"Summarize the text in one sentence.","input":"Water conservation reduces pressure on natural resources, lowers utility costs, and helps communities prepare for drought conditions.","output":"Water conservation protects resources, reduces costs, and improves drought preparedness."}
+
+{"instruction":"Answer in exactly 8 words.","input":"What is collaboration?","output":"Collaboration means working together to achieve common goals."}
+{"instruction":"Answer in exactly 8 words.","input":"Why is testing useful?","output":"Testing finds defects and improves software reliability significantly."}
+{"instruction":"Answer in exactly 10 words.","input":"What is automation?","output":"Automation uses technology to perform tasks with reduced manual effort."}
+{"instruction":"Answer in exactly 10 words.","input":"Why is planning valuable?","output":"Planning improves coordination, reduces risk, and supports clearer execution outcomes."}
+
+{"instruction":"Answer using bullet points only.","input":"What helps teams communicate better?","output":"- Set clear expectations\n- Share updates regularly\n- Confirm decisions in writing"}
+{"instruction":"Answer using bullet points only.","input":"How can I stay focused while studying?","output":"- Remove distractions\n- Use short study blocks\n- Review goals frequently"}
+
+{"instruction":"Translate to French.","input":"The project deadline is next Tuesday.","output":"La date limite du projet est mardi prochain."}
+{"instruction":"Translate to French.","input":"Please confirm the meeting location.","output":"Veuillez confirmer le lieu de la réunion."}
+
+{"instruction":"Return a JSON object with fields name, team, and remote.","input":"Create a sample employee record.","output":"{\"name\": \"Elena Brooks\", \"team\": \"Platform\", \"remote\": true}"}
+{"instruction":"Return a YAML object with fields service, replicas, and healthy.","input":"Create a sample deployment status.","output":"service: search-api\nreplicas: 3\nhealthy: true"}
+{"instruction":"Return a markdown table with columns Task and Owner.","input":"Include design by Maya, testing by Omar, and release by Nina.","output":"| Task | Owner |\n|---|---|\n| Design | Maya |\n| Testing | Omar |\n| Release | Nina |"}
+
+{"instruction":"Rewrite the text in a more formal tone.","input":"Can you take a look at this later today?","output":"Could you please review this later today?"}
+{"instruction":"Rewrite the text in a more professional tone.","input":"The rollout was messy, but we fixed the main issues.","output":"The rollout encountered difficulties, but we resolved the primary issues."}

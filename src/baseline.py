@@ -2,22 +2,20 @@ import json
 import torch
 from pathlib import Path
 from datetime import datetime
+from typing import Any
 
-from src.model import load_model
+from src.model import get_model_name_slug, load_model
 from src.tokenizer import load_tokenizer
 from src.eval_prompts import EVAL_PROMPTS
 from src.config import (
     EVAL_RESULTS_DIR,
-    PRETRAINED_MODEL,
+    MODEL_NAME,
     MAX_NEW_TOKEN,
     USE_CHAT_TEMPLATE,
 )
 
 
-def run_baseline(device: torch.device):
-    model = load_model()
-    model.to(device)
-    tokenizer = load_tokenizer()
+def evaluate_baseline(model: Any, tokenizer: Any):
     results: dict[str, list[dict[str, str]]] = {}
     pad_token_id = tokenizer.eos_token_id
     for category, prompts in EVAL_PROMPTS.items():
@@ -54,20 +52,40 @@ def run_baseline(device: torch.device):
                     skip_special_tokens=True,
                 )
             results[category].append({"prompt": prompt, "output": output_text})
-    save_baseline(results, pad_token_id)
+    return results
 
 
-def save_baseline(results: dict[str, list[dict[str, str]]], pad_token_id: str):
+def run_baseline(device: torch.device):
+    model = load_model(model_name=MODEL_NAME)
+    model.to(device)
+    tokenizer = load_tokenizer(model_name=MODEL_NAME)
+    results = evaluate_baseline(model, tokenizer)
     timestamp = datetime.now().strftime("%Y-%m-%d-%H%M%S")
-    path = (
-        Path(EVAL_RESULTS_DIR)
-        / f"baseline-{timestamp}{'-with-chat-template' if USE_CHAT_TEMPLATE else ''}.json"
+    model_name_slug = get_model_name_slug(MODEL_NAME)
+    save_results(
+        results=results,
+        pad_token_id=tokenizer.eos_token_id,
+        path=(
+            Path(EVAL_RESULTS_DIR) / "baseline" / f"{model_name_slug}-{timestamp}.json"
+        ),
+        model_name=MODEL_NAME,
+        timestamp=timestamp,
     )
+    print("Baseline evaluation completed and saved.")
+
+
+def save_results(
+    results: dict[str, list[dict[str, str]]],
+    pad_token_id: int,
+    path: Path,
+    model_name: str,
+    timestamp: str,
+):
     path.parent.mkdir(parents=True, exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
         json.dump(
             {
-                "model": PRETRAINED_MODEL,
+                "model": model_name,
                 "evaluated_at": timestamp,
                 "generation_config": {
                     "max_new_token": MAX_NEW_TOKEN,
@@ -80,4 +98,3 @@ def save_baseline(results: dict[str, list[dict[str, str]]], pad_token_id: str):
             indent=2,
             ensure_ascii=False,
         )
-        print("Baseline evaluation completed and saved.")
