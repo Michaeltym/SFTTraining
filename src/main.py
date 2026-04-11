@@ -3,7 +3,7 @@ from src.baseline import run_baseline
 from src.training import run_training_loop
 from src.resume import run_resume
 from src.evaluate import run_evaluate
-from src.config import MODE, MODE_BASE, MODE_RESUME, MODE_TRAIN, MODE_EVALUATE
+from src.config import MODE, MODE_BASELINE, MODE_RESUME, MODE_TRAIN, MODE_EVALUATE
 
 
 if __name__ == "__main__":
@@ -14,7 +14,7 @@ if __name__ == "__main__":
         device = "mps"
     device = torch.device(device)
 
-    if MODE == MODE_BASE:
+    if MODE == MODE_BASELINE:
         run_baseline(device=device)
     elif MODE == MODE_TRAIN:
         run_training_loop(device=device)

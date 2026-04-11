@@ -19,13 +19,17 @@ def load_jsonl_data(file_path: str) -> Dataset:
 def format_jsonl_data(dataset: Dataset) -> list[dict[str, str]]:
     formatted_data: list[dict[str, str]] = []
     for datum in dataset:
-        instruction = datum["instruction"]
-        input_text = datum["input"]
+        input_text = datum["input"].strip()
         output_text = datum["output"]
+        prompt_parts: list[str] = []
+        if input_text:
+            prompt_parts.append(f"Input:\n{input_text}\n")
+        prompt_parts.append("Response:\n")
+        prompt_text = "".join(prompt_parts)
         formatted_data.append(
             {
-                "prompt_text": f"Instruction:\n{instruction}\n{f'Input:\n{input_text}\n' if input_text else ''}Response:\n",
-                "full_text": f"Instruction:\n{instruction}\n{f'Input:\n{input_text}\n' if input_text else ''}Response:\n{output_text}",
+                "prompt_text": prompt_text,
+                "full_text": f"{prompt_text}{output_text}",
             }
         )
     return formatted_data

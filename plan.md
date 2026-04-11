@@ -2,44 +2,58 @@
 
 ## Goal
 
-Build a small learning project for supervised fine-tuning (SFT) on top of a pretrained base language model.
+Build a small supervised fine-tuning project on top of a pretrained base model and turn it into a **PyTorch API assistant**.
+
+The target behavior is:
+
+- answer common PyTorch API questions clearly
+- explain what an API does
+- explain important parameters and return values
+- provide short, correct examples when useful
+- compare similar APIs when the question asks for differences
 
 This project should help answer these questions clearly:
 
-1. What does a pretrained base model look like before instruction tuning?
-2. How should instruction-style data be prepared?
-3. How does supervised fine-tuning change model behavior?
-4. How should before/after results be evaluated and logged?
+1. What does the base model look like before PyTorch-specific SFT?
+2. How should PyTorch API Q&A data be prepared?
+3. How much can a small SFT run improve PyTorch API answers?
+4. What dataset style and size work best for this narrow assistant goal?
 
 ## Scope
 
-This project is not for building a production assistant.
-The first goal is to learn the full workflow end to end with a small, controlled setup.
+This is still a learning project, but the task is now more specific.
 
-The first version should stay small and simple.
+The first goal is no longer generic instruction following.
+The first goal is to make the model useful for **PyTorch API question answering**.
+
+The initial assistant should focus on:
+
+- `torch` tensor creation APIs
+- common tensor shape/manipulation APIs
+- common reduction/math APIs
+- basic `torch.nn` building blocks
+- basic `torch.optim` usage
+- short code examples
+
+It does **not** need to cover the full PyTorch ecosystem in the first phase.
 
 ## Phase 1: Project Setup
 
 ### Objective
 
-Create a minimal but clean codebase for base-model inference and future SFT work.
+Keep a clean codebase for:
 
-### Tasks
-
-- create project structure
-- add `README.md`
-- add `requirements.txt`
-- add `src/`
-- add `data/`
-- add `experiments/`
-- define config structure
+- baseline inference
+- PyTorch API dataset preparation
+- SFT training
+- evaluation
+- experiment logging
 
 ### Expected Output
 
 A runnable project skeleton with a clear separation between:
 
 - config
-- inference
 - dataset preparation
 - training
 - evaluation
@@ -51,70 +65,85 @@ A runnable project skeleton with a clear separation between:
 
 Start with a pretrained base model that already has language ability, but has not been instruction tuned.
 
-### Recommended First Choice
+### Current First Choice
 
 - `Qwen/Qwen2.5-0.5B`
 
-### Recommended Second Choice
-
-- `HuggingFaceTB/SmolLM2-1.7B`
-
 ### Decision Rule
 
-- use the smaller model first if the goal is to learn the pipeline quickly
-- use the larger model later if the first pipeline works and more capacity is needed
+- start with the smaller model to learn the pipeline quickly
+- only move to a larger base model after the PyTorch API dataset pipeline is stable
 
 ## Phase 3: Baseline Inference
 
 ### Objective
 
-Understand how the base model behaves before any SFT.
+Understand how the base model behaves on **PyTorch API questions** before any SFT.
 
 ### Tasks
 
-- load base model
-- load matching tokenizer
-- run a fixed prompt set
+- load the base model
+- load the matching tokenizer
+- run a fixed PyTorch API prompt set
 - save outputs
-- document observed weaknesses
+- document weaknesses
 
-### Why This Matters
+### Typical Weaknesses to Watch
 
-SFT is easier to understand if base-model behavior is recorded first.
+- vague or generic answers
+- incorrect parameter explanations
+- missing or weak examples
+- confusion between similar APIs
+- incorrect tensor shape reasoning
 
-## Phase 4: Create a Small SFT Dataset
+## Phase 4: Create a PyTorch API SFT Dataset
 
 ### Objective
 
-Prepare a small instruction dataset with a consistent schema.
+Prepare a small but high-quality PyTorch API Q&A dataset with a consistent schema.
 
-### Recommended Initial Schema
+### Schema
 
-- `instruction`
 - `input`
 - `output`
 
-### Rules
+Optional:
 
-- keep the first dataset small
-- keep the task narrow
-- avoid mixing too many task styles at the start
-- prefer clean, explicit supervision over large noisy data
+- place a shared instruction in the training template instead of repeating it in every row
 
-### Suggested First Dataset Size
+### Dataset Rules
 
-- 50 to 300 examples is enough for the first learning run
+- keep the task narrow: PyTorch API assistance only
+- prefer correct, concise answers over broad coverage
+- include small code examples when useful
+- avoid mixing unrelated tasks such as rewriting, translation, or general chatting
+- keep formatting consistent across examples
+
+### Recommended Example Types
+
+- what an API does
+- how to use an API
+- important parameters
+- return value / shape behavior
+- simple example code
+- difference between two related APIs
+- common beginner mistakes
+
+### Suggested Initial Dataset Size
+
+- first pilot: `50` training examples
+- first validation set: `12` examples
 
 ## Phase 5: Implement SFT Training
 
 ### Objective
 
-Run one minimal supervised fine-tuning experiment.
+Run one minimal SFT experiment on the PyTorch API dataset.
 
 ### Tasks
 
-- tokenize the SFT dataset
-- format training samples correctly
+- tokenize the dataset correctly
+- build labels for answer-only loss
 - train on the chosen base model
 - save checkpoints
 - keep training settings simple and explicit
@@ -124,53 +153,74 @@ Run one minimal supervised fine-tuning experiment.
 - training runs end to end
 - checkpoint is saved
 - model can be loaded again
-- before/after outputs can be compared
+- before/after PyTorch API outputs can be compared
 
 ## Phase 6: Evaluate Before vs After
 
 ### Objective
 
-Measure whether SFT improved behavior on the target task.
+Measure whether SFT improved PyTorch API answers.
 
 ### Tasks
 
-- run the same fixed prompts on the base model
-- run the same fixed prompts on the SFT model
+- run the same PyTorch API prompts on the base model
+- run the same prompts on the SFT model
 - compare outputs side by side
-- write a short experiment log
+- write an experiment log
 
 ### Evaluation Focus
 
-- instruction following
-- output format stability
-- relevance to the task
+- API explanation correctness
+- parameter explanation quality
+- example usefulness
+- correctness of API comparisons
+- answer conciseness
 - common failure modes
 
 ## Phase 7: Iterate Carefully
 
 ### Objective
 
-Improve the SFT setup with controlled experiments.
+Improve the PyTorch API assistant with controlled experiments.
 
 ### Only Change One Main Variable Per Run
 
 Examples:
 
+- dataset content
 - dataset size
-- prompt format
-- base model
+- question style
+- answer format
 - learning rate
 - number of epochs
-- maximum sequence length
+
+### Early Iteration Strategy
+
+1. keep model, learning rate, batch size, and eval prompts fixed
+2. iterate on dataset design first
+3. identify the best small dataset
+4. only then scale the dataset up
 
 ### Avoid Early Complexity
 
 Do not introduce too many of these at once:
 
-- multiple datasets
-- multiple task families
-- heavy optimization stacks
-- complicated evaluation pipelines
+- multiple unrelated domains
+- broad generic assistant behavior
+- large noisy synthetic datasets
+- complex training tricks
+- changing model and data at the same time
+
+## Longer-Term Direction
+
+If the small PyTorch API pilot works:
+
+1. expand from `50` examples to a few hundred
+2. widen coverage across more PyTorch APIs
+3. consider combining SFT with retrieval over official docs later
+
+The immediate goal is **not** full PyTorch coverage.
+The immediate goal is a small, correct, useful PyTorch API assistant.
 
 ## Suggested Initial Folder Layout
 
@@ -188,10 +238,10 @@ sft-training/
 │   └── logs/
 └── src/
     ├── config.py
-    ├── inference.py
     ├── dataset.py
-    ├── train_sft.py
+    ├── training.py
     ├── evaluate.py
+    ├── baseline.py
     └── prompts.py
 ```
 
@@ -199,7 +249,8 @@ sft-training/
 
 The next concrete step should be:
 
-1. create the initial project skeleton
-2. choose the first base model
-3. run baseline inference
-4. save those baseline outputs before writing any SFT code
+1. keep the current base model
+2. define a PyTorch API evaluation prompt set
+3. create `dataset_1` for PyTorch API assistance
+4. run baseline inference on the new prompt set
+5. run the first PyTorch API SFT experiment

@@ -1,63 +1,71 @@
-# Test 1 Log
-
 ## Run Info
 
-- model: `Qwen/Qwen2.5-0.5B`
-- dataset: `dataset_1`
-- learning rate: `2e-5`
-- batch size: `16`
-- checkpoint: `data/checkpoints/Qwen-Qwen2.5-0.5B-dataset_1-16-2e-05.pt`
-- baseline file: `experiments/eval_results/baseline/Qwen-Qwen2.5-0.5B-2026-04-11-154448.json`
-- post-SFT file: `experiments/eval_results/post_sft/Qwen-Qwen2.5-0.5B-dataset_1-16-2e-05-2026-04-11-153943.json`
-- timestamp: `2026-04-11`
+- Model: `Qwen/Qwen2.5-0.5B`
+- Dataset: `dataset_1`
+- Task Type: `PyTorch API assistant`
+- Learning Rate: `2e-5`
+- Batch Size: `16`
+- Epochs: `2`
+- Baseline Result: [Qwen-Qwen2.5-0.5B-2026-04-11-201754.json](/Users/michaeltan/Desktop/training/sft-training/experiments/eval_results/baseline/Qwen-Qwen2.5-0.5B-2026-04-11-201754.json)
+- Post-SFT Result: [dataset_1-Qwen-Qwen2.5-0.5B-16-2e-05-2026-04-11-203543.json](/Users/michaeltan/Desktop/training/sft-training/experiments/eval_results/post_sft/dataset_1-Qwen-Qwen2.5-0.5B-16-2e-05-2026-04-11-203543.json)
+- Checkpoint: [Qwen-Qwen2.5-0.5B-dataset_1-16-2e-05.pt](/Users/michaeltan/Desktop/training/sft-training/data/checkpoints/Qwen-Qwen2.5-0.5B-dataset_1-16-2e-05.pt)
+- Timestamp: `2026-04-11`
 
 ## Goal
 
-This first SFT run focused on:
+第一轮 PyTorch API SFT。目标不是覆盖整个 PyTorch API，而是先验证小规模 SFT 是否能把 base model 从“续写论坛提问”拉向“直接回答 API 问题”，并观察三类关键能力是否改善：
 
-- `instruction_following`
-- `formatting_structure`
-- light `rewrite` improvement
-
-The intent was to see whether a small explicit SFT dataset could make the base model more obedient to formatting and instruction constraints.
+- hallucination refusal
+- shape reasoning
+- debugging explanation
 
 ## Findings
 
-- `formatting_structure` improved partially.
-- Markdown table generation improved clearly.
-- Weekly study plan table generation improved clearly.
-- `rewrite` improved partially.
-- The professional rewrite prompt no longer failed with a refusal-style answer.
-- Formal apology email was more usable after SFT.
-- `instruction_following` did not improve enough.
-- One-sentence summary failed with an empty output.
-- `exactly 20 words` still failed badly.
-- `bullet points only` still included extra prose before bullets.
-- `JSON` and `YAML` outputs were still unreliable.
-- JSON prompt returned plain key-value text instead of valid JSON.
-- YAML prompt still drifted into unrelated requirement text.
+- 训练数值是健康的。training loss 从 `1.5477` 降到 `0.8923`，validation loss 从 `1.5681` 降到 `1.4729`。
+- 回答风格有改善。相比 baseline，模型更少直接续写 StackOverflow 风格提问，开始更像在回答 API 问题。
+- 一部分 definition / comparison 题有进步，尤其是：
+  - `torch.tensor`
+  - `torch.topk`
+  - `torch.argmax`
+  - `DataLoader`
+  - `torch.from_numpy vs torch.tensor`
+- `hallucination_check` 基本没有改善：
+  - `torch.memory_portal()`
+  - `nn.SuperLayer`
+  - `torch.quantum_backprop()`
+  仍然被当成真实 API / module 来回答。
+- `shape_reasoning` 仍然不稳：
+  - `x.unsqueeze(1)` 仍然答错
+  - `x.sum(dim=1, keepdim=True)` 仍然答错
+  - `argmax(dim=2)` 和 `cat(dim=0)` 比 baseline 更接近正确，但还不够可靠
+- `debugging` 题依旧是弱项：
+  - `view` after `permute` 跑偏
+  - `.item()` 错因解释不对
+  - `zero_grad()` 题跑偏到别的 API
+  - `cat` mismatch 解释不稳定
 
 ## Next Step
 
-- Build `dataset_2` with heavier coverage on strict constraint-following.
-- Add more samples for:
-  - one-sentence summary
-  - exact word-count answers
-  - bullet-only responses
-  - strict JSON output
-  - strict YAML output
-  - stronger rewrite style contrast
-- Keep `model`, `learning rate`, `batch size`, baseline prompts, and eval config fixed.
-- Run the same train/validate/evaluate flow again and compare `dataset_1` vs `dataset_2`.
+下一轮不要继续追求更大范围的 API 覆盖，先收窄到最关键的失败点：
+
+- fake API refusal
+- shape / dim / keepdim reasoning
+- common debugging cases
+
+更具体地说，下一版数据集应该集中强化：
+
+- `unsqueeze`
+- `argmax(dim=...)`
+- `sum(..., keepdim=True)`
+- `cat` / `stack`
+- `view` vs `reshape`
+- `.item()`
+- `optimizer.zero_grad()`
+- 明确拒绝不存在的 PyTorch API
 
 ## Other Important Info
 
-- Baseline and post-SFT evaluation both used:
-  - `max_new_token = 100`
-  - `use_chat_template = false`
-- Current checkpoint metadata:
-  - `epoch = 1`
-  - `training_loss = 0.638204004083361`
-  - `validation_loss = 1.193137764930725`
-- This run should be treated as the first controlled experiment, not as a final successful SFT recipe.
-- The main lesson from this run is that table formatting is easier to teach than strict instruction constraints such as exact word count or exact output schema.
+- 这一轮数据规模是 `train 50 / validation 12`，适合作为 pilot，但很可能不足以把目标行为拉稳。
+- 当前结果说明：`50` 条足够改变回答姿态，但不足以稳定建立 hallucination refusal 和 debugging reliability。
+- 现阶段还不需要急着做自动评分器，先继续跑几轮更聚焦的数据集更合理。
+- 现有 `eval_prompts` schema 已经足够支持后续半自动评分，当前最重要的是让数据方向先正确。
