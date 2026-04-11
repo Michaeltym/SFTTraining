@@ -1,6 +1,6 @@
 {
   "model": "Qwen/Qwen2.5-0.5B",
-  "evaluated_at": "2026-04-11-153943",
+  "evaluated_at": "2026-04-11-155442",
   "generation_config": {
     "max_new_token": 100,
     "pad_token_id": 151643,

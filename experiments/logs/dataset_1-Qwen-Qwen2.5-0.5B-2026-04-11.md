@@ -7,8 +7,8 @@
 - learning rate: `2e-5`
 - batch size: `16`
 - checkpoint: `data/checkpoints/Qwen-Qwen2.5-0.5B-dataset_1-16-2e-05.pt`
-- baseline file: `experiments/eval_results/baseline/Qwen_Qwen2.5-0.5B-2026-04-11-154448.json`
-- post-SFT file: `experiments/eval_results/post_sft/Qwen_Qwen2.5-0.5B-dataset_1-16-2e-05-2026-04-11-153943.json`
+- baseline file: `experiments/eval_results/baseline/Qwen-Qwen2.5-0.5B-2026-04-11-154448.json`
+- post-SFT file: `experiments/eval_results/post_sft/Qwen-Qwen2.5-0.5B-dataset_1-16-2e-05-2026-04-11-153943.json`
 - timestamp: `2026-04-11`
 
 ## Goal

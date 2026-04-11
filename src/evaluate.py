@@ -29,7 +29,7 @@ def run_evaluate(device: torch.device):
         path=(
             Path(EVAL_RESULTS_DIR)
             / "post_sft"
-            / f"{model_name_slug}-{dataset_name}-{batch_size}-{learning_rate}-{timestamp}.json"
+            / f"{dataset_name}-{model_name_slug}-{batch_size}-{learning_rate}-{timestamp}.json"
         ),
         model_name=model_name,
         timestamp=timestamp,

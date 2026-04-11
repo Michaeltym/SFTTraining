@@ -1,0 +1,101 @@
+{
+  "model": "Qwen/Qwen2.5-0.5B",
+  "evaluated_at": "2026-04-11-170712",
+  "generation_config": {
+    "max_new_token": 100,
+    "pad_token_id": 151643,
+    "use_chat_template": false
+  },
+  "results": {
+    "general_qa": [
+      {
+        "prompt": "Explain why the sky is blue in simple terms.",
+        "output": " The sky is blue because it reflects sunlight, which is blue light. When sunlight hits the sky, it bounces off the ground and other objects, and the blue light is scattered and reflected back to us. This scattering of blue light creates the blue color we see in the sky."
+      },
+      {
+        "prompt": "What is the difference between TCP and UDP?",
+        "output": " TCP (Transmission Control Protocol) and UDP (User Datagram Protocol) are both used for transmitting data over a network, but they differ in several ways:\n\n1. **Delivery**: TCP guarantees delivery of data to its destination, even if there are delays or failures along the way. It uses acknowledgments to ensure that data has been received correctly. UDP, on the other hand, does not guarantee delivery, and it can be more reliable if there are no delays or failures along the way.\n\n2. **"
+      },
+      {
+        "prompt": "Why do we have leap years?",
+        "output": " Why do we have leap years? Why do we have leap years? Why do we have leap years? Why do we have leap years? Why do we have leap years? Why do we have leap years? Why do we have leap years? Why do we have leap years? Why do we have leap years? Why do we have leap years? Why do we have leap years? Why do we have leap years? Why do we have leap years? Why do we have leap years? Why do"
+      },
+      {
+        "prompt": "What causes inflation in an economy?",
+        "output": " Inflation occurs when the general price level of goods and services in an economy increases over time. This can happen due to several factors, including:\n\n1. **Demand-Pull Inflation**: When aggregate demand exceeds aggregate supply, prices rise. This can happen when there is an oversupply of goods and services, leading to higher prices as businesses try to sell more goods and services than they can produce.\n\n2. **Cost-push Inflation**: When aggregate supply exceeds aggregate demand, prices fall. This can"
+      }
+    ],
+    "instruction_following": [
+      {
+        "prompt": "Summarize this in one sentence: Artificial intelligence is transforming industries by enabling automation, improving decision-making, and creating new opportunities across sectors.",
+        "output": ""
+      },
+      {
+        "prompt": "List 3 pros and 3 cons of remote work.",
+        "output": " Pros:\n- Flexible schedule\n- No commute\n- More autonomy\nCons:\n- Less face-to-face interaction\n- Less social support\n- More distractions\n- Less face-to-face interaction\n- Less social support\n- More distractions"
+      },
+      {
+        "prompt": "Answer in exactly 20 words: What is AI?",
+        "output": " AI stands for Artificial Intelligence, which is a type of computer technology that enables machines to perform tasks that typically require human intelligence, such as learning, reasoning, problem-solving, and decision-making. AI systems are designed to mimic human-like behavior, adapt to new situations, and perform tasks with greater accuracy, speed, and efficiency than humans can do alone. AI is used in a wide range of applications, including self-driving cars, voice assistants, medical diagnostics, and financial forecasting."
+      },
+      {
+        "prompt": "Explain photosynthesis using bullet points only.",
+        "output": " Photosynthesis is a process that plants use to convert sunlight, carbon dioxide, and water into glucose, which is used as energy for growth and reproduction. Here are some key points to remember:\n\n- **Light**: Sunlight is essential for photosynthesis.\n- **Carbon dioxide**: Plants absorb carbon dioxide from the air.\n- **Water**: Water is used to break down glucose and produce oxygen.\n- **Glucose**: Glucose is the end product of photosynthesis.\n- **Energy**: Glucose provides"
+      },
+      {
+        "prompt": "Translate to French: 'The meeting is tomorrow at noon.'",
+        "output": " Le déjeuner est demain à midi."
+      }
+    ],
+    "formatting_structure": [
+      {
+        "prompt": "Return a JSON object with name, age, and occupation for a fictional person.",
+        "output": " {\n  \"name\": \"John Doe\",\n  \"age\": 30,\n  \"occupation\": \"Software Engineer\"\n}"
+      },
+      {
+        "prompt": "Write a markdown table comparing Python, Java, and C++.",
+        "output": " Include the following columns:\n- Language\n- Runtime\n- Memory usage\n- Performance\n- Ease of learning\n- Use cases\n- Best practices\n- Future trends\n- Best practices\n- Future trends\n- Best practices\n- Future trends\n- Best practices\n- Future trends\n- Best practices\n- Future trends\n- Best practices\n- Future trends\n- Best practices\n- Future trends\n- Best practices\n- Future trends\n- Best practices\n- Future trends\n-"
+      },
+      {
+        "prompt": "Return a YAML config for a web server with host, port, and debug fields.",
+        "output": " The host field should be set to \"localhost\" and the port field should be set to 8080. The debug field should be set to \"true\" to enable debug logging. Additionally, the config should include a \"server\" field with the value \"http://localhost:8080\" and a \"log\" field with the value \"debug\"."
+      },
+      {
+        "prompt": "Format a weekly study plan as a table with day, topic, and duration columns.",
+        "output": " | Day | Topic | Duration |\n| --- | --- | --- |\n| Monday | Math | 3 hours |\n| Tuesday | Science | 2 hours |\n| Wednesday | English | 4 hours |\n| Thursday | History | 3 hours |\n| Friday | Geography | 2 hours |\n| Saturday | Art | 4 hours |\n| Sunday | Music | 3 hours |"
+      }
+    ],
+    "reasoning": [
+      {
+        "prompt": "If a train travels 60 km/h for 2.5 hours, how far does it go?",
+        "output": " To determine how far the train travels, we can use the formula for distance, which is:\n\n\\[ \\text{Distance} = \\text{Speed} \\times \\text{Time} \\]\n\nGiven:\n- Speed = 60 km/h\n- Time = 2.5 hours\n\nWe can substitute these values into the formula:\n\n\\[ \\text{Distance} = 60 \\, \\text{km/h} \\times 2.5 \\, \\text{hours}"
+      },
+      {
+        "prompt": "A farmer has 17 sheep, all but 9 die. How many are left?",
+        "output": " To determine how many sheep are left after 9 die, we start with the total number of sheep and subtract the number that die. Here are the steps:\n\n1. Identify the total number of sheep initially.\n   \\[\n   \\text{Total sheep} = 17\n   \\]\n\n2. Identify the number of sheep that die.\n   \\[\n   \\text{Number of sheep that die} = 9\n   \\]\n\n3. Subtract the number of sheep that die from"
+      },
+      {
+        "prompt": "Why is correlation not causation?",
+        "output": " I have a question about causation and correlation. I have read that correlation does not imply causation. But I have also read that correlation does imply causation. \nWhy is correlation not causation? Is it because correlation does not imply causation? Or is it because correlation does imply causation? Or is it because correlation does not imply causation? Is it because correlation does not imply causation? Is it because correlation does not imply causation? Is it because correlation does not imply caus"
+      },
+      {
+        "prompt": "Solve 3x + 5 = 20.",
+        "output": " To solve the equation 3x + 5 = 20, follow these steps:\n\nStep 1: Subtract 5 from both sides of the equation to isolate the term with the variable.\n3x + 5 - 5 = 20 - 5\n3x = 15\n\nStep 2: Divide both sides of the equation by 3 to solve for x.\n3x / 3 = 15 / 3\nx = 5\n\nSo"
+      }
+    ],
+    "rewriting_style": [
+      {
+        "prompt": "Rewrite this to sound more professional: 'Hey, can you fix this thing ASAP?'",
+        "output": " 'Hey, can you fix this thing ASAP?'"
+      },
+      {
+        "prompt": "Write a formal apology email for missing a meeting.",
+        "output": " Dear [Recipient],\n\nI hope this email finds you well. I wanted to take a moment to apologize for not being there at the meeting yesterday. I know it was important, and I appreciate your hard work and dedication.\n\nI understand that you were busy, but I wanted to reach out and let you know that I was unable to attend. I appreciate your hard work and dedication, and I hope that you will forgive me for not being there.\n\nI will do my best to catch up with you later"
+      },
+      {
+        "prompt": "Explain gravity like a pirate.",
+        "output": " Gravity is a force that pulls everything towards the center of the Earth. It's like a giant invisible hand that pulls everything down, even the lightest things. Imagine you're holding a ball, and it's really heavy. If you dropped it, it would fall straight down because gravity pulls it down. Gravity is important for everything around us, from the way we walk to the way we fly."
+      }
+    ]
+  }
+}

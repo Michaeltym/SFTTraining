@@ -104,6 +104,17 @@ Be careful about:
 
 For early runs, use a small dataset and keep the task narrow.
 
+### Dataset Comparison Size Rule
+
+From `dataset_3` onward, dataset comparison runs should keep dataset size fixed by default.
+
+Recommended default:
+
+- training set: `50`
+- validation set: `12`
+
+Use the same train/validation size across comparison datasets unless there is a clear reason to change it and that change is recorded in the experiment log.
+
 ## Evaluation Rules
 
 Always compare:
@@ -173,11 +184,11 @@ Log filenames should include at least:
 
 - dataset name
 - model name
-- test/run identifier when relevant
+- timestamp
 
 Example:
 
-- `2026-04-11-test_1-dataset_1-Qwen_Qwen2.5-0.5B.md`
+- `dataset_1-Qwen-Qwen2.5-0.5B-2026-04-11.md`
 
 If a later run uses `dataset_2`, the log filename should make that distinction explicit.
 

@@ -76,11 +76,10 @@ def run_training(
         loss.backward()
         optimizer.step()
 
-        if (step + 1) % 2 == 0:
-            print(
-                f"Epoch {epoch + 1} step {step + 1}/{total_steps} "
-                f"Avg loss: {(running_loss / (step + 1)):.4f} Time: {(time.time() - start_time):.2f}s"
-            )
+        print(
+            f"Epoch {epoch + 1} step {step + 1}/{total_steps} "
+            f"Avg loss: {(running_loss / (step + 1)):.4f} Time: {(time.time() - start_time):.2f}s"
+        )
 
     average_training_loss = running_loss / total_steps
     print(f"##### Training epoch {epoch + 1} finished #####")

@@ -9,4 +9,4 @@ def load_model(model_name: str) -> Any:
 
 
 def get_model_name_slug(model_name: str) -> str:
-    return model_name.replace("/", "_")
+    return model_name.replace("/", "-")
