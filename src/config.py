@@ -1,6 +1,6 @@
 from pathlib import Path
 
-MODEL_NAME = "Qwen/Qwen2.5-0.5B"
+MODEL_NAME = "Qwen/Qwen2.5-1.5B"
 MAX_NEW_TOKENS = 100
 USE_CHAT_TEMPLATE = False
 BATCH_SIZE = 8
@@ -23,10 +23,10 @@ MODE_BASELINE = "baseline"
 MODE_TRAIN = "train"
 MODE_RESUME = "resume"
 MODE_EVALUATE = "evaluate"
-MODE = MODE_EVALUATE
+MODE = MODE_TRAIN
 
-LORA_R = 16
-LORA_ALPHA = 32
+LORA_R = 8
+LORA_ALPHA = 16
 LORA_DROPOUT = 0.05
 LORA_TARGET_MODULES = [
     "q_proj",
