@@ -7,11 +7,15 @@ from src.data import load_jsonl_data, format_jsonl_data, encode_data
 from src.dataset import CustomDataset
 from src.dataloader import build_dataloader
 from src.validate import run_validate
-from src.model import load_model
+from src.model import load_model_with_adapter
 from src.config import (
     BATCH_SIZE,
     LEARNING_RATE,
     EPOCHS,
+    LORA_R,
+    LORA_ALPHA,
+    LORA_DROPOUT,
+    LORA_TARGET_MODULES,
     MODEL_NAME,
     DATASET_NAME,
 )
@@ -97,9 +101,11 @@ def run_training_loop(device: torch.device):
         dataset_name=DATASET_NAME, batch_size=BATCH_SIZE, model_name=MODEL_NAME
     )
     best_validation_loss = float("inf")
-    model = load_model(model_name=MODEL_NAME)
+    model = load_model_with_adapter(model_name=MODEL_NAME)
     model.to(device)
-    optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
+    optimizer = optim.Adam(
+        (p for p in model.parameters() if p.requires_grad), lr=LEARNING_RATE
+    )
     for epoch in range(EPOCHS):
         training_loss = run_training(
             dataloader=training_dataloader,
@@ -120,4 +126,10 @@ def run_training_loop(device: torch.device):
             model=model,
             training_loss=training_loss,
             dataset_name=DATASET_NAME,
+            lora_config={
+                "r": LORA_R,
+                "alpha": LORA_ALPHA,
+                "dropout": LORA_DROPOUT,
+                "target_modules": LORA_TARGET_MODULES,
+            },
         )

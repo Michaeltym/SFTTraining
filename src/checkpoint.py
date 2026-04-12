@@ -3,8 +3,14 @@ from typing import TypedDict
 import torch
 
 
+class LoraConfig(TypedDict):
+    r: int
+    alpha: int
+    dropout: float
+    target_modules: list[str]
+
+
 class Checkpoint(TypedDict):
-    model_state_dict: dict[str, torch.Tensor]
     optimizer_state_dict: dict[str, torch.Tensor]
     epoch: int
     validation_loss: float
@@ -13,6 +19,8 @@ class Checkpoint(TypedDict):
     model_name: str
     training_loss: float
     dataset_name: str
+    lora_config: LoraConfig
+    adapter_path: str
 
 
 def save_checkpoint(path: Path, checkpoint: Checkpoint) -> None:

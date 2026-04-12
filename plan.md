@@ -1,256 +1,180 @@
-# SFT Project Plan
+# PyTorch API Assistant Plan
 
 ## Goal
 
-Build a small supervised fine-tuning project on top of a pretrained base model and turn it into a **PyTorch API assistant**.
+Build a small **PyTorch API assistant** on top of a pretrained base model.
 
-The target behavior is:
+The assistant should:
 
-- answer common PyTorch API questions clearly
+- answer common PyTorch API questions directly
 - explain what an API does
-- explain important parameters and return values
-- provide short, correct examples when useful
-- compare similar APIs when the question asks for differences
+- explain key arguments and return behavior
+- answer shape and reduction questions correctly
+- explain common debugging failures
+- refuse fake or nonexistent PyTorch APIs instead of hallucinating
 
-This project should help answer these questions clearly:
+The short-term product direction is:
 
-1. What does the base model look like before PyTorch-specific SFT?
-2. How should PyTorch API Q&A data be prepared?
-3. How much can a small SFT run improve PyTorch API answers?
-4. What dataset style and size work best for this narrow assistant goal?
+1. train a better PyTorch API assistant
+2. compare baseline vs adapted model behavior
+3. expose the model behind a small frontend web app
 
-## Scope
+## Current Direction
 
-This is still a learning project, but the task is now more specific.
+The project has already shown that:
 
-The first goal is no longer generic instruction following.
-The first goal is to make the model useful for **PyTorch API question answering**.
+- small full-parameter SFT runs can change answer style
+- local full fine-tuning is too slow for fast iteration
+- the remaining bottlenecks are:
+  - hallucination refusal
+  - shape reasoning
+  - debugging / semantics reliability
 
-The initial assistant should focus on:
+Because of that, the next implementation direction is:
 
-- `torch` tensor creation APIs
-- common tensor shape/manipulation APIs
-- common reduction/math APIs
-- basic `torch.nn` building blocks
-- basic `torch.optim` usage
-- short code examples
+- keep the same base model
+- switch from local full fine-tuning to **LoRA-based SFT**
+- continue iterating on PyTorch API datasets
+- keep evaluation prompts fixed
 
-It does **not** need to cover the full PyTorch ecosystem in the first phase.
+## Base Model
 
-## Phase 1: Project Setup
-
-### Objective
-
-Keep a clean codebase for:
-
-- baseline inference
-- PyTorch API dataset preparation
-- SFT training
-- evaluation
-- experiment logging
-
-### Expected Output
-
-A runnable project skeleton with a clear separation between:
-
-- config
-- dataset preparation
-- training
-- evaluation
-- logs
-
-## Phase 2: Choose a Base Model
-
-### Objective
-
-Start with a pretrained base model that already has language ability, but has not been instruction tuned.
-
-### Current First Choice
+Current model:
 
 - `Qwen/Qwen2.5-0.5B`
 
-### Decision Rule
+Rules:
 
-- start with the smaller model to learn the pipeline quickly
-- only move to a larger base model after the PyTorch API dataset pipeline is stable
+- keep using the pretrained **base** model, not an instruct model
+- keep tokenizer and model paired
+- keep the base model name explicit in config, logs, and checkpoints
 
-## Phase 3: Baseline Inference
+## Training Strategy
 
-### Objective
+### Phase 1: Local LoRA SFT
 
-Understand how the base model behaves on **PyTorch API questions** before any SFT.
+The next training implementation should use:
 
-### Tasks
+- supervised fine-tuning
+- LoRA adapters
+- the existing PyTorch API dataset format
 
-- load the base model
-- load the matching tokenizer
-- run a fixed PyTorch API prompt set
-- save outputs
-- document weaknesses
+Why:
 
-### Typical Weaknesses to Watch
+- much cheaper local iteration than full fine-tuning
+- smaller checkpoints
+- easier repeated dataset experiments
+- more realistic path for continued local development
 
-- vague or generic answers
-- incorrect parameter explanations
-- missing or weak examples
-- confusion between similar APIs
-- incorrect tensor shape reasoning
+### Phase 2: Optional Remote Training
 
-## Phase 4: Create a PyTorch API SFT Dataset
+If local LoRA is still too slow or the project grows:
 
-### Objective
+- move the training workflow to Runpod
+- keep the same codepath where possible
+- use the local LoRA path as the reference workflow first
 
-Prepare a small but high-quality PyTorch API Q&A dataset with a consistent schema.
+## Dataset Direction
 
-### Schema
+Current schema:
 
 - `input`
 - `output`
 
-Optional:
+Dataset goals:
 
-- place a shared instruction in the training template instead of repeating it in every row
+- optimize for API understanding, not generic chatbot style
+- prioritize correctness over breadth
+- include argument-level and behavior-level details
+- include shape / dim / keepdim questions
+- include debugging and failure explanations
+- include fake API refusal examples
 
-### Dataset Rules
+Avoid:
 
-- keep the task narrow: PyTorch API assistance only
-- prefer correct, concise answers over broad coverage
-- include small code examples when useful
-- avoid mixing unrelated tasks such as rewriting, translation, or general chatting
-- keep formatting consistent across examples
+- repeated shared instruction text per row
+- near-duplicate paraphrases that inflate dataset size
+- broad generic chatting tasks
+- non-PyTorch tasks such as rewrite / translation / general assistant data
 
-### Recommended Example Types
+## Evaluation Strategy
 
-- what an API does
-- how to use an API
-- important parameters
-- return value / shape behavior
-- simple example code
-- difference between two related APIs
-- common beginner mistakes
+Keep one fixed PyTorch API evaluation set under version control.
 
-### Suggested Initial Dataset Size
+Evaluation should compare:
 
-- first pilot: `50` training examples
-- first validation set: `12` examples
+- baseline model output
+- adapted model output
 
-## Phase 5: Implement SFT Training
+Evaluation focus:
 
-### Objective
+- directness of answers
+- factual correctness
+- shape reasoning correctness
+- debugging usefulness
+- fake API refusal
+- API comparison correctness
 
-Run one minimal SFT experiment on the PyTorch API dataset.
+Current evaluation objects already support richer metadata such as:
 
-### Tasks
+- `must_include`
+- `must_not_include`
+- `tags`
+- `gold_type`
 
-- tokenize the dataset correctly
-- build labels for answer-only loss
-- train on the chosen base model
-- save checkpoints
-- keep training settings simple and explicit
+For now, continue using them mainly for structured manual review.
+Automatic scoring can come later.
 
-### First Success Criteria
+## Experiment Policy
 
-- training runs end to end
-- checkpoint is saved
-- model can be loaded again
-- before/after PyTorch API outputs can be compared
+For each run:
 
-## Phase 6: Evaluate Before vs After
+- keep the model fixed
+- keep eval prompts fixed
+- change one main thing at a time
+- log what changed and what stayed fixed
 
-### Objective
+Current main experimental variable:
 
-Measure whether SFT improved PyTorch API answers.
+- dataset content and dataset distribution
 
-### Tasks
+Do not mix too many new changes at once, especially:
 
-- run the same PyTorch API prompts on the base model
-- run the same prompts on the SFT model
-- compare outputs side by side
-- write an experiment log
+- changing model
+- changing eval prompts
+- changing data format
+- changing training method
+- changing deployment stack
 
-### Evaluation Focus
+The one intentional training-method change now is:
 
-- API explanation correctness
-- parameter explanation quality
-- example usefulness
-- correctness of API comparisons
-- answer conciseness
-- common failure modes
+- full fine-tune -> LoRA
 
-## Phase 7: Iterate Carefully
+That should be implemented first and stabilized before larger architectural changes.
 
-### Objective
+## Frontend Direction
 
-Improve the PyTorch API assistant with controlled experiments.
+After the LoRA-based PyTorch API assistant is good enough, build a frontend app on top of it.
 
-### Only Change One Main Variable Per Run
+Working product direction:
 
-Examples:
+- web app name can be something like `AskTorch`
+- the app should accept PyTorch questions and return concise API-focused answers
 
-- dataset content
-- dataset size
-- question style
-- answer format
-- learning rate
-- number of epochs
+Initial frontend scope:
 
-### Early Iteration Strategy
+- single prompt box
+- generated answer area
+- simple example prompts
+- possibly a note when the assistant refuses a fake API
 
-1. keep model, learning rate, batch size, and eval prompts fixed
-2. iterate on dataset design first
-3. identify the best small dataset
-4. only then scale the dataset up
+This frontend is not the next coding step.
+The next coding step is to make the training workflow cheaper and more stable with LoRA.
 
-### Avoid Early Complexity
+## Immediate Next Steps
 
-Do not introduce too many of these at once:
-
-- multiple unrelated domains
-- broad generic assistant behavior
-- large noisy synthetic datasets
-- complex training tricks
-- changing model and data at the same time
-
-## Longer-Term Direction
-
-If the small PyTorch API pilot works:
-
-1. expand from `50` examples to a few hundred
-2. widen coverage across more PyTorch APIs
-3. consider combining SFT with retrieval over official docs later
-
-The immediate goal is **not** full PyTorch coverage.
-The immediate goal is a small, correct, useful PyTorch API assistant.
-
-## Suggested Initial Folder Layout
-
-```text
-sft-training/
-├── AGENTS.md
-├── plan.md
-├── README.md
-├── requirements.txt
-├── data/
-│   ├── raw/
-│   └── output/
-├── experiments/
-│   ├── eval_results/
-│   └── logs/
-└── src/
-    ├── config.py
-    ├── dataset.py
-    ├── training.py
-    ├── evaluate.py
-    ├── baseline.py
-    └── prompts.py
-```
-
-## Immediate Next Step
-
-The next concrete step should be:
-
-1. keep the current base model
-2. define a PyTorch API evaluation prompt set
-3. create `dataset_1` for PyTorch API assistance
-4. run baseline inference on the new prompt set
-5. run the first PyTorch API SFT experiment
+1. update the training path from full fine-tuning to LoRA
+2. keep checkpoint / evaluate / resume behavior coherent with LoRA
+3. run `dataset_3` with LoRA
+4. compare baseline vs LoRA-SFT outputs
+5. decide whether dataset iteration should continue locally or move to Runpod

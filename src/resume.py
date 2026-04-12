@@ -1,4 +1,6 @@
 import torch
+import torch.optim as optim
+from src.adapter import load_adapter
 from src.model import load_model
 from src.checkpoint import load_checkpoint
 from src.training import get_dataloaders, run_training, run_validate
@@ -7,7 +9,8 @@ from src.config import CHECKPOINT_PATH, EPOCHS
 
 def run_resume(device: torch.device):
     checkpoint = load_checkpoint(path=CHECKPOINT_PATH, device=device)
-    model_state_dict = checkpoint["model_state_dict"]
+    lora_config = checkpoint["lora_config"]
+    adapter_path = checkpoint["adapter_path"]
     optimizer_state_dict = checkpoint["optimizer_state_dict"]
     epoch = checkpoint["epoch"]
     best_validation_loss = checkpoint["validation_loss"]
@@ -17,9 +20,11 @@ def run_resume(device: torch.device):
     dataset_name = checkpoint["dataset_name"]
     print(f"##### Resuming training from checkpoint {CHECKPOINT_PATH} #####")
     model = load_model(model_name=model_name)
-    model.load_state_dict(model_state_dict)
+    model = load_adapter(model=model, adapter_path=adapter_path, is_trainable=True)
     model.to(device)
-    optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+    optimizer = optim.Adam(
+        (p for p in model.parameters() if p.requires_grad), lr=learning_rate
+    )
     optimizer.load_state_dict(optimizer_state_dict)
     training_dataloader, validation_dataloader = get_dataloaders(
         dataset_name=dataset_name, batch_size=batch_size, model_name=model_name
@@ -44,4 +49,5 @@ def run_resume(device: torch.device):
             model=model,
             training_loss=training_loss,
             dataset_name=dataset_name,
+            lora_config=lora_config,
         )

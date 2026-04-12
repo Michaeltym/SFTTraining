@@ -13,7 +13,7 @@
 
 ## Goal
 
-第二轮 PyTorch API SFT。目标是做一次 targeted scale-up，不再追求更广 API 覆盖，而是集中强化三类短板：
+Second PyTorch API SFT run. The goal was a targeted scale-up rather than broader API coverage. This run focused on three weak areas:
 
 - fake API refusal / hallucination resistance
 - shape / dim / keepdim reasoning
@@ -21,41 +21,41 @@
 
 ## Findings
 
-- `dataset_2` 在 fake API refusal 上明显比 `dataset_1` 更好：
-  - `torch.memory_portal()` 开始被明确识别为不存在的 API
-  - `nn.SuperLayer` 开始被明确拒绝
-  - `torch.quantum_backprop()` 也开始走拒答方向，但输出仍有重复和收尾不稳的问题
-- `shape_reasoning` 有局部进步：
-  - `x.unsqueeze(1)` 从错误变成正确
-  - `torch.argmax(x, dim=2)` 开始给出正确 shape `[5, 7]`
-- `shape_reasoning` 仍然不稳定：
-  - `x.sum(dim=1, keepdim=True)` 仍然答错，说明 keepdim / reduction 这块还没学稳
-- `debugging` 依旧是最大短板：
-  - `view` after `permute` 仍然没有稳定抓住 non-contiguous / `contiguous()` / `reshape()` 的核心
-  - `.item()` 虽然比 baseline 更接近正确，但解释还是不够干净
-  - `model.eval()` vs `torch.no_grad()` 反而出现明显错误，甚至说 `model.eval()` 不是 real PyTorch method
-- 一些 comparison / semantics 题有回退风险：
-  - `reshape` vs `view` 仍然不可靠
-  - `from_numpy` vs `tensor` 的回答风格还是偏论坛续写，不够直接
+- `dataset_2` was clearly better than `dataset_1` on fake API refusal:
+  - `torch.memory_portal()` started being recognized as nonexistent
+  - `nn.SuperLayer` started being rejected more explicitly
+  - `torch.quantum_backprop()` also moved in the refusal direction, but the answer still had repetition and poor finish quality
+- `shape_reasoning` improved in a few places:
+  - `x.unsqueeze(1)` changed from wrong to correct
+  - `torch.argmax(x, dim=2)` started giving the correct shape `[5, 7]`
+- `shape_reasoning` was still not stable:
+  - `x.sum(dim=1, keepdim=True)` was still wrong, which means keepdim / reduction semantics were not learned reliably yet
+- `debugging` remained the biggest weak area:
+  - `view` after `permute` still failed to reliably explain the non-contiguous / `contiguous()` / `reshape()` distinction
+  - `.item()` was closer to correct than baseline, but the explanation was still not clean enough
+  - `model.eval()` vs `torch.no_grad()` introduced a serious error and even claimed that `model.eval()` was not a real PyTorch method
+- Some comparison / semantics prompts still had regression risk:
+  - `reshape` vs `view` was still unreliable
+  - `from_numpy` vs `tensor` still sounded too much like forum continuation instead of a direct API answer
 
 ## Next Step
 
-下一轮 `dataset_3` 继续保持 targeted scale-up，但要重新分配预算：
+The next run, `dataset_3`, should keep the targeted scale-up size but redistribute the data budget:
 
-- 保留 hallucination refusal，但不要再占太多比例
-- 增加：
+- Keep hallucination refusal, but do not let it dominate the dataset
+- Increase coverage for:
   - `view` / `reshape` / `contiguous`
   - `.item()`
   - `model.eval()` vs `torch.no_grad()`
   - `CrossEntropyLoss` / `BCEWithLogitsLoss`
   - `sum` / `mean` / `argmax` + `dim` / `keepdim`
-- 对 shape 题，优先强化当前仍答错的事实点，不再给太多已经会做的近似题
+- For shape prompts, prioritize facts the model is still getting wrong rather than adding many near-duplicate variants of facts it already partially learned
 
 ## Other Important Info
 
-- 这一轮是第一次从 pilot comparison 升级到 larger targeted run，规模为 `train 200 / validation 24`。
-- 这轮结果说明：放大数据量本身是有用的，但如果数据分布偏向 fake API refusal，模型会在 refusal 上进步更快，而 debugging / semantics 仍然掉队。
-- 当前最值得继续打的不是更宽的 API surface，而是：
+- This was the first run that moved from a small pilot comparison to a larger targeted run, with `train 200 / validation 24`.
+- The result suggests that scaling data size does help, but if the dataset distribution leans too heavily toward fake API refusal, refusal improves faster than debugging / semantics.
+- The highest-value next targets are not broader API coverage yet, but:
   - shape correctness
   - reduction semantics
   - debugging explanations

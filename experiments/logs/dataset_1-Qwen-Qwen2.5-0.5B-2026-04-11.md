@@ -13,7 +13,7 @@
 
 ## Goal
 
-第一轮 PyTorch API SFT。目标不是覆盖整个 PyTorch API，而是先验证小规模 SFT 是否能把 base model 从“续写论坛提问”拉向“直接回答 API 问题”，并观察三类关键能力是否改善：
+First PyTorch API SFT run. The goal was not to cover the entire PyTorch API surface. The goal was to verify whether a small SFT run could push the base model away from “continuing forum-style questions” and toward “directly answering PyTorch API questions,” while checking three key capability areas:
 
 - hallucination refusal
 - shape reasoning
@@ -21,38 +21,38 @@
 
 ## Findings
 
-- 训练数值是健康的。training loss 从 `1.5477` 降到 `0.8923`，validation loss 从 `1.5681` 降到 `1.4729`。
-- 回答风格有改善。相比 baseline，模型更少直接续写 StackOverflow 风格提问，开始更像在回答 API 问题。
-- 一部分 definition / comparison 题有进步，尤其是：
+- Training metrics were healthy. Training loss dropped from `1.5477` to `0.8923`, and validation loss dropped from `1.5681` to `1.4729`.
+- Answer style improved. Compared with baseline, the model was less likely to continue the prompt in a StackOverflow-style voice and more likely to attempt a direct API answer.
+- Some definition / comparison prompts improved, especially:
   - `torch.tensor`
   - `torch.topk`
   - `torch.argmax`
   - `DataLoader`
   - `torch.from_numpy vs torch.tensor`
-- `hallucination_check` 基本没有改善：
+- `hallucination_check` barely improved:
   - `torch.memory_portal()`
   - `nn.SuperLayer`
   - `torch.quantum_backprop()`
-  仍然被当成真实 API / module 来回答。
-- `shape_reasoning` 仍然不稳：
-  - `x.unsqueeze(1)` 仍然答错
-  - `x.sum(dim=1, keepdim=True)` 仍然答错
-  - `argmax(dim=2)` 和 `cat(dim=0)` 比 baseline 更接近正确，但还不够可靠
-- `debugging` 题依旧是弱项：
-  - `view` after `permute` 跑偏
-  - `.item()` 错因解释不对
-  - `zero_grad()` 题跑偏到别的 API
-  - `cat` mismatch 解释不稳定
+  were still treated as if they were real APIs / modules.
+- `shape_reasoning` was still unstable:
+  - `x.unsqueeze(1)` was still wrong
+  - `x.sum(dim=1, keepdim=True)` was still wrong
+  - `argmax(dim=2)` and `cat(dim=0)` were closer to correct than baseline, but still not reliable
+- `debugging` remained weak:
+  - `view` after `permute` drifted off-target
+  - `.item()` error explanation was incorrect
+  - `zero_grad()` drifted into unrelated API explanation
+  - `cat` mismatch explanation was unstable
 
 ## Next Step
 
-下一轮不要继续追求更大范围的 API 覆盖，先收窄到最关键的失败点：
+The next run should not chase broader API coverage yet. It should narrow focus to the most important failure modes first:
 
 - fake API refusal
 - shape / dim / keepdim reasoning
 - common debugging cases
 
-更具体地说，下一版数据集应该集中强化：
+More concretely, the next dataset should emphasize:
 
 - `unsqueeze`
 - `argmax(dim=...)`
@@ -65,7 +65,7 @@
 
 ## Other Important Info
 
-- 这一轮数据规模是 `train 50 / validation 12`，适合作为 pilot，但很可能不足以把目标行为拉稳。
-- 当前结果说明：`50` 条足够改变回答姿态，但不足以稳定建立 hallucination refusal 和 debugging reliability。
-- 现阶段还不需要急着做自动评分器，先继续跑几轮更聚焦的数据集更合理。
-- 现有 `eval_prompts` schema 已经足够支持后续半自动评分，当前最重要的是让数据方向先正确。
+- This run used `train 50 / validation 12`, which was appropriate for a pilot, but likely too small to stabilize the target behaviors.
+- The result suggests that `50` examples are enough to change answer style, but not enough to build stable hallucination refusal or debugging reliability.
+- There is no need to rush into an automatic scorer yet. It is more useful to run a few more focused dataset iterations first.
+- The current `eval_prompts` schema is already sufficient for later semi-automatic scoring. The more important task right now is to get the dataset direction right.

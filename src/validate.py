@@ -3,9 +3,10 @@ import torch.optim as optim
 import time
 from torch.utils.data import DataLoader
 from typing import Any
+from src.adapter import save_adapter
 from src.model import get_model_name_slug
-from src.checkpoint import save_checkpoint
-from src.config import CHECKPOINT_DIR
+from src.checkpoint import LoraConfig, save_checkpoint
+from src.config import CHECKPOINT_DIR, ADAPTER_DIR
 
 
 def run_validate(
@@ -20,6 +21,7 @@ def run_validate(
     model: Any,
     training_loss: float,
     dataset_name: str,
+    lora_config: LoraConfig,
 ) -> float:
     print(f"##### Epoch {epoch + 1} validation started #####")
     model.eval()
@@ -43,11 +45,11 @@ def run_validate(
         print(f"Avg loss: {validation_loss:.4f}")
         print(f"Time: {(time.time() - start_time):.2f}s")
         if validation_loss < best_validation_loss:
+            filename = f"{get_model_name_slug(model_name)}-{dataset_name}-{batch_size}-{learning_rate}"
+            save_adapter(filename=filename, model=model)
             save_checkpoint(
-                path=CHECKPOINT_DIR
-                / f"{get_model_name_slug(model_name)}-{dataset_name}-{batch_size}-{learning_rate}.pt",
+                path=CHECKPOINT_DIR / f"{filename}.pt",
                 checkpoint={
-                    "model_state_dict": model.state_dict(),
                     "optimizer_state_dict": optimizer.state_dict(),
                     "epoch": epoch,
                     "validation_loss": validation_loss,
@@ -56,6 +58,8 @@ def run_validate(
                     "model_name": model_name,
                     "training_loss": training_loss,
                     "dataset_name": dataset_name,
+                    "lora_config": lora_config,
+                    "adapter_path": str(ADAPTER_DIR / filename),
                 },
             )
             return validation_loss

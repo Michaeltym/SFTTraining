@@ -5,6 +5,7 @@ __pycache__/
 
 data/checkpoints/
 data/hf_home/
+data/adapters/
 .env
 .vscode
 .DS_Store
