@@ -33,7 +33,7 @@ This project is expected to use:
 
 - a pretrained base model with language ability
 - no instruction tuning at the start
-- a small, explicit SFT dataset
+- a small, explicit SFT dataset for PyTorch API question answering
 - clear before/after evaluation
 
 The main educational goal is to learn the full process:
@@ -50,8 +50,8 @@ Keep the first version small and focused.
 Recommended first milestone:
 
 - choose one pretrained base model
-- run plain inference on a fixed prompt set
-- prepare a small instruction dataset
+- run plain inference on a fixed PyTorch API prompt set
+- prepare a small PyTorch API dataset
 - run one small SFT experiment
 - compare before vs after outputs
 
@@ -85,15 +85,12 @@ Likely future modules:
 
 ## Dataset Rules
 
-Instruction data should be explicit and structured.
+For the current PyTorch API assistant direction, prefer the simpler schema:
 
-Prefer a stable schema such as:
-
-- `instruction`
 - `input`
 - `output`
 
-or a chat-style message list if the chosen model format requires it.
+Do not repeat the same instruction text in every row if the training template already provides the shared behavior framing.
 
 Be careful about:
 
@@ -104,16 +101,126 @@ Be careful about:
 
 For early runs, use a small dataset and keep the task narrow.
 
+### PyTorch API Dataset Rules
+
+When creating PyTorch API datasets, optimize for API understanding rather than generic tutorial tone.
+
+Each dataset should favor:
+
+- argument-level detail
+- return value and shape detail
+- behavior nuance
+- debugging and edge cases
+- API comparison questions
+
+Dataset budget should increase real coverage, not just apparent size.
+
+Prefer:
+
+- one strong row per semantic fact
+- one phrasing per shape/debugging fact unless the paraphrase adds clear new value
+- more symbol coverage over more near-duplicate wording
+
+Avoid inflating dataset size with rows that only change:
+
+- `If x has shape ...` to `Suppose x has shape ...`
+- `Why can ...` to `Why might ...` or `Why would ...`
+- fake API names paired with almost identical refusal answers
+
+When expanding a PyTorch API dataset:
+
+- deduplicate aggressively
+- compress repeated refusal patterns
+- keep paraphrases only when they improve generalization meaningfully
+- vary answer wording enough to avoid robotic output templates
+
+Do not over-concentrate on only:
+
+- `What does X do?`
+- `How do I use X?`
+
+Mix in more realistic question styles such as:
+
+- why does this fail
+- when should I use A vs B
+- what shape does this return
+- why is this tensor on the wrong device
+- how do I fix this error
+
+For PyTorch API answers, prefer including:
+
+- what the API does
+- key arguments
+- return type or output shape when relevant
+- common pitfalls
+- a short code example when the API is usage-oriented
+
+High-value PyTorch API dataset items include:
+
+- `view` vs `reshape`
+- `torch.tensor` vs `torch.as_tensor`
+- `torch.from_numpy`
+- `cat` vs `stack`
+- `mm` vs `matmul`
+- `model.eval()` vs `torch.no_grad()`
+- `loss.backward()`
+- `optimizer.zero_grad()`
+- device mismatch
+- dtype mismatch
+- broadcasting mismatch
+- fake API refusal / hallucination resistance
+
+For fake API refusal specifically:
+
+- keep a diverse but bounded block, usually around `10` to `20` rows
+- vary namespaces such as `torch.*`, `nn.*`, `optim.*`, `Tensor.*`, and `Dataset`-style names
+- vary refusal wording slightly
+- do not spend large portions of the dataset on dozens of near-identical fake API rows
+
+When writing answers:
+
+- avoid vague wording when a precise API statement is possible
+- prefer symbol-grounded explanations over generic training advice
+- mention shared memory explicitly for APIs like `torch.from_numpy`
+- mention gradient accumulation explicitly for `loss.backward()`
+- be careful not to hardcode environment-specific examples like `device='cuda'` unless device semantics are the point
+- prefer precise API behavior over hedged wording like `may raise depending on context` when the standard behavior is known
+- vary opening sentence patterns so answers do not all sound like the same template
+
+### Validation Set Rules
+
+Validation data should stay in the same task domain, but it should not be a trivial rephrasing of training rows.
+
+Validation sets should include:
+
+- unseen phrasings
+- nearby or unseen symbols
+- shape reasoning
+- debugging cases
+- behavior / mode semantics
+
+For PyTorch API validation specifically:
+
+- include some symbols not directly trained, but close to the trained API surface
+- use validation to test generalization, not just memorization
+
 ### Dataset Comparison Size Rule
 
-From `dataset_3` onward, dataset comparison runs should keep dataset size fixed by default.
+Dataset comparison runs should keep dataset size fixed by default.
 
-Recommended default:
+Recommended pilot default:
 
 - training set: `50`
 - validation set: `12`
 
 Use the same train/validation size across comparison datasets unless there is a clear reason to change it and that change is recorded in the experiment log.
+
+When the problem is already clear and the next run is a targeted scale-up rather than a small pilot comparison, use:
+
+- training set: `200`
+- validation set: `24`
+
+Use larger runs only after the short pilot has already identified which capability gap to target.
 
 ## Evaluation Rules
 
@@ -205,8 +312,8 @@ If a later run uses `dataset_2`, the log filename should make that distinction e
 A sensible first path for this repository is:
 
 1. choose a pretrained base model
-2. run baseline inference
-3. prepare a small SFT dataset
+2. run baseline inference on PyTorch API prompts
+3. prepare a small PyTorch API SFT dataset
 4. run one small SFT experiment
 5. compare outputs before and after
 6. record results in `experiments/logs/`

@@ -15,7 +15,9 @@ def run_evaluate(device: torch.device):
     dataset_name = checkpoint["dataset_name"]
     learning_rate = checkpoint["learning_rate"]
     batch_size = checkpoint["batch_size"]
-    print(f"##### Evaluating model from checkpoint {CHECKPOINT_PATH} #####")
+    print(
+        f"##### Evaluating model from checkpoint {CHECKPOINT_PATH} for model {model_name} on dataset {dataset_name} #####"
+    )
     model = load_model(model_name=model_name)
     model.load_state_dict(model_state_dict)
     model.to(device)

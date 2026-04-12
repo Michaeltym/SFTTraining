@@ -1,0 +1,715 @@
+{
+  "model": "Qwen/Qwen2.5-0.5B",
+  "evaluated_at": "2026-04-12-083732",
+  "generation_config": {
+    "max_new_tokens": 100,
+    "pad_token_id": 151643,
+    "use_chat_template": false
+  },
+  "results": [
+    {
+      "category": "tensor_creation",
+      "prompt": "What does torch.tensor do?",
+      "must_include": [
+        "tensor",
+        "dtype",
+        "device"
+      ],
+      "preferred_include": [
+        "requires_grad",
+        "copy"
+      ],
+      "must_not_include": [
+        "returns a numpy array"
+      ],
+      "tags": [
+        "torch.tensor",
+        "creation",
+        "dtype",
+        "device"
+      ],
+      "gold_type": "definition",
+      "should_include_code": false,
+      "output": " `torch.tensor` is a PyTorch tensor constructor. It creates a new tensor with the specified shape and data. The tensor can be initialized with a single value, a list, a NumPy array, or a tensor from another tensor. Here's a basic example:\n\n```python\nimport torch\n\n# Create a tensor with a single value\ntensor1 = torch.tensor(10)\n\n# Create a tensor with a list of values\ntensor2 = torch.tensor([1, 2,"
+    },
+    {
+      "category": "tensor_creation",
+      "prompt": "How does torch.from_numpy differ from torch.tensor?",
+      "must_include": [
+        "numpy",
+        "copy"
+      ],
+      "preferred_include": [
+        "share memory",
+        "storage"
+      ],
+      "must_not_include": [
+        "always identical"
+      ],
+      "tags": [
+        "torch.from_numpy",
+        "torch.tensor",
+        "comparison",
+        "memory"
+      ],
+      "gold_type": "comparison",
+      "should_include_code": false,
+      "output": " I have seen both used in the same context, but I'm not sure what the difference is. I know that `torch.from_numpy` is a subclass of `torch.tensor`, but I'm not sure what the difference is. For example, I can use `torch.from_numpy` to convert a NumPy array into a tensor, but I can also use `torch.tensor` without any conversion. Can someone explain the difference between these two? The main difference between `torch.from_numpy` and `"
+    },
+    {
+      "category": "tensor_creation",
+      "prompt": "How do I move a tensor to a different dtype and device?",
+      "must_include": [
+        ".to",
+        "dtype",
+        "device"
+      ],
+      "preferred_include": [
+        "same call"
+      ],
+      "must_not_include": [
+        "requires numpy"
+      ],
+      "tags": [
+        "to",
+        "dtype",
+        "device"
+      ],
+      "gold_type": "usage",
+      "should_include_code": true,
+      "output": " I have a tensor `x` with dtype `torch.float32` and a tensor `y` with dtype `torch.float64`. I want to move `y` to the same dtype and device as `x`. I tried using `x.to(y.dtype, y.device)` but it doesn't seem to work. Is there a way to do this? Yes, you can move a tensor to a different dtype and device using the `to()` method. The `to()` method can"
+    },
+    {
+      "category": "shape_manipulation",
+      "prompt": "What is the difference between reshape and view in PyTorch?",
+      "must_include": [
+        "reshape",
+        "view",
+        "contiguous"
+      ],
+      "preferred_include": [
+        "copy",
+        "memory layout"
+      ],
+      "must_not_include": [
+        "always identical"
+      ],
+      "tags": [
+        "reshape",
+        "view",
+        "contiguous",
+        "memory"
+      ],
+      "gold_type": "comparison",
+      "should_include_code": false,
+      "output": " I understand that reshape and view are similar, but they differ in their usage and behavior. For example, `reshape` can be used to change the shape of a tensor, while `view` is not a real PyTorch operation. Can you explain the difference between these two operations and when to use each one? The main difference between `reshape` and `view` in PyTorch is their usage and behavior. `reshape` changes the shape of a tensor, while `view` keeps"
+    },
+    {
+      "category": "shape_manipulation",
+      "prompt": "What does contiguous() do in PyTorch?",
+      "must_include": [
+        "contiguous",
+        "memory"
+      ],
+      "preferred_include": [
+        "view",
+        "permute"
+      ],
+      "must_not_include": [
+        "changes values"
+      ],
+      "tags": [
+        "contiguous",
+        "memory layout"
+      ],
+      "gold_type": "definition",
+      "should_include_code": false,
+      "output": " I am trying to understand the usage of `contiguous()` in PyTorch. I have seen it used in the context of `torch.cat()`. For example, `torch.cat([a, b], dim=0)` returns a new tensor with the concatenation. However, I am not sure what `contiguous()` does. I have seen it used in the context of `torch.cat()`. For example, `torch.cat([a, b], dim=0)` returns a new"
+    },
+    {
+      "category": "shape_manipulation",
+      "prompt": "What is the difference between expand and repeat?",
+      "must_include": [
+        "expand",
+        "repeat"
+      ],
+      "preferred_include": [
+        "copy",
+        "broadcast",
+        "memory"
+      ],
+      "must_not_include": [
+        "they are the same"
+      ],
+      "tags": [
+        "expand",
+        "repeat",
+        "broadcasting"
+      ],
+      "gold_type": "comparison",
+      "should_include_code": false,
+      "output": " I have seen both terms used in the same context. What is the difference between them? I have seen them used in the same context. What is the difference between them? I have seen them used in the same context. What is the difference between them? I have seen them used in the same context. What is the difference between them? I have seen them used in the same context. What is the difference between them? I have seen them used in the same context. What is the difference"
+    },
+    {
+      "category": "shape_reasoning",
+      "prompt": "If x has shape [2, 3, 4], what shape does x.unsqueeze(1) have?",
+      "must_include": [
+        "[2, 1, 3, 4]"
+      ],
+      "preferred_include": [
+        "dimension",
+        "size 1"
+      ],
+      "must_not_include": [
+        "[2, 3, 4, 1]"
+      ],
+      "tags": [
+        "unsqueeze",
+        "shape"
+      ],
+      "gold_type": "shape_reasoning",
+      "should_include_code": false,
+      "output": " The `unsqueeze(1)` operation inserts a size-1 dimension at position 1, so the result shape is `[2, 3, 1, 4]`. Therefore, the correct answer is `[2, 3, 1, 4]`."
+    },
+    {
+      "category": "shape_reasoning",
+      "prompt": "If x has shape [5, 7, 9], what shape does torch.argmax(x, dim=2) return?",
+      "must_include": [
+        "[5, 7]"
+      ],
+      "preferred_include": [
+        "dim=2",
+        "index"
+      ],
+      "must_not_include": [
+        "[5, 7, 9]"
+      ],
+      "tags": [
+        "argmax",
+        "shape",
+        "dim"
+      ],
+      "gold_type": "shape_reasoning",
+      "should_include_code": false,
+      "output": " The `torch.argmax(x, dim=2)` function returns the indices of the maximum values along dimension 2, so the shape is `[5, 7]`. The result shape is `[5, 7]` because the maximum value along dimension 2 is the maximum value in the entire batch, not just one example. If you want the indices, you should use `torch.argmax(x, dim=2, keepdim=True)` to keep the reduced dimension with size 1."
+    },
+    {
+      "category": "shape_reasoning",
+      "prompt": "If a and b both have shape [3, 4], what shape does torch.cat([a, b], dim=0) return?",
+      "must_include": [
+        "[6, 4]"
+      ],
+      "preferred_include": [
+        "dim=0"
+      ],
+      "must_not_include": [
+        "[3, 8]"
+      ],
+      "tags": [
+        "cat",
+        "shape",
+        "dim=0"
+      ],
+      "gold_type": "shape_reasoning",
+      "should_include_code": false,
+      "output": " The `torch.cat([a, b], dim=0)` concatenates along the first dimension, so the result shape is `[2, 4]`. Here is the code to confirm this:\n\n```python\nimport torch\n\na = torch.rand(3, 4)\nb = torch.rand(3, 4)\nresult_shape = torch.cat([a, b], dim=0).shape\nprint(result_shape)\n```"
+    },
+    {
+      "category": "shape_reasoning",
+      "prompt": "If x has shape [8, 16], what shape does x.sum(dim=1, keepdim=True) return?",
+      "must_include": [
+        "[8, 1]"
+      ],
+      "preferred_include": [
+        "keepdim",
+        "dimension stays"
+      ],
+      "must_not_include": [
+        "[8]"
+      ],
+      "tags": [
+        "sum",
+        "keepdim",
+        "shape"
+      ],
+      "gold_type": "shape_reasoning",
+      "should_include_code": false,
+      "output": " The `keepdim=True` argument keeps the reduced dimension with size 1, so the result shape is `[8, 16]`. Here's the code and the result shape:\n\n```python\nimport torch\n\nx = torch.randn(8, 16)\nx.sum(dim=1, keepdim=True).shape\n```\n\nThe result shape is `[8, 16]`."
+    },
+    {
+      "category": "reductions_and_values",
+      "prompt": "What does keepdim=True do in torch.sum?",
+      "must_include": [
+        "keepdim",
+        "size 1"
+      ],
+      "preferred_include": [
+        "broadcast",
+        "dimension"
+      ],
+      "must_not_include": [
+        "changes values"
+      ],
+      "tags": [
+        "sum",
+        "keepdim"
+      ],
+      "gold_type": "definition",
+      "should_include_code": false,
+      "output": " The `keepdim=True` argument in `torch.sum` is not a real PyTorch API. It is not a real argument in standard PyTorch. The real argument is `dim=0` or `keepdim=True`. The real behavior is that the result shape is preserved as `[N, 1]`. The real API is `torch.sum(x, dim=0, keepdim=True)` or `torch.sum(x, dim=0)` if you want to keep the reduced"
+    },
+    {
+      "category": "reductions_and_values",
+      "prompt": "What does torch.argmax return?",
+      "must_include": [
+        "index",
+        "maximum"
+      ],
+      "preferred_include": [
+        "dim"
+      ],
+      "must_not_include": [
+        "returns the max value itself"
+      ],
+      "tags": [
+        "argmax",
+        "index-returning"
+      ],
+      "gold_type": "definition",
+      "should_include_code": false,
+      "output": " The `torch.argmax` function returns the index of the maximum value in the given tensor. It returns the index of the maximum value, not the maximum value itself. If there are multiple maximum values, `torch.argmax` returns the index of the first one. If the tensor is empty or has no maximum value, `torch.argmax` returns `None`. Here's an example:\n\n```python\nimport torch\n\ntensor = torch.tensor([1, 2, 3, 4, 5"
+    },
+    {
+      "category": "autograd_and_training",
+      "prompt": "What does loss.backward() do?",
+      "must_include": [
+        "gradient",
+        ".grad"
+      ],
+      "preferred_include": [
+        "accumulate",
+        "leaf tensors",
+        "requires_grad"
+      ],
+      "must_not_include": [
+        "updates parameters directly"
+      ],
+      "tags": [
+        "backward",
+        "autograd",
+        "gradients"
+      ],
+      "gold_type": "definition",
+      "should_include_code": true,
+      "output": " The `loss.backward()` function in PyTorch is not a real PyTorch operation. It is not a real PyTorch operation. The real PyTorch operation is `loss.backward()`. The real PyTorch operation is not a real PyTorch operation. The real PyTorch operation is not a real PyTorch operation. The real PyTorch operation is not a real PyTorch operation. The real PyTorch operation is not a real PyTorch operation"
+    },
+    {
+      "category": "autograd_and_training",
+      "prompt": "What is the difference between model.eval() and torch.no_grad()?",
+      "must_include": [
+        "dropout",
+        "batch normalization",
+        "gradient"
+      ],
+      "preferred_include": [
+        "different problems",
+        "often used together"
+      ],
+      "must_not_include": [
+        "they are the same"
+      ],
+      "tags": [
+        "eval",
+        "no_grad",
+        "dropout",
+        "batchnorm"
+      ],
+      "gold_type": "comparison",
+      "should_include_code": false,
+      "output": " I often see both methods in PyTorch and I'm not sure when to use one over the other. The `model.eval()` method is used to disable gradient tracking, which means the optimizer and other training hooks will not be called. The `torch.no_grad()` method is used to disable gradient tracking for the entire computation graph. The main difference is that `model.eval()` is not a real PyTorch method and should not be used directly. `torch.no_grad()` is a real Py"
+    },
+    {
+      "category": "autograd_and_training",
+      "prompt": "How do I check whether a tensor contains NaN values?",
+      "must_include": [
+        "torch.isnan"
+      ],
+      "preferred_include": [
+        "any",
+        "inf"
+      ],
+      "must_not_include": [
+        "use numpy only"
+      ],
+      "tags": [
+        "isnan",
+        "debugging"
+      ],
+      "gold_type": "usage",
+      "should_include_code": true,
+      "output": " I have a tensor with shape `(1, 1, 1, 1)` and I want to check if it contains NaN values. I know that `torch.isnan(tensor)` returns a boolean tensor with the same shape as the input tensor, but I'm not sure how to interpret the result. I also want to know if there is a way to check if the tensor contains any NaN values. Can you provide a solution? Yes, you can use the `torch.isnan(tensor)` function to"
+    },
+    {
+      "category": "nn_and_data",
+      "prompt": "What should a custom Dataset implement in PyTorch?",
+      "must_include": [
+        "__len__",
+        "__getitem__"
+      ],
+      "preferred_include": [
+        "index",
+        "number of samples"
+      ],
+      "must_not_include": [
+        "fit",
+        "predict"
+      ],
+      "tags": [
+        "Dataset",
+        "__len__",
+        "__getitem__"
+      ],
+      "gold_type": "definition",
+      "should_include_code": false,
+      "output": " A custom Dataset in PyTorch should implement the `__len__` and `__getitem__` methods. The `__len__` method should return the number of elements in the dataset, and the `__getitem__` method should return a single element or a batch of elements. The `__len__` method should be overridden if the dataset has a fixed number of elements, and the `__getitem__` method should be overridden if the dataset has a fixed shape. The `"
+    },
+    {
+      "category": "nn_and_data",
+      "prompt": "What does DataLoader do in PyTorch?",
+      "must_include": [
+        "batch",
+        "dataset"
+      ],
+      "preferred_include": [
+        "shuffle",
+        "collate_fn",
+        "workers"
+      ],
+      "must_not_include": [
+        "trains the model"
+      ],
+      "tags": [
+        "DataLoader",
+        "batching"
+      ],
+      "gold_type": "definition",
+      "should_include_code": false,
+      "output": " What is its purpose? What is its usage? What is its output? What is its return type? What is its return value? What is its return shape? What is its return device? What is its return dtype? What is its return batch size? What is its return batch index? What is its return batch index shape? What is its return batch index device? What is its return batch index dtype? What is its return batch index batch size? What is its return batch index batch index"
+    },
+    {
+      "category": "api_comparison_and_examples",
+      "prompt": "What is the difference between torch.mm and torch.matmul?",
+      "must_include": [
+        "2D",
+        "batched"
+      ],
+      "preferred_include": [
+        "vector",
+        "matrix"
+      ],
+      "must_not_include": [
+        "always identical"
+      ],
+      "tags": [
+        "mm",
+        "matmul",
+        "comparison"
+      ],
+      "gold_type": "comparison",
+      "should_include_code": false,
+      "output": " I often see both torch.mm and torch.matmul used interchangeably. What is the difference between them? I know that torch.mm is a matrix multiplication, but what is torch.matmul? They are both matrix multiplication, but they differ in the way they handle the input and output shapes. `torch.mm` expects two tensors with compatible shapes and returns a tensor with the same shape. `torch.matmul` expects two tensors with compatible shapes and returns a tensor with the same shape. The main difference is that `"
+    },
+    {
+      "category": "api_comparison_and_examples",
+      "prompt": "Show a simple example of torch.arange with step=2.",
+      "must_include": [
+        "torch.arange",
+        "2"
+      ],
+      "preferred_include": [
+        "0",
+        "4",
+        "6",
+        "8"
+      ],
+      "must_not_include": [
+        "numpy only"
+      ],
+      "tags": [
+        "arange",
+        "example"
+      ],
+      "gold_type": "usage",
+      "should_include_code": true,
+      "output": " The result should be a tensor with exactly 10 elements, each element being 2.5. ```python\nimport torch\n\n# Create a tensor with exactly 10 elements, each element being 2.5\nresult = torch.arange(10, dtype=torch.float, device='cuda') * 2.5\n\n# Check the result\nprint(result)  # Output: tensor([2.5, 2.5, 2.5, 2.5"
+    },
+    {
+      "category": "debugging",
+      "prompt": "Why does view fail after permute sometimes?",
+      "must_include": [
+        "contiguous",
+        "memory"
+      ],
+      "preferred_include": [
+        "reshape",
+        "view"
+      ],
+      "must_not_include": [
+        "because permute changes values"
+      ],
+      "tags": [
+        "view",
+        "permute",
+        "contiguous",
+        "debugging"
+      ],
+      "gold_type": "debugging",
+      "should_include_code": false,
+      "output": " I am trying to use `torch.permute` to change the shape of a tensor. I am not sure why the result shape is not what I expect. For example, if I permute a tensor with shape `[1, 2, 3]` to `[2, 1, 3]`, the result shape is `[2, 1, 3]`. If I permute a tensor with shape `[2, 1, 3]` to `[2,"
+    },
+    {
+      "category": "debugging",
+      "prompt": "Why does calling .item() on a tensor with shape [2] fail?",
+      "must_include": [
+        ".item()",
+        "one element"
+      ],
+      "preferred_include": [
+        "scalar"
+      ],
+      "must_not_include": [
+        "because item returns a tensor"
+      ],
+      "tags": [
+        "item",
+        "debugging"
+      ],
+      "gold_type": "debugging",
+      "should_include_code": false,
+      "output": " I am trying to use `.item()` on a tensor with shape `[2]`. The documentation says that `.item()` expects a tensor with exactly one element, but the tensor I am trying to use has shape `[2]`. The behavior is not clear. Is `.item()` not defined for tensors with shape `[2]`? If so, what is the correct way to access the tensor's single element? The behavior you are observing is not a bug in PyTorch. `.item()`"
+    },
+    {
+      "category": "debugging",
+      "prompt": "Why does torch.cat fail here when x has shape [2, 3] and y has shape [2, 4] and dim=0?",
+      "must_include": [
+        "size mismatch",
+        "other dimensions"
+      ],
+      "preferred_include": [
+        "dim=0",
+        "[2, 3]",
+        "[2, 4]"
+      ],
+      "must_not_include": [
+        "it should work"
+      ],
+      "tags": [
+        "cat",
+        "debugging",
+        "shape"
+      ],
+      "gold_type": "debugging",
+      "should_include_code": false,
+      "output": " The error message suggests that the concatenation operation is not supported for tensors with different shapes and dimensions. The correct way to concatenate tensors with different shapes and dimensions is to use the `torch.cat` function with the correct arguments. The correct way to concatenate tensors with different shapes and dimensions is to use the `torch.cat` function with the correct arguments. The correct way to concatenate tensors with different shapes and dimensions is to use the `torch.cat` function with the correct arguments. The correct way to concatenate"
+    },
+    {
+      "category": "debugging",
+      "prompt": "Why do gradients keep growing if I forget optimizer.zero_grad()?",
+      "must_include": [
+        "accumulate",
+        "gradient"
+      ],
+      "preferred_include": [
+        ".grad",
+        "next iteration"
+      ],
+      "must_not_include": [
+        "optimizer.step resets gradients"
+      ],
+      "tags": [
+        "zero_grad",
+        "backward",
+        "gradients"
+      ],
+      "gold_type": "debugging",
+      "should_include_code": false,
+      "output": " I am using PyTorch and I am not sure why gradients keep growing even if I call `optimizer.zero_grad()`. The behavior you're observing is not uncommon when using automatic differentiation (AD) in PyTorch. The `optimizer.zero_grad()` operation typically reduces the gradient accumulation, but it does not necessarily clear the gradients themselves. Here’s a detailed explanation:\n\n1. **Gradient Accumulation**: When you call `optimizer.zero_grad()`, it reduces the gradient accumulation. This means that the"
+    },
+    {
+      "category": "unseen_symbol",
+      "prompt": "What does torch.topk return?",
+      "must_include": [
+        "values",
+        "indices"
+      ],
+      "preferred_include": [
+        "largest",
+        "k"
+      ],
+      "must_not_include": [
+        "single tensor only"
+      ],
+      "tags": [
+        "topk",
+        "unseen_symbol"
+      ],
+      "gold_type": "definition",
+      "should_include_code": false,
+      "output": " The `torch.topk` function returns the top `k` elements along a specified dimension. The result shape is `(k,)` if `k` is 1, otherwise it is `(k, dim)`.\n\nHere's a simple example to illustrate this:\n\n```python\nimport torch\n\n# Create a tensor\ntensor = torch.randn(10, 10)\n\n# Use torch.topk to get the top 2 elements\ntop_2 = torch.topk(tensor, 2"
+    },
+    {
+      "category": "unseen_symbol",
+      "prompt": "What does torch.argmin return?",
+      "must_include": [
+        "index",
+        "minimum"
+      ],
+      "preferred_include": [
+        "dim"
+      ],
+      "must_not_include": [
+        "returns the minimum value itself"
+      ],
+      "tags": [
+        "argmin",
+        "unseen_symbol"
+      ],
+      "gold_type": "definition",
+      "should_include_code": false,
+      "output": " The `torch.argmin` function returns the index of the minimum value in the flattened tensor. It returns the index of the minimum value, not the actual minimum value itself. If you want the actual minimum value, you should use `torch.min`. Here's an example:\n\n```python\nimport torch\n\n# Example tensor\ntensor = torch.tensor([1, 2, 3, 4, 5])\n\n# Find the index of the minimum value\nmin_index = torch.argmin(tensor"
+    },
+    {
+      "category": "unseen_symbol",
+      "prompt": "How do I use torch.flatten in PyTorch?",
+      "must_include": [
+        "flatten",
+        "dimension"
+      ],
+      "preferred_include": [
+        "start_dim",
+        "end_dim"
+      ],
+      "must_not_include": [
+        "changes values"
+      ],
+      "tags": [
+        "flatten",
+        "unseen_symbol"
+      ],
+      "gold_type": "usage",
+      "should_include_code": true,
+      "output": " I am trying to flatten a tensor and I am not sure how to do it. I have tried `torch.flatten(x)` but it does not work. I also tried `x.flatten()`, but it returns a tensor with the same shape as the input. I also tried `x.view(-1)` but it does not work. How can I flatten a tensor in PyTorch? The `torch.flatten` function in PyTorch flattens a tensor along a specified dimension. If you want"
+    },
+    {
+      "category": "unseen_symbol",
+      "prompt": "What is torch.softmax(x, dim=1) doing?",
+      "must_include": [
+        "probabilities",
+        "dim=1"
+      ],
+      "preferred_include": [
+        "sum to 1"
+      ],
+      "must_not_include": [
+        "argmax"
+      ],
+      "tags": [
+        "softmax",
+        "unseen_symbol"
+      ],
+      "gold_type": "definition",
+      "should_include_code": false,
+      "output": " I am trying to understand the output of `torch.softmax(x, dim=1)` and how it differs from `x.softmax(dim=1)`. The documentation says that `torch.softmax(x, dim=1)` returns the softmax values along dimension 1, but I don't understand the rest of the output. For example, if `x` is a tensor with shape `(2, 3)`, the output shape is `(2, 3)`. If I use `x.softmax(dim"
+    },
+    {
+      "category": "unseen_symbol",
+      "prompt": "How do I check whether a tensor contains inf values?",
+      "must_include": [
+        "torch.isinf"
+      ],
+      "preferred_include": [
+        "any"
+      ],
+      "must_not_include": [
+        "torch.isnan only"
+      ],
+      "tags": [
+        "isinf",
+        "unseen_symbol",
+        "debugging"
+      ],
+      "gold_type": "usage",
+      "should_include_code": true,
+      "output": " I have a tensor with inf values and I want to check whether it contains inf values. I know that `torch.isinf` returns `True` for inf values, but how can I check whether the tensor contains inf values? You can use the `torch.isinf` function along with the `torch.any` function to check whether the tensor contains inf values. Here is an example:\n\n```python\nimport torch\n\n# Create a tensor with inf values\ntensor = torch.tensor([1e1"
+    },
+    {
+      "category": "hallucination_check",
+      "prompt": "What does torch.memory_portal() do?",
+      "must_include": [
+        "does not exist",
+        "PyTorch"
+      ],
+      "preferred_include": [
+        "no such API",
+        "check documentation"
+      ],
+      "must_not_include": [
+        "invented behavior"
+      ],
+      "tags": [
+        "fake_api",
+        "hallucination"
+      ],
+      "gold_type": "hallucination_check",
+      "should_include_code": false,
+      "should_refuse": true,
+      "output": " `torch.memory_portal()` is not a standard PyTorch API. It seems like you might be referring to a different API or a different context. If you meant to ask about a memory portal API, please clarify. If it's not a real API, it's not a real API. If it's a real API, please provide more context or the real API name. If it's not a real API, it's not a real API. If it's not a real API, it"
+    },
+    {
+      "category": "hallucination_check",
+      "prompt": "How do I call nn.SuperLayer?",
+      "must_include": [
+        "does not exist",
+        "nn"
+      ],
+      "preferred_include": [
+        "no such module",
+        "check documentation"
+      ],
+      "must_not_include": [
+        "invented class"
+      ],
+      "tags": [
+        "fake_api",
+        "hallucination",
+        "nn"
+      ],
+      "gold_type": "hallucination_check",
+      "should_include_code": false,
+      "should_refuse": true,
+      "output": " I am trying to implement a super layer in PyTorch. I have tried `nn.SuperLayer` but it does not seem to work. How can I call a layer that is a subclass of `nn.Module`? The `nn.SuperLayer` class is not a real PyTorch layer. It is not a real layer in the standard sense. The correct way to implement a super layer is to use a real layer like `nn.Linear` or `nn.Conv2d`."
+    },
+    {
+      "category": "hallucination_check",
+      "prompt": "What is torch.quantum_backprop()?",
+      "must_include": [
+        "does not exist",
+        "PyTorch"
+      ],
+      "preferred_include": [
+        "not a real API"
+      ],
+      "must_not_include": [
+        "invented explanation"
+      ],
+      "tags": [
+        "fake_api",
+        "hallucination"
+      ],
+      "gold_type": "hallucination_check",
+      "should_include_code": false,
+      "should_refuse": true,
+      "output": " What is the difference between `torch.quantum_backprop()` and `torch.autograd.grad()`? What is the correct usage? `torch.quantum_backprop()` is not a real PyTorch API. `torch.autograd.grad()` is not a real PyTorch API. `torch.quantum_backprop()` is not a real PyTorch API. `torch.autograd.grad()` is not a real PyTorch API. `torch.quantum_backprop()` is not a real Py"
+    }
+  ]
+}

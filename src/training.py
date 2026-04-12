@@ -90,6 +90,9 @@ def run_training(
 
 
 def run_training_loop(device: torch.device):
+    print(
+        f"##### Starting training loop for model {MODEL_NAME} on dataset {DATASET_NAME} #####"
+    )
     training_dataloader, validation_dataloader = get_dataloaders(
         dataset_name=DATASET_NAME, batch_size=BATCH_SIZE, model_name=MODEL_NAME
     )

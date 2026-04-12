@@ -7,7 +7,7 @@ BATCH_SIZE = 16
 IGNORE_INDEX = -100
 EPOCHS = 2
 LEARNING_RATE = 2e-5
-DATASET_NAME = "dataset_1"
+DATASET_NAME = "dataset_3"
 
 HF_CACHE_DIR = Path("./data/hf_home")
 EVAL_RESULTS_DIR = Path("./experiments/eval_results")
@@ -22,4 +22,4 @@ MODE_BASELINE = "baseline"
 MODE_TRAIN = "train"
 MODE_RESUME = "resume"
 MODE_EVALUATE = "evaluate"
-MODE = MODE_EVALUATE
+MODE = MODE_TRAIN
