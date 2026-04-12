@@ -1,3 +1,4 @@
+# Install torch / torchvision / torchaudio separately for the target CUDA environment.
 accelerate==1.13.0
 aiohappyeyeballs==2.6.1
 aiohttp==3.13.5
@@ -46,7 +47,6 @@ shellingham==1.5.4
 six==1.17.0
 sympy==1.14.0
 tokenizers==0.22.2
-torch==2.11.0
 tqdm==4.67.3
 transformers==5.5.0
 typer==0.24.1
