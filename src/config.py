@@ -23,7 +23,7 @@ MODE_BASELINE = "baseline"
 MODE_TRAIN = "train"
 MODE_RESUME = "resume"
 MODE_EVALUATE = "evaluate"
-MODE = MODE_TRAIN
+MODE = MODE_BASELINE
 
 LORA_R = 8
 LORA_ALPHA = 16
