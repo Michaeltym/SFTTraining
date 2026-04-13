@@ -1,7 +1,7 @@
 from pathlib import Path
 
 MODEL_NAME = "Qwen/Qwen2.5-0.5B"
-MAX_NEW_TOKENS = 100
+MAX_NEW_TOKENS = 150
 USE_CHAT_TEMPLATE = False
 BATCH_SIZE = 8
 IGNORE_INDEX = -100
@@ -14,6 +14,7 @@ EVAL_RESULTS_DIR = Path("./experiments/eval_results")
 RAW_DATA_DIR = Path("./data/raw")
 CHECKPOINT_DIR = Path("./data/checkpoints")
 ADAPTER_DIR = Path("./data/adapters")
+KNOWLEDGE_DIR = Path("./data/knowledge/pytorch_docs")
 CHECKPOINT_PATH = (
     CHECKPOINT_DIR
     / f"{MODEL_NAME.replace('/', '-')}-{DATASET_NAME}-{BATCH_SIZE}-{LEARNING_RATE}.pt"
@@ -23,7 +24,8 @@ MODE_BASELINE = "baseline"
 MODE_TRAIN = "train"
 MODE_RESUME = "resume"
 MODE_EVALUATE = "evaluate"
-MODE = MODE_EVALUATE
+MODE_INFERENCE = "inference"
+MODE = MODE_INFERENCE
 
 LORA_R = 16
 LORA_ALPHA = 32

@@ -6,7 +6,7 @@ tags: tensor, as_tensor, from_numpy, numpy, copy, shared_memory
 
 # Summary
 
-These APIs differ mainly in copy behavior and memory sharing.
+These APIs mainly differ in whether they copy data or share existing storage.
 
 # Key facts
 
@@ -14,12 +14,11 @@ These APIs differ mainly in copy behavior and memory sharing.
 - `torch.as_tensor(...)` reuses existing data when possible and avoids copies when it can.
 - `torch.from_numpy(ndarray)` creates a tensor that shares memory with the NumPy array.
 - If the tensor and NumPy array share memory, writing through one can affect the other.
-- `torch.tensor()` is usually the wrong answer if the user specifically wants memory sharing with NumPy.
 
 # Useful assistant behavior
 
-- For `from_numpy` vs `tensor`, explain memory sharing vs copying.
-- For `as_tensor` vs `tensor`, explain reuse vs guaranteed copy.
+- For `from_numpy` vs `tensor`, explain shared memory vs copy.
+- For `as_tensor` vs `tensor`, explain possible reuse vs guaranteed copy.
 - Do not say that `to(dtype=..., device=...)` cannot move tensors across devices. It can return a tensor on the requested device and/or dtype.
 - If a user asks why a NumPy-backed tensor changes when the array changes, explain shared storage.
 

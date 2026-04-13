@@ -76,7 +76,7 @@ def run_baseline(device: torch.device):
 
 def save_results(
     results: list[EvalResultItem],
-    pad_token_id: int,
+    pad_token_id: str,
     path: Path,
     model_name: str,
     timestamp: str,

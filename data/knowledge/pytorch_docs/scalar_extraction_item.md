@@ -15,12 +15,15 @@ tags: item, scalar, tensor_method, one_element
 - A tensor with shape `[1]` works because it has one element.
 - A tensor with shape `[1, 1]` also works because it still has one element.
 - A tensor with shape `[2]` does not work because it has two elements.
+- If the tensor has more than one element, `.item()` raises an error.
+- `.item()` does not return `None` when the tensor has too many elements.
 - `.item()` is not differentiable.
 
 # Useful assistant behavior
 
 - Never claim that `.item()` is not a real PyTorch method.
 - If the user gets an `.item()` error, explain that the tensor has more than one element.
+- If the user asks why `.item()` fails, say that PyTorch raises an error because the tensor does not contain exactly one element.
 - Suggest reducing or indexing first, for example:
   - `x[0].item()`
   - `x.mean().item()`
@@ -29,4 +32,4 @@ tags: item, scalar, tensor_method, one_element
 
 - `torch.tensor([42]).item()` works.
 - `torch.tensor([[42]]).item()` works.
-- `torch.tensor([1, 2]).item()` fails because there is more than one element.
+- `torch.tensor([1, 2]).item()` raises an error because there is more than one element.

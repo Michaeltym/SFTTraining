@@ -1,17 +1,15 @@
 import torch
 from datetime import datetime
 from pathlib import Path
-from src.adapter import load_adapter
-from src.model import load_model, get_model_name_slug
+from src.model import get_model_name_slug
 from src.checkpoint import load_checkpoint
 from src.config import CHECKPOINT_PATH, EVAL_RESULTS_DIR
-from src.tokenizer import load_tokenizer
 from src.baseline import evaluate_baseline, save_results
+from src.runtime import build_checkpoint_runtime
 
 
 def run_evaluate(device: torch.device):
     checkpoint = load_checkpoint(path=CHECKPOINT_PATH, device=device)
-    adapter_path = checkpoint["adapter_path"]
     model_name = checkpoint["model_name"]
     dataset_name = checkpoint["dataset_name"]
     learning_rate = checkpoint["learning_rate"]
@@ -19,10 +17,7 @@ def run_evaluate(device: torch.device):
     print(
         f"##### Evaluating model from checkpoint {CHECKPOINT_PATH} for model {model_name} on dataset {dataset_name} #####"
     )
-    model = load_model(model_name=model_name)
-    model = load_adapter(model=model, adapter_path=adapter_path)
-    model.to(device)
-    tokenizer = load_tokenizer(model_name=model_name)
+    model, tokenizer = build_checkpoint_runtime(checkpoint=checkpoint, device=device)
     results = evaluate_baseline(model, tokenizer)
     timestamp = datetime.now().strftime("%Y-%m-%d-%H%M%S")
     model_name_slug = get_model_name_slug(model_name)
