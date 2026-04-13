@@ -25,7 +25,8 @@ MODE_TRAIN = "train"
 MODE_RESUME = "resume"
 MODE_EVALUATE = "evaluate"
 MODE_INFERENCE = "inference"
-MODE = MODE_INFERENCE
+MODE_RAG_EVALUATE = "rag_evaluate"
+MODE = MODE_RAG_EVALUATE
 
 LORA_R = 16
 LORA_ALPHA = 32

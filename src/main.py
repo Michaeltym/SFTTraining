@@ -9,10 +9,12 @@ from src.config import (
     MODE_RESUME,
     MODE_TRAIN,
     MODE_EVALUATE,
+    MODE_RAG_EVALUATE,
     MODE_INFERENCE,
 )
 from src.rag.inference import run_inference, print_inference_result
 from src.runtime import load_checkpoint_runtime
+from src.rag.evaluate import run_rag_evaluate
 
 
 if __name__ == "__main__":
@@ -32,16 +34,10 @@ if __name__ == "__main__":
     elif MODE == MODE_EVALUATE:
         run_evaluate(device=device)
     elif MODE == MODE_INFERENCE:
-        questions = [
-            "what's model.eval?",
-            "why does view() fail after permute()?",
-            "why does x.item() fail on tensor with more than one element?",
-            "what's the difference between torch.tensor and torch.from_numpy?",
-            "is torch.memory_portal a real pytorch api?",
-            "what is torch.quantum_backprop?",
-            "what is nn.SuperLayer?",
-        ]
         model, tokenizer = load_checkpoint_runtime(device=device)
-        for q in questions:
-            result = run_inference(model=model, tokenizer=tokenizer, query=q)
-            print_inference_result(result=result)
+        result = run_inference(
+            model=model, tokenizer=tokenizer, query="what's model.eval?"
+        )
+        print_inference_result(result=result)
+    elif MODE == MODE_RAG_EVALUATE:
+        run_rag_evaluate(device=device)

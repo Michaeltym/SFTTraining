@@ -4,7 +4,6 @@ from src.rag.knowledge import load_knowledge
 from src.rag.retriever import retrieve_top_k_knowledge
 from src.rag.prompt import build_prompt
 from src.config import MAX_NEW_TOKENS
-from src.runtime import load_checkpoint_runtime
 
 
 class InferenceSource(TypedDict):
