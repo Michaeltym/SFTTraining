@@ -6,7 +6,7 @@ tags: eval, no_grad, inference, autograd, dropout, batchnorm
 
 # Summary
 
-`model.eval()` and `torch.no_grad()` solve different problems and are often used together.
+`model.eval()` changes module behavior, while `torch.no_grad()` disables gradient tracking.
 
 # Key facts
 
@@ -25,7 +25,3 @@ tags: eval, no_grad, inference, autograd, dropout, batchnorm
   - `model.eval()` changes module behavior
   - `torch.no_grad()` changes autograd behavior
 - It is normal to use both together during inference.
-
-# Example answer shape
-
-- "`model.eval()` changes dropout/batchnorm behavior. `torch.no_grad()` disables gradient tracking. They solve different problems and are commonly used together for inference."

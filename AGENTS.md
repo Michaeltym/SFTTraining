@@ -259,6 +259,23 @@ For each SFT run, log:
 - before/after outputs
 - decision on whether the run helped
 
+## RAG Knowledge Rules
+
+For files under `data/knowledge/`, prefer direct updates without waiting for extra confirmation when the change is clearly scoped to:
+
+- fixing factual errors
+- reducing chunk breadth
+- splitting one broad knowledge file into narrower files
+- improving retrieval friendliness
+- improving answer grounding for known failure cases
+
+When editing knowledge files:
+
+- prefer smaller, single-purpose knowledge chunks
+- avoid mixing several nearby APIs in one file unless they must be compared directly
+- keep the content concise and factual
+- prefer curated, high-value facts over broad but noisy coverage
+
 Keep logs:
 
 - concise

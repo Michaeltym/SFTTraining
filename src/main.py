@@ -11,7 +11,7 @@ from src.config import (
     MODE_EVALUATE,
     MODE_INFERENCE,
 )
-from src.rag.inference import run_inference
+from src.rag.inference import run_inference, print_inference_result
 from src.runtime import load_checkpoint_runtime
 
 
@@ -33,42 +33,15 @@ if __name__ == "__main__":
         run_evaluate(device=device)
     elif MODE == MODE_INFERENCE:
         questions = [
-            # "what's model.eval?",
-            # "why does view() fail after permute()?",
-            # "why does x.item() fail on tensor with more than one element?",
+            "what's model.eval?",
+            "why does view() fail after permute()?",
+            "why does x.item() fail on tensor with more than one element?",
             "what's the difference between torch.tensor and torch.from_numpy?",
-            # "is torch.memory_portal a real pytorch api?",
+            "is torch.memory_portal a real pytorch api?",
+            "what is torch.quantum_backprop?",
+            "what is nn.SuperLayer?",
         ]
         model, tokenizer = load_checkpoint_runtime(device=device)
         for q in questions:
             result = run_inference(model=model, tokenizer=tokenizer, query=q)
-            sources_block = []
-            for i, source in enumerate(result["sources"], start=1):
-                sources_block.append(
-                    "\n".join(
-                        [
-                            f"Source {i}",
-                            f"ID: {source['id']}",
-                            f"Title: {source['title']}",
-                            f"URL: {source['url']}",
-                            f"Weight: {source['weight']}",
-                        ]
-                    )
-                )
-            sources = "\n\n".join(sources_block)
-            output = "\n".join(
-                [
-                    "Question:",
-                    result["query"],
-                    "",
-                    "Answer:",
-                    result["answer"],
-                    "",
-                    "Sources:",
-                    "",
-                    sources,
-                ]
-            )
-            print(output)
-
-            print("\n" + "=" * 80 + "\n")
+            print_inference_result(result=result)

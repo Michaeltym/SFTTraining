@@ -1,7 +1,7 @@
 from pathlib import Path
 
 MODEL_NAME = "Qwen/Qwen2.5-0.5B"
-MAX_NEW_TOKENS = 150
+MAX_NEW_TOKENS = 48
 USE_CHAT_TEMPLATE = False
 BATCH_SIZE = 8
 IGNORE_INDEX = -100

@@ -49,3 +49,35 @@ def run_inference(model: Any, tokenizer: Any, query: str) -> InferenceResult:
             for item in retrieved_knowledge
         ]
         return {"query": query, "answer": output_text, "sources": sources}
+
+
+def print_inference_result(result: InferenceResult):
+    sources_block = []
+    for i, source in enumerate(result["sources"], start=1):
+        sources_block.append(
+            "\n".join(
+                [
+                    f"Source {i}",
+                    f"ID: {source['id']}",
+                    f"Title: {source['title']}",
+                    f"URL: {source['url']}",
+                    f"Weight: {source['weight']}",
+                ]
+            )
+        )
+    sources = "\n\n".join(sources_block)
+    output = "\n".join(
+        [
+            "Question:",
+            result["query"],
+            "",
+            "Answer:",
+            result["answer"],
+            "",
+            "Sources:",
+            "",
+            sources,
+        ]
+    )
+    print(output)
+    print("\n" + "=" * 80 + "\n")
