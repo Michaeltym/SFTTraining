@@ -12,11 +12,11 @@
   - `alpha = 16`
   - `dropout = 0.05`
   - `target_modules = ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]`
-- Baseline Reference: [Qwen-Qwen2.5-0.5B-2026-04-11-201754.json](/Users/michaeltan/Desktop/training/sft-training/experiments/eval_results/baseline/Qwen-Qwen2.5-0.5B-2026-04-11-201754.json)
-- Previous Best Full Fine-Tune Reference: [dataset_2-Qwen-Qwen2.5-0.5B-16-2e-05-2026-04-12-083732.json](/Users/michaeltan/Desktop/training/sft-training/experiments/eval_results/post_sft/dataset_2-Qwen-Qwen2.5-0.5B-16-2e-05-2026-04-12-083732.json)
-- Previous Best LoRA Reference: [dataset_3-Qwen-Qwen2.5-0.5B-8-0.0001-2026-04-12-202539.json](/Users/michaeltan/Desktop/training/sft-training/experiments/eval_results/post_sft/dataset_3-Qwen-Qwen2.5-0.5B-8-0.0001-2026-04-12-202539.json)
-- First 1.5B Result: [dataset_3-Qwen-Qwen2.5-1.5B-8-0.0001-2026-04-12-235600.json](/Users/michaeltan/Desktop/training/sft-training/experiments/eval_results/post_sft/dataset_3-Qwen-Qwen2.5-1.5B-8-0.0001-2026-04-12-235600.json)
-- Second 1.5B Result: [dataset_3-Qwen-Qwen2.5-1.5B-8-0.0001-2026-04-13-001822.json](/Users/michaeltan/Desktop/training/sft-training/experiments/eval_results/post_sft/dataset_3-Qwen-Qwen2.5-1.5B-8-0.0001-2026-04-13-001822.json)
+- Baseline Reference: [Qwen-Qwen2.5-0.5B-2026-04-11-201754.json](../eval_results/baseline/Qwen-Qwen2.5-0.5B-2026-04-11-201754.json)
+- Previous Best Full Fine-Tune Reference: [dataset_2-Qwen-Qwen2.5-0.5B-16-2e-05-2026-04-12-083732.json](../eval_results/post_sft/dataset_2-Qwen-Qwen2.5-0.5B-16-2e-05-2026-04-12-083732.json)
+- Previous Best LoRA Reference: [dataset_3-Qwen-Qwen2.5-0.5B-8-0.0001-2026-04-12-202539.json](../eval_results/post_sft/dataset_3-Qwen-Qwen2.5-0.5B-8-0.0001-2026-04-12-202539.json)
+- First 1.5B Result: [dataset_3-Qwen-Qwen2.5-1.5B-8-0.0001-2026-04-12-235600.json](../eval_results/post_sft/dataset_3-Qwen-Qwen2.5-1.5B-8-0.0001-2026-04-12-235600.json)
+- Second 1.5B Result: [dataset_3-Qwen-Qwen2.5-1.5B-8-0.0001-2026-04-13-001822.json](../eval_results/post_sft/dataset_3-Qwen-Qwen2.5-1.5B-8-0.0001-2026-04-13-001822.json)
 - Timestamp: `2026-04-12` to `2026-04-13`
 
 ## Goal

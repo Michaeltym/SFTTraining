@@ -1,6 +1,6 @@
 from pathlib import Path
 
-MODEL_NAME = "Qwen/Qwen2.5-1.5B"
+MODEL_NAME = "Qwen/Qwen2.5-0.5B"
 MAX_NEW_TOKENS = 100
 USE_CHAT_TEMPLATE = False
 BATCH_SIZE = 8

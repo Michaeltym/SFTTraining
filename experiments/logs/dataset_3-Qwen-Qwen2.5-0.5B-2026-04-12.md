@@ -12,13 +12,13 @@
   - `alpha = 32`
   - `dropout = 0.05`
   - `target_modules = ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]`
-- Baseline Result: [Qwen-Qwen2.5-0.5B-2026-04-11-201754.json](/Users/michaeltan/Desktop/training/sft-training/experiments/eval_results/baseline/Qwen-Qwen2.5-0.5B-2026-04-11-201754.json)
-- Previous Best Full Fine-Tune Result: [dataset_2-Qwen-Qwen2.5-0.5B-16-2e-05-2026-04-12-083732.json](/Users/michaeltan/Desktop/training/sft-training/experiments/eval_results/post_sft/dataset_2-Qwen-Qwen2.5-0.5B-16-2e-05-2026-04-12-083732.json)
-- Earlier Weak LoRA Result: [dataset_3-Qwen-Qwen2.5-0.5B-8-2e-05-2026-04-12-194520.json](/Users/michaeltan/Desktop/training/sft-training/experiments/eval_results/post_sft/dataset_3-Qwen-Qwen2.5-0.5B-8-2e-05-2026-04-12-194520.json)
-- Best LoRA Result So Far: [dataset_3-Qwen-Qwen2.5-0.5B-8-0.0001-2026-04-12-202539.json](/Users/michaeltan/Desktop/training/sft-training/experiments/eval_results/post_sft/dataset_3-Qwen-Qwen2.5-0.5B-8-0.0001-2026-04-12-202539.json)
-- Mixed Epoch 2 Result: [dataset_3-Qwen-Qwen2.5-0.5B-8-0.0001-2026-04-13-083619.json](/Users/michaeltan/Desktop/training/sft-training/experiments/eval_results/post_sft/dataset_3-Qwen-Qwen2.5-0.5B-8-0.0001-2026-04-13-083619.json)
-- Checkpoint: [Qwen-Qwen2.5-0.5B-dataset_3-8-0.0001.pt](/Users/michaeltan/Desktop/training/sft-training/data/checkpoints/Qwen-Qwen2.5-0.5B-dataset_3-8-0.0001.pt)
-- Adapter: [Qwen-Qwen2.5-0.5B-dataset_3-8-0.0001](/Users/michaeltan/Desktop/training/sft-training/data/adapters/Qwen-Qwen2.5-0.5B-dataset_3-8-0.0001)
+- Baseline Result: [Qwen-Qwen2.5-0.5B-2026-04-11-201754.json](../eval_results/baseline/Qwen-Qwen2.5-0.5B-2026-04-11-201754.json)
+- Previous Best Full Fine-Tune Result: [dataset_2-Qwen-Qwen2.5-0.5B-16-2e-05-2026-04-12-083732.json](../eval_results/post_sft/dataset_2-Qwen-Qwen2.5-0.5B-16-2e-05-2026-04-12-083732.json)
+- Earlier Weak LoRA Result: [dataset_3-Qwen-Qwen2.5-0.5B-8-2e-05-2026-04-12-194520.json](../eval_results/post_sft/dataset_3-Qwen-Qwen2.5-0.5B-8-2e-05-2026-04-12-194520.json)
+- Best LoRA Result So Far: [dataset_3-Qwen-Qwen2.5-0.5B-8-0.0001-2026-04-12-202539.json](../eval_results/post_sft/dataset_3-Qwen-Qwen2.5-0.5B-8-0.0001-2026-04-12-202539.json)
+- Mixed Epoch 2 Result: [dataset_3-Qwen-Qwen2.5-0.5B-8-0.0001-2026-04-13-083619.json](../eval_results/post_sft/dataset_3-Qwen-Qwen2.5-0.5B-8-0.0001-2026-04-13-083619.json)
+- Checkpoint: [Qwen-Qwen2.5-0.5B-dataset_3-8-0.0001.pt](../../data/checkpoints/Qwen-Qwen2.5-0.5B-dataset_3-8-0.0001.pt)
+- Adapter: [Qwen-Qwen2.5-0.5B-dataset_3-8-0.0001](../../data/adapters/Qwen-Qwen2.5-0.5B-dataset_3-8-0.0001)
 - Timestamp: `2026-04-12` to `2026-04-13`
 
 ## Goal

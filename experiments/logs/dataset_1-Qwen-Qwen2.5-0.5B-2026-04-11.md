@@ -6,9 +6,9 @@
 - Learning Rate: `2e-5`
 - Batch Size: `16`
 - Epochs: `2`
-- Baseline Result: [Qwen-Qwen2.5-0.5B-2026-04-11-201754.json](/Users/michaeltan/Desktop/training/sft-training/experiments/eval_results/baseline/Qwen-Qwen2.5-0.5B-2026-04-11-201754.json)
-- Post-SFT Result: [dataset_1-Qwen-Qwen2.5-0.5B-16-2e-05-2026-04-11-203543.json](/Users/michaeltan/Desktop/training/sft-training/experiments/eval_results/post_sft/dataset_1-Qwen-Qwen2.5-0.5B-16-2e-05-2026-04-11-203543.json)
-- Checkpoint: [Qwen-Qwen2.5-0.5B-dataset_1-16-2e-05.pt](/Users/michaeltan/Desktop/training/sft-training/data/checkpoints/Qwen-Qwen2.5-0.5B-dataset_1-16-2e-05.pt)
+- Baseline Result: [Qwen-Qwen2.5-0.5B-2026-04-11-201754.json](../eval_results/baseline/Qwen-Qwen2.5-0.5B-2026-04-11-201754.json)
+- Post-SFT Result: [dataset_1-Qwen-Qwen2.5-0.5B-16-2e-05-2026-04-11-203543.json](../eval_results/post_sft/dataset_1-Qwen-Qwen2.5-0.5B-16-2e-05-2026-04-11-203543.json)
+- Checkpoint: [Qwen-Qwen2.5-0.5B-dataset_1-16-2e-05.pt](../../data/checkpoints/Qwen-Qwen2.5-0.5B-dataset_1-16-2e-05.pt)
 - Timestamp: `2026-04-11`
 
 ## Goal
