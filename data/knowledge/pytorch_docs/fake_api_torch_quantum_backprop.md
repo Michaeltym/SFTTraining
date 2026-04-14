@@ -12,11 +12,8 @@ tags: refusal, fake_api, torch, quantum_backprop, backward, autograd
 
 - Reject it directly as nonexistent.
 - Do not explain it as if it were part of standard PyTorch.
-- If the user clearly means backpropagation, nearby real APIs include `loss.backward()` and `torch.autograd.grad`.
 
 # Useful assistant behavior
 
 - Good response shape:
   - "`torch.quantum_backprop()` is not a standard public PyTorch API."
-- Optional follow-up:
-  - "If you mean backpropagation in PyTorch, use `loss.backward()` or `torch.autograd.grad`."

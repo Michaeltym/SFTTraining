@@ -1,0 +1,94 @@
+{
+  "mode": "rag_evaluate",
+  "model": "Qwen/Qwen2.5-0.5B",
+  "dataset": "dataset_3",
+  "batch_size": 8,
+  "learning_rate": 0.0001,
+  "evaluated_at": "2026-04-14-101257",
+  "results": [
+    {
+      "query": "what's model.eval?",
+      "answer": " `model.eval()` changes module behavior and `torch.no_grad()` disables gradient tracking. They are not the same API. Use `model.eval()` when you want real behavior and `torch.no_grad()` when you want autograd control.",
+      "sources": [
+        {
+          "id": "eval_vs_no_grad",
+          "title": "Difference between model.eval and torch.no_grad",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.Module.html",
+          "weight": 5.666666666666667
+        }
+      ]
+    },
+    {
+      "query": "why does view() fail after permute()?",
+      "answer": " `view()` fails after `permute()` or `transpose()` because the tensor is often non-contiguous. `permute()` and `transpose()` change dimension order and stride interpretation, not storage. `reshape()` can return either a view or a copy.",
+      "sources": [
+        {
+          "id": "tensor_views_and_memory",
+          "title": "Tensor views, reshape, permute, and contiguous memory",
+          "url": "https://docs.pytorch.org/docs/stable/tensor_view.html",
+          "weight": 6.833333333333333
+        }
+      ]
+    },
+    {
+      "query": "why does x.item() fail on tensor with more than one element?",
+      "answer": " `.item()` returns a scalar value only when the tensor has exactly one element. If the tensor has more than one element, `.item()` raises an error.",
+      "sources": [
+        {
+          "id": "scalar_extraction_item",
+          "title": "Tensor.item returns a Python scalar only for one-element tensors",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.Tensor.item.html",
+          "weight": 6.7272727272727275
+        }
+      ]
+    },
+    {
+      "query": "what's the difference between torch.tensor and torch.from_numpy?",
+      "answer": " `torch.tensor(...)` copies data, while `torch.from_numpy(...)` shares memory with the original NumPy array.",
+      "sources": [
+        {
+          "id": "tensor_vs_from_numpy",
+          "title": "torch.tensor versus torch.from_numpy",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.tensor.html",
+          "weight": 5.0
+        }
+      ]
+    },
+    {
+      "query": "is torch.memory_portal a real pytorch api?",
+      "answer": " no. `torch.memory_portal` is not a real public PyTorch API.",
+      "sources": [
+        {
+          "id": "fake_api_refusal_rules",
+          "title": "Refuse nonexistent public PyTorch APIs",
+          "url": "https://docs.pytorch.org/docs/stable/index.html",
+          "weight": 6.166666666666667
+        }
+      ]
+    },
+    {
+      "query": "what is torch.quantum_backprop?",
+      "answer": " `torch.quantum_backprop()` is not a real public PyTorch API.",
+      "sources": [
+        {
+          "id": "fake_api_torch_quantum_backprop",
+          "title": "torch.quantum_backprop is not a real public PyTorch API",
+          "url": "https://docs.pytorch.org/docs/stable/index.html",
+          "weight": 4.666666666666667
+        }
+      ]
+    },
+    {
+      "query": "what is nn.SuperLayer?",
+      "answer": " `nn.SuperLayer` is not a real public `torch.nn` module.",
+      "sources": [
+        {
+          "id": "fake_api_nn_superlayer",
+          "title": "nn.SuperLayer is not a real public torch.nn module",
+          "url": "https://docs.pytorch.org/docs/stable/nn.html",
+          "weight": 4.666666666666667
+        }
+      ]
+    }
+  ]
+}

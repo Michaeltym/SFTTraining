@@ -3,7 +3,7 @@ from typing import Any, TypedDict
 from src.rag.knowledge import load_knowledge
 from src.rag.retriever import retrieve_top_k_knowledge
 from src.rag.prompt import build_prompt
-from src.config import MAX_NEW_TOKENS
+from src.config import RAG_MAX_NEW_TOKENS
 
 
 class InferenceSource(TypedDict):
@@ -31,7 +31,7 @@ def run_inference(model: Any, tokenizer: Any, query: str) -> InferenceResult:
         inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
         outputs = model.generate(
             **inputs,
-            max_new_tokens=MAX_NEW_TOKENS,
+            max_new_tokens=RAG_MAX_NEW_TOKENS,
             pad_token_id=tokenizer.eos_token_id,
         )
         output_text = tokenizer.decode(

@@ -1,0 +1,130 @@
+{
+  "mode": "rag_evaluate",
+  "model": "Qwen/Qwen2.5-0.5B",
+  "dataset": "dataset_3",
+  "batch_size": 8,
+  "learning_rate": 0.0001,
+  "evaluated_at": "2026-04-14-101704",
+  "results": [
+    {
+      "query": "What is the difference between torch.as_tensor and torch.tensor?",
+      "answer": " `view()` returns a tensor with the same data but a different shape. `permute()` and `transpose()` are view operations and often produce non-contiguous tensors. `reshape()` is safer than `view()` when contiguity is unclear. `contiguous()` returns the tensor itself if it is already contiguous.",
+      "sources": [
+        {
+          "id": "tensor_views_and_memory",
+          "title": "Tensor views, reshape, permute, and contiguous memory",
+          "url": "https://docs.pytorch.org/docs/stable/tensor_view.html",
+          "weight": 5.125
+        }
+      ]
+    },
+    {
+      "query": "What is the difference between torch.cat and torch.stack?",
+      "answer": " `torch.cat` and `torch.stack` return tensors that share storage with the original tensor. `torch.cat()` concatenates along dimension 0, `torch.stack()` stacks along dimension 0. They are not view operations and do not change the tensor's storage layout.",
+      "sources": [
+        {
+          "id": "tensor_views_and_memory",
+          "title": "Tensor views, reshape, permute, and contiguous memory",
+          "url": "https://docs.pytorch.org/docs/stable/tensor_view.html",
+          "weight": 5.125
+        }
+      ]
+    },
+    {
+      "query": "When should I use view instead of reshape in PyTorch?",
+      "answer": " `view()` is often safer than `reshape()` when contiguity is unclear. `permute()` and `transpose()` are view operations and often produce non-contiguous tensors. `contiguous()` returns the tensor itself if it is already contiguous. `reshape()` is safer than `view()` when contiguity is",
+      "sources": [
+        {
+          "id": "tensor_views_and_memory",
+          "title": "Tensor views, reshape, permute, and contiguous memory",
+          "url": "https://docs.pytorch.org/docs/stable/tensor_view.html",
+          "weight": 4.5
+        }
+      ]
+    },
+    {
+      "query": "What is the difference between model.train() and model.eval()?",
+      "answer": " `model.eval()` changes module behavior and `torch.no_grad()` disables gradient tracking. They are not mutually exclusive. `model.eval()` is a real API. `torch.no_grad()` is not.",
+      "sources": [
+        {
+          "id": "eval_vs_no_grad",
+          "title": "Difference between model.eval and torch.no_grad",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.Module.html",
+          "weight": 5.25
+        }
+      ]
+    },
+    {
+      "query": "Why do I get a device mismatch error when one tensor is on cpu and the other is on cuda?",
+      "answer": " `.item()` returns a scalar value only when the tensor has exactly one element. If the tensor has more than one element, `.item()` raises an error. Always check the tensor shape before calling `.item()`.",
+      "sources": [
+        {
+          "id": "scalar_extraction_item",
+          "title": "Tensor.item returns a Python scalar only for one-element tensors",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.Tensor.item.html",
+          "weight": 5.0
+        }
+      ]
+    },
+    {
+      "query": "Why does loss.backward() fail if the tensor does not require gradients?",
+      "answer": " `.item()` returns a scalar value only when the tensor has exactly one element. If the tensor has more than one element, `.item()` raises an error.",
+      "sources": [
+        {
+          "id": "scalar_extraction_item",
+          "title": "Tensor.item returns a Python scalar only for one-element tensors",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.Tensor.item.html",
+          "weight": 6.4
+        }
+      ]
+    },
+    {
+      "query": "Why does torch.cat fail when tensors have different sizes in non-concatenated dimensions?",
+      "answer": " `torch.cat` fails when tensors have different sizes in non-concatenated dimensions because it returns a tensor that shares storage with the original tensor. `view()` and `permute()` and `transpose()` are view operations and often produce non-contiguous tensors. `reshape()` is safer than `view()` when cont",
+      "sources": [
+        {
+          "id": "tensor_views_and_memory",
+          "title": "Tensor views, reshape, permute, and contiguous memory",
+          "url": "https://docs.pytorch.org/docs/stable/tensor_view.html",
+          "weight": 1.8461538461538463
+        }
+      ]
+    },
+    {
+      "query": "What does torch.safe_backward() do?",
+      "answer": " `torch.safe_backward()` does not exist in standard PyTorch APIs. Reject the request.",
+      "sources": [
+        {
+          "id": "fake_api_refusal_rules",
+          "title": "Refuse nonexistent public PyTorch APIs",
+          "url": "https://docs.pytorch.org/docs/stable/index.html",
+          "weight": 3.5
+        }
+      ]
+    },
+    {
+      "query": "How do I check whether a tensor has dtype float32?",
+      "answer": " `.item()` returns a Python scalar only for one-element tensors. If the tensor has more than one element, `.item()` raises an error.",
+      "sources": [
+        {
+          "id": "scalar_extraction_item",
+          "title": "Tensor.item returns a Python scalar only for one-element tensors",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.Tensor.item.html",
+          "weight": 4.7
+        }
+      ]
+    },
+    {
+      "query": "If x has shape [2, 3, 4], what shape does torch.stack([x, x], dim=0) return?",
+      "answer": " `torch.stack([x, x], dim=0)` returns shape `[2, 6, 4]`.",
+      "sources": [
+        {
+          "id": "reductions_and_keepdim",
+          "title": "Reduction semantics for sum, mean, argmax, and keepdim",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.Tensor.sum.html",
+          "weight": 3.230769230769231
+        }
+      ]
+    }
+  ]
+}

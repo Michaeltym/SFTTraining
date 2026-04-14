@@ -36,7 +36,7 @@ if __name__ == "__main__":
     elif MODE == MODE_INFERENCE:
         model, tokenizer = load_checkpoint_runtime(device=device)
         result = run_inference(
-            model=model, tokenizer=tokenizer, query="what's model.eval?"
+            model=model, tokenizer=tokenizer, query="How do i check a tensor type?"
         )
         print_inference_result(result=result)
     elif MODE == MODE_RAG_EVALUATE:

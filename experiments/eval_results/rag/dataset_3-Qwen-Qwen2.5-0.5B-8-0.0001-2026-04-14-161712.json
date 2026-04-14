@@ -1,0 +1,130 @@
+{
+  "mode": "rag_evaluate",
+  "model": "Qwen/Qwen2.5-0.5B",
+  "dataset": "dataset_3",
+  "batch_size": 8,
+  "learning_rate": 0.0001,
+  "evaluated_at": "2026-04-14-161712",
+  "results": [
+    {
+      "query": "What is the difference between torch.as_tensor and torch.tensor?",
+      "answer": " `torch.as_tensor(...)` may reuse existing data, while `torch.tensor(...)` creates a new tensor copy. `torch.as_tensor(...)` avoids a copy only when it can safely reuse the source representation.",
+      "sources": [
+        {
+          "id": "as_tensor_vs_tensor",
+          "title": "torch.as_tensor versus torch.tensor",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.as_tensor.html",
+          "weight": 185
+        }
+      ]
+    },
+    {
+      "query": "What is the difference between torch.cat and torch.stack?",
+      "answer": " `torch.cat` concatenates tensors along an existing dimension, while `torch.stack` inserts a new dimension and stacks tensors along it. `torch.cat` increases rank by one, while `torch.stack` does not. `torch.cat` shares storage with the input tensors, while `torch.stack` does not.",
+      "sources": [
+        {
+          "id": "cat_vs_stack",
+          "title": "torch.cat versus torch.stack",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.cat.html",
+          "weight": 193
+        }
+      ]
+    },
+    {
+      "query": "When should I use view instead of reshape in PyTorch?",
+      "answer": " Use `view()` when the tensor is already contiguous and the layout is compatible, and `reshape()` when the tensor is not contiguous or the layout is not compatible. `permute()` is safer when contiguity is unclear. `contiguous()` returns the tensor itself if it is already contiguous. `reshape()` returns",
+      "sources": [
+        {
+          "id": "tensor_views_and_memory",
+          "title": "Tensor views, reshape, permute, and contiguous memory",
+          "url": "https://docs.pytorch.org/docs/stable/tensor_view.html",
+          "weight": 27
+        }
+      ]
+    },
+    {
+      "query": "What is the difference between model.train() and model.eval()?",
+      "answer": " `model.train()` enables training mode, while `model.eval()` enables evaluation mode. They switch module mode, not autograd control.",
+      "sources": [
+        {
+          "id": "train_vs_eval",
+          "title": "model.train versus model.eval",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.Module.html",
+          "weight": 185
+        }
+      ]
+    },
+    {
+      "query": "Why do I get a device mismatch error when one tensor is on cpu and the other is on cuda?",
+      "answer": " Move tensors to the same device with `.to(device)`.",
+      "sources": [
+        {
+          "id": "device_mismatch",
+          "title": "Device mismatch errors across cpu and cuda tensors",
+          "url": "https://docs.pytorch.org/docs/stable/tensor_attributes.html",
+          "weight": 74
+        }
+      ]
+    },
+    {
+      "query": "Why does loss.backward() fail if the tensor does not require gradients?",
+      "answer": " `loss.backward()` fails if the tensor does not require gradients because autograd requires a graph with `requires_grad=True`. If the tensor does not have `requires_grad=True`, autograd cannot compute gradients.",
+      "sources": [
+        {
+          "id": "requires_grad_and_backward",
+          "title": "loss.backward and requires_grad",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.Tensor.backward.html",
+          "weight": 61
+        }
+      ]
+    },
+    {
+      "query": "Why does torch.cat fail when tensors have different sizes in non-concatenated dimensions?",
+      "answer": " `torch.cat` fails when tensors have different sizes in non-concatenated dimensions because it requires matching sizes in every dimension except the concatenation dimension. If the tensors are not the same size in the concatenation dimension, `torch.cat(...)` raises a size mismatch error.",
+      "sources": [
+        {
+          "id": "cat_shape_mismatch",
+          "title": "torch.cat shape mismatch in non-concatenated dimensions",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.cat.html",
+          "weight": 69
+        }
+      ]
+    },
+    {
+      "query": "What does torch.safe_backward() do?",
+      "answer": " `torch.safe_backward()` is not a real public PyTorch API.",
+      "sources": [
+        {
+          "id": "fake_api_torch_safe_backward",
+          "title": "torch.safe_backward is not a real public PyTorch API",
+          "url": "https://docs.pytorch.org/docs/stable/index.html",
+          "weight": 32
+        }
+      ]
+    },
+    {
+      "query": "How do I check whether a tensor has dtype float32?",
+      "answer": " `tensor.dtype == torch.float32`.",
+      "sources": [
+        {
+          "id": "dtype_check",
+          "title": "Checking tensor dtype such as torch.float32",
+          "url": "https://docs.pytorch.org/docs/stable/tensor_attributes.html",
+          "weight": 36
+        }
+      ]
+    },
+    {
+      "query": "If x has shape [2, 3, 4], what shape does torch.stack([x, x], dim=0) return?",
+      "answer": " The shape returned by `torch.stack([x, x], dim=0)` is `[2, 2, 3, 4]`.",
+      "sources": [
+        {
+          "id": "stack_shape_reasoning",
+          "title": "Shape reasoning for torch.stack",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.stack.html",
+          "weight": 74
+        }
+      ]
+    }
+  ]
+}

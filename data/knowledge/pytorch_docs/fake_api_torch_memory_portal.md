@@ -12,11 +12,8 @@ tags: refusal, fake_api, torch, memory_portal
 
 - Reject it directly as nonexistent.
 - Do not invent its behavior.
-- If the user clearly means memory-related behavior, only mention nearby real topics such as tensor views or device placement when relevant.
 
 # Useful assistant behavior
 
 - Good response shape:
   - "`torch.memory_portal()` is not a standard public PyTorch API."
-- Optional follow-up:
-  - "If you mean tensor memory layout or device movement, I can explain the relevant real APIs."

@@ -5,21 +5,14 @@ from pathlib import Path
 
 from src.checkpoint import load_checkpoint
 from src.config import CHECKPOINT_PATH, EVAL_RESULTS_DIR
+from src.eval_prompts import RAG_REGRESSION_ITEMS
 from src.model import get_model_name_slug
 from src.rag.inference import InferenceResult, run_inference
 from src.runtime import build_checkpoint_runtime
 
 
 def run_rag_evaluate(device: torch.device):
-    questions = [
-        "what's model.eval?",
-        "why does view() fail after permute()?",
-        "why does x.item() fail on tensor with more than one element?",
-        "what's the difference between torch.tensor and torch.from_numpy?",
-        "is torch.memory_portal a real pytorch api?",
-        "what is torch.quantum_backprop?",
-        "what is nn.SuperLayer?",
-    ]
+    questions = [item["prompt"] for item in RAG_REGRESSION_ITEMS]
 
     checkpoint = load_checkpoint(path=CHECKPOINT_PATH, device=device)
     model_name = checkpoint["model_name"]

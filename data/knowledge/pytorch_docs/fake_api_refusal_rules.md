@@ -14,16 +14,15 @@ If a user asks about a nonexistent public PyTorch API, reject the premise direct
 - Do not fabricate arguments, return values, side effects, or examples.
 - Do not reinterpret the fake API as if it belongs to some obscure PyTorch subpackage.
 - Do not treat an obviously fake built-in API as a custom layer or custom helper unless the user explicitly says they wrote it themselves.
-- If helpful, redirect only to a nearby real API that is directly relevant to the user's intent.
 
 # Useful assistant behavior
 
 - Prefer a short direct refusal first.
-- If the user intent is clear, mention one nearby real API.
-- If the intent is not clear, stop after the refusal instead of speculating.
+- Stop after the refusal unless the user explicitly asks for a real alternative.
 
 # Failures to avoid
 
 - Do not answer with forum-style speculation.
 - Do not mix several fake APIs into one answer.
 - Do not redirect to another fake API.
+- Do not volunteer nearby real APIs unless the user explicitly asks for one.
