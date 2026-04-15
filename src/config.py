@@ -22,6 +22,8 @@ CHECKPOINT_PATH = (
 )
 BENCHMARK_DATA_PATH = Path("./data/eval/benchmark_core_pytorch.jsonl")
 BENCHMARK_RESULTS_DIR = Path("./experiments/eval_results/benchmark")
+PYTORCH_DOCS_SOURCE_DIR = Path("./data/source/pytorch_docs")
+CORPUS_OUTPUT_DIR = Path("./data/output/cache")
 
 MODE_BASELINE = "baseline"
 MODE_TRAIN = "train"

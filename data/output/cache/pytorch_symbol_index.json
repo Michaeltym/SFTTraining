@@ -1,0 +1,35 @@
+{
+  "torch.Tensor.backward": {
+    "symbol": "torch.Tensor.backward",
+    "doc_ids": [
+      "api_docs_torch_tensor_backward"
+    ],
+    "aliases": [
+      "Tensor.backward",
+      "Tensor backward",
+      "backward"
+    ]
+  },
+  "torch.optim.Optimizer.zero_grad": {
+    "symbol": "torch.optim.Optimizer.zero_grad",
+    "doc_ids": [
+      "api_docs_optimizer_zero_grad"
+    ],
+    "aliases": [
+      "Optimizer.zero_grad",
+      "Optimizer zero_grad",
+      "zero_grad"
+    ]
+  },
+  "torch.optim.Optimizer.step": {
+    "symbol": "torch.optim.Optimizer.step",
+    "doc_ids": [
+      "api_docs_optimizer_step"
+    ],
+    "aliases": [
+      "Optimizer.step",
+      "Optimizer step",
+      "step"
+    ]
+  }
+}
