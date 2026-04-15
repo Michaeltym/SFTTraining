@@ -1,6 +1,8 @@
 from typing import TypedDict, Literal, NotRequired
 from collections.abc import Callable
 
+from src.v2.retrieval.types import RetrievalDebug
+
 BenchmarkCategory = Literal[
     "tensor_creation",
     "shape_ops",
@@ -52,6 +54,7 @@ class BenchmarkAnswer(TypedDict):
     used_symbols: list[str]
     abstained: bool
     confidence_band: BenchmarkConfidenceBand
+    retrieval_debug: NotRequired[RetrievalDebug]
 
 
 BenchmarkAnswerFn = Callable[[str], BenchmarkAnswer]
@@ -65,6 +68,7 @@ class BenchmarkResultItem(BenchmarkItem):
     confidence_band: BenchmarkConfidenceBand
     label: BenchmarkLabel
     notes: NotRequired[str]
+    retrieval_debug: NotRequired[RetrievalDebug]
 
 
 class BenchmarkSummary(TypedDict):

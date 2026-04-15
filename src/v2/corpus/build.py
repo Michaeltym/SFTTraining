@@ -2,7 +2,11 @@ import re
 import json
 from datasets import load_dataset
 from typing import cast
-from src.config import PYTORCH_DOCS_SOURCE_DIR, CORPUS_OUTPUT_DIR
+from src.config import (
+    PYTORCH_DOCS_SOURCE_DIR,
+    PYTORCH_CORPUS_OUTPUT_PATH,
+    PYTORCH_SYMBOL_INDEX_OUTPUT_PATH,
+)
 from src.v2.corpus.types import (
     SourceDocument,
     CorpusChunk,
@@ -104,9 +108,8 @@ def build_symbol_index(chunks: list[CorpusChunk]) -> SymbolIndex:
 
 
 def write_corpus_jsonl(chunks: list[CorpusChunk]):
-    path = CORPUS_OUTPUT_DIR / "pytorch_corpus.jsonl"
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with open(path, "w", encoding="utf-8") as f:
+    PYTORCH_CORPUS_OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    with open(PYTORCH_CORPUS_OUTPUT_PATH, "w", encoding="utf-8") as f:
         for chunk in chunks:
             f.write(
                 json.dumps(
@@ -119,12 +122,7 @@ def write_corpus_jsonl(chunks: list[CorpusChunk]):
 
 
 def write_symbol_index_json(symbol_index: SymbolIndex):
-    path = CORPUS_OUTPUT_DIR / "pytorch_symbol_index.json"
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with open(path, "w", encoding="utf-8") as f:
+    PYTORCH_SYMBOL_INDEX_OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    with open(PYTORCH_SYMBOL_INDEX_OUTPUT_PATH, "w", encoding="utf-8") as f:
         json.dump(symbol_index, f, ensure_ascii=False, indent=2)
     print("##### pytorch_symbol_index.json saved #####")
-
-
-if __name__ == "__main__":
-    build_corpus()

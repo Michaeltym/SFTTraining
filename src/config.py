@@ -23,7 +23,8 @@ CHECKPOINT_PATH = (
 BENCHMARK_DATA_PATH = Path("./data/eval/benchmark_core_pytorch.jsonl")
 BENCHMARK_RESULTS_DIR = Path("./experiments/eval_results/benchmark")
 PYTORCH_DOCS_SOURCE_DIR = Path("./data/source/pytorch_docs")
-CORPUS_OUTPUT_DIR = Path("./data/output/cache")
+PYTORCH_CORPUS_OUTPUT_PATH = Path("./data/output/cache/pytorch_corpus.jsonl")
+PYTORCH_SYMBOL_INDEX_OUTPUT_PATH = Path("./data/output/cache/pytorch_symbol_index.json")
 
 MODE_BASELINE = "baseline"
 MODE_TRAIN = "train"
@@ -31,7 +32,8 @@ MODE_RESUME = "resume"
 MODE_EVALUATE = "evaluate"
 MODE_INFERENCE = "inference"
 MODE_RAG_EVALUATE = "rag_evaluate"
-MODE = MODE_RAG_EVALUATE
+MODE_HYBRID = "hybrid"
+MODE = MODE_HYBRID
 
 RAG_RETRIEVAL_TITLE_TOKEN_WEIGHT = 5
 RAG_RETRIEVAL_TAG_TOKEN_WEIGHT = 3

@@ -26,14 +26,17 @@ def run_benchmark(
         label, notes = get_benchmark_label(
             item=benchmark_item, answer=benchmark_answer["answer"]
         )
-        results.append(
-            {
-                **benchmark_item,
-                **benchmark_answer,
-                "label": label,
-                "notes": notes,
-            }
-        )
+        result_item: BenchmarkResultItem = {
+            **benchmark_item,
+            **benchmark_answer,
+            "label": label,
+            "notes": notes,
+        }
+
+        if "retrieval_debug" in benchmark_answer:
+            result_item["retrieval_debug"] = benchmark_answer["retrieval_debug"]
+
+        results.append(result_item)
 
     summary = build_benchmark_summary(results=results)
     model_name_slug = get_model_name_slug(model_name)
