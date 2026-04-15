@@ -1,0 +1,942 @@
+{
+  "mode": "baseline",
+  "system_name": "baseline_raw_model",
+  "model_name": "Qwen/Qwen2.5-0.5B",
+  "checkpoint_path": "",
+  "evaluated_at": "2026-04-15-114750",
+  "results": [
+    {
+      "id": "tensor_creation_001",
+      "question": "Why would I choose torch.as_tensor over torch.tensor for existing array-like data?",
+      "category": "tensor_creation",
+      "gold_type": "comparison",
+      "expected_symbols": [
+        "torch.tensor",
+        "torch.as_tensor"
+      ],
+      "must_include": [
+        "copy",
+        "reuse"
+      ],
+      "must_not_include": [
+        "always identical"
+      ],
+      "requires_citation": true,
+      "difficulty": "easy",
+      "answer": " I have a tensor of shape (1, 1, 1, 1) and I want to convert it to a torch.tensor. I know that torch.as_tensor is a function that converts a tensor to a torch.tensor, but",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "incorrect",
+      "notes": "matched no must_include: copy, reuse"
+    },
+    {
+      "id": "tensor_creation_002",
+      "question": "How is torch.from_numpy different from torch.tensor when given a NumPy array?",
+      "category": "tensor_creation",
+      "gold_type": "comparison",
+      "expected_symbols": [
+        "torch.from_numpy",
+        "torch.tensor"
+      ],
+      "must_include": [
+        "numpy",
+        "share memory"
+      ],
+      "must_not_include": [
+        "always copies"
+      ],
+      "requires_citation": true,
+      "difficulty": "medium",
+      "answer": " I have a NumPy array and I want to convert it to a PyTorch tensor. I have tried using the following code:\n\n```python\nimport numpy as np\nimport torch\na = np.array([1,2,3",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "partially_correct",
+      "notes": "exact matched: numpy; fuzzy matched: none; missing: share memory"
+    },
+    {
+      "id": "tensor_creation_003",
+      "question": "How do I use torch.tensor to create a float32 tensor directly on cuda if I already know the target device?",
+      "category": "tensor_creation",
+      "gold_type": "usage",
+      "expected_symbols": [
+        "torch.tensor"
+      ],
+      "must_include": [
+        "dtype",
+        "device"
+      ],
+      "must_not_include": [
+        "numpy required"
+      ],
+      "requires_citation": true,
+      "difficulty": "easy",
+      "answer": " I have a tensor of type float32 and I want to use it on a cuda device. I have tried using the following code:\n\n```python\nimport torch\nimport torch.cuda\nimport torch.nn as nn\nimport torch.optim as",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "partially_correct",
+      "notes": "exact matched: device; fuzzy matched: none; missing: dtype"
+    },
+    {
+      "id": "tensor_creation_004",
+      "question": "When should I use torch.zeros_like instead of torch.zeros?",
+      "category": "tensor_creation",
+      "gold_type": "comparison",
+      "expected_symbols": [
+        "torch.zeros_like",
+        "torch.zeros"
+      ],
+      "must_include": [
+        "like",
+        "shape"
+      ],
+      "must_not_include": [
+        "same in every situation"
+      ],
+      "requires_citation": true,
+      "difficulty": "medium",
+      "answer": " I have a code snippet that uses torch.zeros_like to create a tensor with the same shape as another tensor. However, I am unsure if this is the correct approach. Can someone explain the difference between using torch.zeros_like and torch.zeros?",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "correct",
+      "notes": "exact matched: like, shape; fuzzy matched: none; missing: none"
+    },
+    {
+      "id": "shape_ops_001",
+      "question": "What is the difference between view and reshape in PyTorch?",
+      "category": "shape_ops",
+      "gold_type": "comparison",
+      "expected_symbols": [
+        "Tensor.view",
+        "Tensor.reshape"
+      ],
+      "must_include": [
+        "contiguous",
+        "copy"
+      ],
+      "must_not_include": [
+        "always interchangeable"
+      ],
+      "requires_citation": true,
+      "difficulty": "easy",
+      "answer": " I have a question about the difference between `view` and `reshape` in PyTorch. I have a tensor `x` with shape `(1, 1, 1, 1, 1, 1, ",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "incorrect",
+      "notes": "matched no must_include: contiguous, copy"
+    },
+    {
+      "id": "shape_ops_002",
+      "question": "If x has shape [2, 3, 4], what shape does x.unsqueeze(1) return?",
+      "category": "shape_ops",
+      "gold_type": "shape_reasoning",
+      "expected_symbols": [
+        "Tensor.unsqueeze"
+      ],
+      "must_include": [
+        "[2, 1, 3, 4]"
+      ],
+      "must_not_include": [
+        "[2, 3, 4, 1]"
+      ],
+      "requires_citation": false,
+      "difficulty": "easy",
+      "answer": " I have a tensor x of shape [2, 3, 4]. I want to convert it to a tensor of shape [2, 3, 1, 4]. I tried using the following code:\n\n```python\n",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "incorrect",
+      "notes": "matched no must_include: [2, 1, 3, 4]"
+    },
+    {
+      "id": "shape_ops_003",
+      "question": "What is the difference between torch.cat and torch.stack?",
+      "category": "shape_ops",
+      "gold_type": "comparison",
+      "expected_symbols": [
+        "torch.cat",
+        "torch.stack"
+      ],
+      "must_include": [
+        "existing dimension",
+        "new dimension"
+      ],
+      "must_not_include": [
+        "same operation"
+      ],
+      "requires_citation": true,
+      "difficulty": "easy",
+      "answer": " I am trying to understand the difference between these two functions in PyTorch. I have seen them used in the context of stacking tensors, but I am not sure if they are equivalent. Can someone explain the difference between these two functions and",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "incorrect",
+      "notes": "matched no must_include: existing dimension, new dimension"
+    },
+    {
+      "id": "shape_ops_004",
+      "question": "If x has shape [3, 2, 4, 5], what shape does x.flatten(start_dim=2) return?",
+      "category": "shape_ops",
+      "gold_type": "shape_reasoning",
+      "expected_symbols": [
+        "Tensor.flatten"
+      ],
+      "must_include": [
+        "[3, 2, 20]"
+      ],
+      "must_not_include": [
+        "[3, 8, 5]"
+      ],
+      "requires_citation": false,
+      "difficulty": "medium",
+      "answer": " To determine the shape of the flattened version of the array `x` after applying the `flatten` method with the `start_dim=2` parameter, we need to understand how the `flatten` method works in NumPy.\n\nThe `",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "incorrect",
+      "notes": "matched no must_include: [3, 2, 20]"
+    },
+    {
+      "id": "dtype_device_001",
+      "question": "How do I check whether a tensor has dtype torch.float32?",
+      "category": "dtype_device",
+      "gold_type": "usage",
+      "expected_symbols": [
+        "Tensor.dtype",
+        "torch.float32"
+      ],
+      "must_include": [
+        "dtype",
+        "torch.float32"
+      ],
+      "must_not_include": [
+        "numpy only"
+      ],
+      "requires_citation": true,
+      "difficulty": "easy",
+      "answer": " I have a tensor of type torch.float32, but I want to check whether it is actually a float32 tensor. I tried using the `isinstance()` function, but it doesn't seem to work. Is there a way",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "partially_correct",
+      "notes": "exact matched: torch.float32; fuzzy matched: none; missing: dtype"
+    },
+    {
+      "id": "dtype_device_002",
+      "question": "Why do I get a device mismatch error when one tensor is on cpu and the other is on cuda?",
+      "category": "dtype_device",
+      "gold_type": "debugging",
+      "expected_symbols": [
+        "Tensor.to"
+      ],
+      "must_include": [
+        "same device"
+      ],
+      "must_not_include": [
+        "PyTorch moves them automatically"
+      ],
+      "requires_citation": true,
+      "difficulty": "easy",
+      "answer": " I am trying to use the torch.cuda.amp library to run my code on a GPU. I have a model that is trained on a CPU and I want to run it on a GPU. However, when I try to run the code",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "incorrect",
+      "notes": "matched no must_include: same device"
+    },
+    {
+      "id": "dtype_device_003",
+      "question": "How do I move a tensor to float16 on cuda in one call?",
+      "category": "dtype_device",
+      "gold_type": "usage",
+      "expected_symbols": [
+        "Tensor.to"
+      ],
+      "must_include": [
+        "to",
+        "dtype",
+        "device"
+      ],
+      "must_not_include": [
+        "two separate tensors required"
+      ],
+      "requires_citation": true,
+      "difficulty": "medium",
+      "answer": " I have a tensor of type float32, and I want to move it to float16. I tried using the following code:\n\n```cpp\nfloat16_t* ptr = (float16_t*)malloc(sizeof(float1",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "partially_correct",
+      "notes": "exact matched: to; fuzzy matched: none; missing: dtype, device"
+    },
+    {
+      "id": "dtype_device_004",
+      "question": "Why can matmul fail when two tensors use different dtypes?",
+      "category": "dtype_device",
+      "gold_type": "debugging",
+      "expected_symbols": [
+        "torch.matmul"
+      ],
+      "must_include": [
+        "same dtype"
+      ],
+      "must_not_include": [
+        "PyTorch always casts automatically"
+      ],
+      "requires_citation": true,
+      "difficulty": "medium",
+      "answer": " I am trying to use the matmul function in TensorFlow to multiply two tensors. I am using the following code:\n\n```\nimport tensorflow as tf\nimport numpy as np\n\nx = tf.constant(np.array([[1, 2], [",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "incorrect",
+      "notes": "matched no must_include: same dtype"
+    },
+    {
+      "id": "autograd_001",
+      "question": "Why does loss.backward() fail if the tensor does not require gradients?",
+      "category": "autograd",
+      "gold_type": "debugging",
+      "expected_symbols": [
+        "Tensor.backward",
+        "Tensor.requires_grad"
+      ],
+      "must_include": [
+        "requires_grad",
+        "autograd"
+      ],
+      "must_not_include": [
+        "optimizer.step fixes it"
+      ],
+      "requires_citation": true,
+      "difficulty": "easy",
+      "answer": " I am trying to implement a simple neural network using PyTorch. I am using the following code:\n\n```python\nimport torch\nimport torch.nn as nn\nimport torch.nn.functional as F\n\nclass Net(nn.Module):\n    def __",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "incorrect",
+      "notes": "matched no must_include: requires_grad, autograd"
+    },
+    {
+      "id": "autograd_002",
+      "question": "Why do gradients keep accumulating across training steps unless I call optimizer.zero_grad()?",
+      "category": "autograd",
+      "gold_type": "debugging",
+      "expected_symbols": [
+        "Optimizer.zero_grad",
+        "Tensor.backward"
+      ],
+      "must_include": [
+        "accumulate",
+        ".grad"
+      ],
+      "must_not_include": [
+        "backward clears gradients automatically"
+      ],
+      "requires_citation": true,
+      "difficulty": "easy",
+      "answer": " I am using PyTorch 1.1.0 and I am trying to understand the behavior of the gradient accumulation in PyTorch. I have a simple model with a single layer and a single loss function. I am using the",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "incorrect",
+      "notes": "matched no must_include: accumulate, .grad"
+    },
+    {
+      "id": "autograd_003",
+      "question": "What is the difference between detach() and torch.no_grad()?",
+      "category": "autograd",
+      "gold_type": "comparison",
+      "expected_symbols": [
+        "Tensor.detach",
+        "torch.no_grad"
+      ],
+      "must_include": [
+        "tensor",
+        "context"
+      ],
+      "must_not_include": [
+        "same thing"
+      ],
+      "requires_citation": true,
+      "difficulty": "medium",
+      "answer": " I am trying to understand the difference between the two. I have read the documentation but I am still not clear on the difference. Can someone please explain it to me? I have seen the following code:\n\n```python\nimport torch\nx",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "incorrect",
+      "notes": "matched no must_include: tensor, context"
+    },
+    {
+      "id": "autograd_004",
+      "question": "What does requires_grad=False actually change for a tensor?",
+      "category": "autograd",
+      "gold_type": "definition",
+      "expected_symbols": [
+        "Tensor.requires_grad"
+      ],
+      "must_include": [
+        "gradient",
+        "autograd"
+      ],
+      "must_not_include": [
+        "freezes the entire model automatically"
+      ],
+      "requires_citation": true,
+      "difficulty": "medium",
+      "answer": " I am trying to understand the difference between the following two lines of code:\n\n```\nx.requires_grad = False\nx.requires_grad_(False)\n\n```\n\nI understand that the first line of code sets the `requires_grad` attribute to `",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "incorrect",
+      "notes": "matched no must_include: gradient, autograd"
+    },
+    {
+      "id": "nn_module_modes_001",
+      "question": "What is the difference between model.train() and model.eval()?",
+      "category": "nn_module_modes",
+      "gold_type": "comparison",
+      "expected_symbols": [
+        "Module.train",
+        "Module.eval"
+      ],
+      "must_include": [
+        "dropout",
+        "batch normalization"
+      ],
+      "must_not_include": [
+        "same mode"
+      ],
+      "requires_citation": true,
+      "difficulty": "easy",
+      "answer": " I am trying to understand the difference between model.train() and model.eval() in PyTorch. I have seen both of them used in the code below, but I am not sure what they do. Can someone explain the difference between these",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "incorrect",
+      "notes": "matched no must_include: dropout, batch normalization"
+    },
+    {
+      "id": "nn_module_modes_002",
+      "question": "Why is model.eval() not the same as torch.no_grad()?",
+      "category": "nn_module_modes",
+      "gold_type": "comparison",
+      "expected_symbols": [
+        "Module.eval",
+        "torch.no_grad"
+      ],
+      "must_include": [
+        "module behavior",
+        "gradient tracking"
+      ],
+      "must_not_include": [
+        "torch.no_grad is fake"
+      ],
+      "requires_citation": true,
+      "difficulty": "easy",
+      "answer": " I am trying to understand the difference between model.eval() and torch.no_grad() in PyTorch. I have read the documentation and the examples, but I am still unclear. Can someone explain the difference between these two methods? I have",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "incorrect",
+      "notes": "matched no must_include: module behavior, gradient tracking"
+    },
+    {
+      "id": "nn_module_modes_003",
+      "question": "What changes for dropout layers after calling model.eval()?",
+      "category": "nn_module_modes",
+      "gold_type": "definition",
+      "expected_symbols": [
+        "Module.eval",
+        "Dropout"
+      ],
+      "must_include": [
+        "disabled",
+        "dropout"
+      ],
+      "must_not_include": [
+        "random dropping continues unchanged"
+      ],
+      "requires_citation": true,
+      "difficulty": "medium",
+      "answer": " I am using the following code to train a model with dropout layers. I am wondering if there are any changes to the model after calling model.eval()?\n\n```\nimport torch\nimport torch.nn as nn\nimport torch.optim as optim\n",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "partially_correct",
+      "notes": "exact matched: dropout; fuzzy matched: none; missing: disabled"
+    },
+    {
+      "id": "nn_module_modes_004",
+      "question": "Why can batch normalization behave differently in train mode and eval mode?",
+      "category": "nn_module_modes",
+      "gold_type": "debugging",
+      "expected_symbols": [
+        "BatchNorm",
+        "Module.train",
+        "Module.eval"
+      ],
+      "must_include": [
+        "running statistics"
+      ],
+      "must_not_include": [
+        "only dropout is affected"
+      ],
+      "requires_citation": true,
+      "difficulty": "medium",
+      "answer": " I am trying to understand the difference between batch normalization in train mode and eval mode. I have read the following article: https://arxiv.org/pdf/1502.03167.pdf. I am not sure why",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "incorrect",
+      "notes": "matched no must_include: running statistics"
+    },
+    {
+      "id": "optim_training_loop_001",
+      "question": "What does optimizer.zero_grad() do in a standard training loop?",
+      "category": "optim_training_loop",
+      "gold_type": "definition",
+      "expected_symbols": [
+        "Optimizer.zero_grad"
+      ],
+      "must_include": [
+        "clear",
+        "gradients"
+      ],
+      "must_not_include": [
+        "updates parameters"
+      ],
+      "requires_citation": true,
+      "difficulty": "easy",
+      "answer": " I am trying to understand the purpose of optimizer.zero_grad() in a standard training loop. I have read the documentation but I am still not clear on the purpose of this function. Can someone please explain it to me? I have seen it",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "partially_correct",
+      "notes": "exact matched: clear; fuzzy matched: none; missing: gradients"
+    },
+    {
+      "id": "optim_training_loop_002",
+      "question": "Why does nn.CrossEntropyLoss usually expect integer class targets instead of one-hot vectors?",
+      "category": "optim_training_loop",
+      "gold_type": "debugging",
+      "expected_symbols": [
+        "nn.CrossEntropyLoss"
+      ],
+      "must_include": [
+        "class indices"
+      ],
+      "must_not_include": [
+        "requires one-hot in standard usage"
+      ],
+      "requires_citation": true,
+      "difficulty": "medium",
+      "answer": " I am using nn.CrossEntropyLoss in PyTorch to calculate the loss for a classification problem. I am using the following code:\n\n```\nloss = nn.CrossEntropyLoss()\nloss = loss(input, target)\n```\n\nHowever, I",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "incorrect",
+      "notes": "matched no must_include: class indices"
+    },
+    {
+      "id": "optim_training_loop_003",
+      "question": "What should I save in a checkpoint if I want to resume training later?",
+      "category": "optim_training_loop",
+      "gold_type": "usage",
+      "expected_symbols": [
+        "torch.save",
+        "Module.state_dict",
+        "Optimizer.state_dict"
+      ],
+      "must_include": [
+        "model.state_dict",
+        "optimizer.state_dict"
+      ],
+      "must_not_include": [
+        "save only generated text"
+      ],
+      "requires_citation": true,
+      "difficulty": "medium",
+      "answer": " I have a model that I want to resume training later. I have a checkpoint file that I want to resume training from. I have a model that I want to resume training later. I have a checkpoint file that I want to resume training",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "incorrect",
+      "notes": "matched no must_include: model.state_dict, optimizer.state_dict"
+    },
+    {
+      "id": "optim_training_loop_004",
+      "question": "When is gradient accumulation useful in training?",
+      "category": "optim_training_loop",
+      "gold_type": "definition",
+      "expected_symbols": [
+        "Tensor.backward",
+        "Optimizer.step"
+      ],
+      "must_include": [
+        "effective batch size"
+      ],
+      "must_not_include": [
+        "same as zeroing every micro-step"
+      ],
+      "requires_citation": true,
+      "difficulty": "hard",
+      "answer": " I am trying to understand the use of gradient accumulation in training. I have read that it is useful in training deep neural networks. But I am not sure what is the use of it in training a simple linear regression model. Can anyone explain",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "incorrect",
+      "notes": "matched no must_include: effective batch size"
+    },
+    {
+      "id": "data_loading_001",
+      "question": "What methods does a custom map-style PyTorch Dataset usually implement?",
+      "category": "data_loading",
+      "gold_type": "definition",
+      "expected_symbols": [
+        "Dataset.__len__",
+        "Dataset.__getitem__"
+      ],
+      "must_include": [
+        "__len__",
+        "__getitem__"
+      ],
+      "must_not_include": [
+        "fit"
+      ],
+      "requires_citation": true,
+      "difficulty": "easy",
+      "answer": " I have a dataset that I want to use for my model, but I'm not sure how to implement it. I have a dataset that looks like this:\n\n```python\ndata = torch.load('data.pt')\n```\n\nI want to",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "incorrect",
+      "notes": "matched no must_include: __len__, __getitem__"
+    },
+    {
+      "id": "data_loading_002",
+      "question": "When do I need a custom collate_fn in a DataLoader?",
+      "category": "data_loading",
+      "gold_type": "usage",
+      "expected_symbols": [
+        "DataLoader",
+        "collate_fn"
+      ],
+      "must_include": [
+        "batch",
+        "variable length"
+      ],
+      "must_not_include": [
+        "always required"
+      ],
+      "requires_citation": true,
+      "difficulty": "medium",
+      "answer": " I have a DataLoader that loads a dataset and then splits it into batches. I want to use a custom collate_fn to handle the batching. However, I'm not sure when I need to use a custom collate_fn. Can someone",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "partially_correct",
+      "notes": "exact matched: batch; fuzzy matched: none; missing: variable length"
+    },
+    {
+      "id": "data_loading_003",
+      "question": "Why might pin_memory help when training on cuda?",
+      "category": "data_loading",
+      "gold_type": "definition",
+      "expected_symbols": [
+        "DataLoader",
+        "pin_memory"
+      ],
+      "must_include": [
+        "host memory",
+        "cuda"
+      ],
+      "must_not_include": [
+        "moves tensors to gpu by itself"
+      ],
+      "requires_citation": true,
+      "difficulty": "hard",
+      "answer": " I am trying to train a model on a GPU using the following code:\n\n```\nimport torch\nimport torch.nn as nn\nimport torch.optim as optim\nimport torch.nn.functional as F\nimport torch.backends.cudnn as cudnn",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "incorrect",
+      "notes": "matched no must_include: host memory, cuda"
+    },
+    {
+      "id": "data_loading_004",
+      "question": "Should I usually shuffle the validation DataLoader, or keep it unshuffled?",
+      "category": "data_loading",
+      "gold_type": "usage",
+      "expected_symbols": [
+        "DataLoader"
+      ],
+      "must_include": [
+        "validation",
+        "unshuffled"
+      ],
+      "must_not_include": [
+        "must always shuffle validation"
+      ],
+      "requires_citation": true,
+      "difficulty": "medium",
+      "answer": " I am using PyTorch 1.1.0 and I am using the `torch.utils.data.DataLoader` to load my data. I have a validation DataLoader that I am using to evaluate my model. I am wondering if I",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "partially_correct",
+      "notes": "exact matched: validation; fuzzy matched: none; missing: unshuffled"
+    },
+    {
+      "id": "debugging_001",
+      "question": "Why does x.view(...) often fail after x = x.permute(...)?",
+      "category": "debugging",
+      "gold_type": "debugging",
+      "expected_symbols": [
+        "Tensor.view",
+        "Tensor.permute",
+        "Tensor.contiguous",
+        "Tensor.reshape"
+      ],
+      "must_include": [
+        "non-contiguous"
+      ],
+      "must_not_include": [
+        "permute copies and makes contiguous"
+      ],
+      "requires_citation": true,
+      "difficulty": "easy",
+      "answer": " I have a function that takes a list of lists and returns a list of lists. I am trying to use the `x.view(...)` method to transpose the list of lists. However, I am encountering an issue where `x.view(...",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "incorrect",
+      "notes": "matched no must_include: non-contiguous"
+    },
+    {
+      "id": "debugging_002",
+      "question": "Why does torch.cat fail when tensor sizes differ in a non-concatenated dimension?",
+      "category": "debugging",
+      "gold_type": "debugging",
+      "expected_symbols": [
+        "torch.cat"
+      ],
+      "must_include": [
+        "same size",
+        "other dimensions"
+      ],
+      "must_not_include": [
+        "PyTorch pads automatically"
+      ],
+      "requires_citation": true,
+      "difficulty": "easy",
+      "answer": " I am trying to concatenate two tensors along a new dimension, but I am encountering an issue where the tensor sizes differ in a non-concatenated dimension. Here is the code I am using:\n\n```python\nimport torch\nimport numpy",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "incorrect",
+      "notes": "matched no must_include: same size, other dimensions"
+    },
+    {
+      "id": "debugging_003",
+      "question": "Why can .item() only be called on a one-element tensor?",
+      "category": "debugging",
+      "gold_type": "debugging",
+      "expected_symbols": [
+        "Tensor.item"
+      ],
+      "must_include": [
+        "one element",
+        "scalar"
+      ],
+      "must_not_include": [
+        "returns None for larger tensors"
+      ],
+      "requires_citation": true,
+      "difficulty": "easy",
+      "answer": " I am trying to understand why .item() can only be called on a one-element tensor. I have seen this in the documentation, but I am not sure why it is the case. I have also seen this in the code, but",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "incorrect",
+      "notes": "matched no must_include: one element, scalar"
+    },
+    {
+      "id": "debugging_004",
+      "question": "Why is torch.argmax(x, dim=1) the wrong choice if I need maximum values instead of indices?",
+      "category": "debugging",
+      "gold_type": "debugging",
+      "expected_symbols": [
+        "torch.argmax",
+        "torch.max"
+      ],
+      "must_include": [
+        "indices",
+        "values"
+      ],
+      "must_not_include": [
+        "argmax returns the maximum values"
+      ],
+      "requires_citation": true,
+      "difficulty": "medium",
+      "answer": " I am trying to find the maximum values of a tensor. I have tried using torch.argmax(x, dim=1) and torch.max(x, dim=1) but I am getting different results. I am using PyTorch 1",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "partially_correct",
+      "notes": "exact matched: values; fuzzy matched: none; missing: indices"
+    },
+    {
+      "id": "hallucination_refusal_001",
+      "question": "What does torch.safe_backward() do?",
+      "category": "hallucination_refusal",
+      "gold_type": "hallucination_check",
+      "expected_symbols": [
+        "torch.safe_backward"
+      ],
+      "must_include": [
+        "does not exist"
+      ],
+      "must_not_include": [
+        "invented behavior"
+      ],
+      "requires_citation": false,
+      "difficulty": "easy",
+      "answer": " I am trying to understand the torch.safe_backward() function. I have read the documentation, but I am still not clear on what it does. Can someone please explain it to me? I have seen the following code:\n\n```python\nimport",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "incorrect",
+      "notes": "matched no must_include: does not exist"
+    },
+    {
+      "id": "hallucination_refusal_002",
+      "question": "How do I use nn.ShapeAlign in PyTorch?",
+      "category": "hallucination_refusal",
+      "gold_type": "hallucination_check",
+      "expected_symbols": [
+        "nn.ShapeAlign"
+      ],
+      "must_include": [
+        "does not exist"
+      ],
+      "must_not_include": [
+        "invented constructor"
+      ],
+      "requires_citation": false,
+      "difficulty": "easy",
+      "answer": " I am trying to align the shape of a tensor to a specific shape using nn.ShapeAlign. However, I am not sure how to use it. Can someone provide a clear example of how to use nn.ShapeAlign in PyTorch?",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "incorrect",
+      "notes": "matched no must_include: does not exist"
+    },
+    {
+      "id": "hallucination_refusal_003",
+      "question": "When should I switch from optim.Adam to optim.AdamFast?",
+      "category": "hallucination_refusal",
+      "gold_type": "hallucination_check",
+      "expected_symbols": [
+        "optim.AdamFast"
+      ],
+      "must_include": [
+        "does not exist"
+      ],
+      "must_not_include": [
+        "invented optimizer"
+      ],
+      "requires_citation": false,
+      "difficulty": "easy",
+      "answer": " I am using the following code to train a model with optim.Adam:\n\n```\noptimizer = optim.Adam(model.parameters(), lr=0.001, betas=(0.9, 0.999), eps=1",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "incorrect",
+      "notes": "matched no must_include: does not exist"
+    },
+    {
+      "id": "hallucination_refusal_004",
+      "question": "How can I call Tensor.auto_unsqueeze() before stacking tensors?",
+      "category": "hallucination_refusal",
+      "gold_type": "hallucination_check",
+      "expected_symbols": [
+        "Tensor.auto_unsqueeze"
+      ],
+      "must_include": [
+        "does not exist"
+      ],
+      "must_not_include": [
+        "invented method"
+      ],
+      "requires_citation": false,
+      "difficulty": "easy",
+      "answer": " I have a tensor of shape (1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,",
+      "citations": [],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "label": "incorrect",
+      "notes": "matched no must_include: does not exist"
+    }
+  ],
+  "summary": {
+    "total": 36,
+    "correct": 1,
+    "partially_correct": 9,
+    "incorrect": 26,
+    "overall_accuracy": 0.027777777777777776,
+    "citation_support_rate": 0.0,
+    "hallucination_refusal_accuracy": 0.0,
+    "per_category_accuracy": {
+      "autograd": 0.0,
+      "data_loading": 0.0,
+      "debugging": 0.0,
+      "dtype_device": 0.0,
+      "hallucination_refusal": 0.0,
+      "nn_module_modes": 0.0,
+      "optim_training_loop": 0.0,
+      "shape_ops": 0.0,
+      "tensor_creation": 0.25
+    }
+  }
+}

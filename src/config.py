@@ -20,6 +20,8 @@ CHECKPOINT_PATH = (
     CHECKPOINT_DIR
     / f"{MODEL_NAME.replace('/', '-')}-{DATASET_NAME}-{BATCH_SIZE}-{LEARNING_RATE}.pt"
 )
+BENCHMARK_DATA_PATH = Path("./data/eval/benchmark_core_pytorch.jsonl")
+BENCHMARK_RESULTS_DIR = Path("./experiments/eval_results/benchmark")
 
 MODE_BASELINE = "baseline"
 MODE_TRAIN = "train"
@@ -27,7 +29,7 @@ MODE_RESUME = "resume"
 MODE_EVALUATE = "evaluate"
 MODE_INFERENCE = "inference"
 MODE_RAG_EVALUATE = "rag_evaluate"
-MODE = MODE_RAG_EVALUATE
+MODE = MODE_BASELINE
 
 RAG_RETRIEVAL_TITLE_TOKEN_WEIGHT = 5
 RAG_RETRIEVAL_TAG_TOKEN_WEIGHT = 3
