@@ -1,4 +1,5 @@
 from typing import TypedDict, Literal, NotRequired
+from collections.abc import Callable
 
 BenchmarkCategory = Literal[
     "tensor_creation",
@@ -51,6 +52,9 @@ class BenchmarkAnswer(TypedDict):
     used_symbols: list[str]
     abstained: bool
     confidence_band: BenchmarkConfidenceBand
+
+
+BenchmarkAnswerFn = Callable[[str], BenchmarkAnswer]
 
 
 class BenchmarkResultItem(BenchmarkItem):
