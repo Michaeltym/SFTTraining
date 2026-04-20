@@ -38,6 +38,7 @@ class BenchmarkItem(TypedDict):
     gold_type: BenchmarkGoldType
     expected_symbols: list[str]
     must_include: list[str]
+    must_include_any_of: NotRequired[list[list[str]]]
     must_not_include: list[str]
     requires_citation: bool
     difficulty: BenchmarkDifficulty

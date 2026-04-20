@@ -142,15 +142,6 @@ The key decision for this phase was whether the project should keep pushing the 
   - the expanded exact-routing keywords can stay
   - the stable best result remains `25 / 8 / 3`
   - file: [hybrid_with_base_model-hybrid_with_base_model-Qwen-Qwen2.5-1.5B-2026-04-16-213423.json](../eval_results/benchmark/hybrid_with_base_model-hybrid_with_base_model-Qwen-Qwen2.5-1.5B-2026-04-16-213423.json)
-- `debugging_002` improved in wording after exact-prompt tightening, but still remained benchmark-incorrect because the scorer did not accept its constraint phrasing.
-- The current judgment for that item is:
-  - treat it as a scorer wording limitation
-  - do not keep spending mainline iteration budget on it
-- The same applies to:
-  - `optim_training_loop_002`
-- The only remaining clearly interesting hard case that is not just scorer wording is:
-  - `hallucination_refusal_003`
-  - this should be treated as a mixed real/fake API policy problem rather than a corpus coverage problem
 
 ## Current Conclusion
 
@@ -175,8 +166,8 @@ The key decision for this phase was whether the project should keep pushing the 
 - The current router should not re-enable:
   - `has_unmatched_query_symbol`
 - The current benchmark interpretation should also remember:
-  - `debugging_002` is best treated as a scorer wording limitation
-  - `optim_training_loop_002` is best treated as a scorer wording limitation
+  - `debugging_002` and `optim_training_loop_002` look like scorer wording limitations rather than model limitations
+  - these should be revisited either by scorer improvement or by curated accepted-phrase lists, not by more prompt churn
 
 ## Next Step
 
@@ -189,10 +180,7 @@ The key decision for this phase was whether the project should keep pushing the 
   - treat `hallucination_refusal_003` as a mixed real/fake API policy problem, not a corpus coverage problem
   - avoid aggressive refusal heuristics on the mainline
 - Freeze the current mainline before opening any new branch of work.
-- Do not spend more mainline iteration budget trying to rescue:
-  - `debugging_002`
-  - `optim_training_loop_002`
-  through prompt churn alone.
+- Do not spend more mainline iteration budget trying to rescue already-fixed scorer wording issues through prompt churn.
 - Do not spend more mainline iteration budget on refusal prompting for `0.5B`.
 - If later needed, run a more formal remote experiment:
   - `Qwen/Qwen2.5-1.5B + SFT/LoRA + hybrid`
@@ -204,7 +192,7 @@ The key decision for this phase was whether the project should keep pushing the 
 
 - Benchmark scoring limitations should be remembered when reading the current numbers:
   - `tensor_creation_002` and similar comparison questions can still expose rule-based scorer blind spots
-  - `hallucination_refusal` currently undercounts semantically correct refusals because the wording rules are narrow
+  - `hallucination_refusal` still undercounts mixed real/fake API failures such as `hallucination_refusal_003`
 - The current best run is not completely “clean truth”:
   - some remaining `correct` labels are still vulnerable to scorer shallow matching
   - some remaining `partial` labels are likely wording/scorer strictness rather than retrieval failures

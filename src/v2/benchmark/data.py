@@ -10,6 +10,7 @@ def load_benchmark_data(file_path: str) -> list[BenchmarkItem]:
     benchmark_items: list[BenchmarkItem] = []
 
     for item in rows:
+        must_include_any_of = item.get("must_include_any_of") or []
         benchmark_item: BenchmarkItem = {
             "id": item["id"],
             "question": item["question"],
@@ -17,6 +18,7 @@ def load_benchmark_data(file_path: str) -> list[BenchmarkItem]:
             "gold_type": item["gold_type"],
             "expected_symbols": item["expected_symbols"],
             "must_include": item["must_include"],
+            "must_include_any_of": must_include_any_of,
             "must_not_include": item["must_not_include"],
             "requires_citation": item["requires_citation"],
             "difficulty": item["difficulty"],

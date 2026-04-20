@@ -28,19 +28,25 @@ EXACT_PROMPT_QUERY_KEYWORDS = [
 ]
 
 
-def should_use_refusal_prompt(result: RetrievalResult) -> bool:
+def should_use_refusal_prompt(
+    result: RetrievalResult,
+    matched_symbols: list[str],
+    unconfirmed_symbols: list[str],
+) -> bool:
     retrieved_docs = result["retrieved_docs"]
     debug = result["debug"]
     symbol_hit_doc_ids = debug["symbol_hit_doc_ids"]
     lexical_top_k = debug["lexical_top_k"]
 
-    return len(retrieved_docs) == 0 or (
+    base_refusal = len(retrieved_docs) == 0 or (
         len(symbol_hit_doc_ids) == 0
         and (
             len(lexical_top_k) == 0
             or lexical_top_k[0]["score"] < HALLUCINATION_REFUSAL_THRESHOLD
         )
     )
+    mixed_real_and_fake = len(matched_symbols) > 0 and len(unconfirmed_symbols) > 0
+    return base_refusal or mixed_real_and_fake
 
 
 def should_use_exact_prompt(query: str) -> bool:
@@ -51,16 +57,13 @@ def should_use_exact_prompt(query: str) -> bool:
 def build_context(
     result: RetrievalResult,
     corpus_lookup: dict[str, CorpusChunk],
-    query: str,
     should_use_refusal: bool,
+    query_symbols: list[str],
+    matched_symbols: list[str],
+    unconfirmed_symbols: list[str],
 ) -> str:
-    query_symbols = extract_symbols(query)
     verification_block = ""
     if query_symbols:
-        matched_symbols = list(
-            dict.fromkeys([s["query_symbol"] for s in result["matched_symbols"]])
-        )
-        unconfirmed_symbols = [qs for qs in query_symbols if qs not in matched_symbols]
         verification_block = "\n".join(
             [
                 "Query symbol verification:",
@@ -97,19 +100,34 @@ def build_hybrid_prompt(
     result: RetrievalResult, query: str, corpus_lookup: dict[str, CorpusChunk]
 ) -> BuildPromptResult:
 
-    should_use_refusal = should_use_refusal_prompt(result=result)
+    query_symbols = extract_symbols(query)
+    matched_symbols: list[str] = []
+    unconfirmed_symbols: list[str] = []
+    if query_symbols:
+        matched_symbols = list(
+            dict.fromkeys([s["query_symbol"] for s in result["matched_symbols"]])
+        )
+        unconfirmed_symbols = [qs for qs in query_symbols if qs not in matched_symbols]
+    should_use_refusal = should_use_refusal_prompt(
+        result=result,
+        matched_symbols=matched_symbols,
+        unconfirmed_symbols=unconfirmed_symbols,
+    )
     should_use_exact = should_use_exact_prompt(query=query)
     context = build_context(
         result=result,
         corpus_lookup=corpus_lookup,
-        query=query,
         should_use_refusal=should_use_refusal,
+        query_symbols=query_symbols,
+        matched_symbols=matched_symbols,
+        unconfirmed_symbols=unconfirmed_symbols,
     )
     if should_use_refusal:
         return {
             "prompt": build_refusal_prompt(
                 query=query,
                 context=context,
+                unconfirmed_symbols=unconfirmed_symbols,
             ),
             "should_use_refusal": should_use_refusal,
         }
@@ -126,6 +144,7 @@ def build_hybrid_prompt(
         "prompt": build_reasoning_prompt(
             query=query,
             context=context,
+            unconfirmed_symbols=unconfirmed_symbols,
         ),
         "should_use_refusal": False,
     }

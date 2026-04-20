@@ -602,6 +602,15 @@
       "unsqueeze"
     ]
   },
+  "Tensor.permute": {
+    "symbol": "Tensor.permute",
+    "doc_ids": [
+      "api_docs_tensor_permute"
+    ],
+    "aliases": [
+      "permute"
+    ]
+  },
   "Tensor.dtype": {
     "symbol": "Tensor.dtype",
     "doc_ids": [

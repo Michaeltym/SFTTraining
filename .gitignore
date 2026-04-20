@@ -5,6 +5,7 @@ __pycache__/
 
 data/checkpoints/
 data/hf_home/
+data/output/cache/hf_datasets
 data/adapters/
 .env
 .vscode

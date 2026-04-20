@@ -20,7 +20,7 @@ CHECKPOINT_PATH = (
     CHECKPOINT_DIR
     / f"{MODEL_NAME.replace('/', '-')}-{DATASET_NAME}-{BATCH_SIZE}-{LEARNING_RATE}.pt"
 )
-BENCHMARK_NAME = "smoke"
+BENCHMARK_NAME = "core"
 BENCHMARK_DATA_PATH = Path(f"./data/eval/benchmark_{BENCHMARK_NAME}_pytorch.jsonl")
 BENCHMARK_RESULTS_DIR = Path("./experiments/eval_results/benchmark")
 PYTORCH_DOCS_SOURCE_DIR = Path("./data/source/pytorch_docs")
