@@ -143,7 +143,8 @@ def match_required_phrases(
         "fuzzy_matches": fuzzy_requirement_matches,
         "fuzzy_logs": fuzzy_match_logs,
         "missing": missing_requirements,
-        "matched_count": len(exact_requirement_matches) + len(fuzzy_requirement_matches),
+        "matched_count": len(exact_requirement_matches)
+        + len(fuzzy_requirement_matches),
     }
 
 
@@ -191,7 +192,9 @@ def match_any_of_groups(
     missing_any_of_groups = [
         group
         for group in required_any_of_groups
-        if not any(match["group"] == group for match in matched_any_of_requirement_groups)
+        if not any(
+            match["group"] == group for match in matched_any_of_requirement_groups
+        )
     ]
 
     return {
@@ -214,15 +217,19 @@ def build_label_notes(
         symbol for symbol in expected_symbols if symbol not in matched_expected_symbols
     ]
     missing_expected_symbols_log = ", ".join(missing_expected_symbols) or "none"
-    matched_any_of_groups_log = ", ".join(
-        [
-            f"group {match["group"]} matched: {match["matched"]}"
-            for match in any_of_match_result["matched_groups"]
-        ]
-    ) or "none"
-    missing_any_of_groups_log = ", ".join(
-        [str(group) for group in any_of_match_result["missing_groups"]]
-    ) or "none"
+    matched_any_of_groups_log = (
+        ", ".join(
+            [
+                f"group {match['group']} matched: {match['matched']}"
+                for match in any_of_match_result["matched_groups"]
+            ]
+        )
+        or "none"
+    )
+    missing_any_of_groups_log = (
+        ", ".join([str(group) for group in any_of_match_result["missing_groups"]])
+        or "none"
+    )
 
     return (
         f"exact matched: {exact_match_log}; "
@@ -290,4 +297,7 @@ def get_benchmark_label(item: BenchmarkItem, answer: str) -> tuple[BenchmarkLabe
         or len(any_of_match_result["matched_groups"]) > 0
     ):
         return "partially_correct", notes
-    return "incorrect", f"matched no must_include: {', '.join(phrase_match_result['missing']) or 'none'}"
+    return (
+        "incorrect",
+        f"matched no must_include: {', '.join(phrase_match_result['missing']) or 'none'}",
+    )
