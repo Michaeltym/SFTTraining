@@ -15,8 +15,7 @@ def tokenize_text(text: str) -> list[str]:
     return normalize_text(text).split()
 
 
-def score_chunk_lexically(query: str, chunk: CorpusChunk) -> LexicalHit:
-    query_tokens = tokenize_text(query)
+def score_chunk_lexically(query_tokens: list[str], chunk: CorpusChunk) -> LexicalHit:
     title_tokens = tokenize_text(chunk["title"])
     text_tokens = tokenize_text(chunk["text"])
     aliases_tokens = [
@@ -39,7 +38,11 @@ def score_chunk_lexically(query: str, chunk: CorpusChunk) -> LexicalHit:
 def retrieve_by_lexical(
     query: str, corpus: list[CorpusChunk], top_k: int
 ) -> list[LexicalHit]:
-    lexical_hits = [score_chunk_lexically(query=query, chunk=chunk) for chunk in corpus]
+    query_tokens = tokenize_text(query)
+    lexical_hits = [
+        score_chunk_lexically(query_tokens=query_tokens, chunk=chunk)
+        for chunk in corpus
+    ]
     return sorted(
         [lexical_hit for lexical_hit in lexical_hits if lexical_hit["score"] > 0],
         key=lambda score_chunk: score_chunk["score"],

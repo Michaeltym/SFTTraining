@@ -78,20 +78,25 @@ def retrieve_hybrid(
     query: str,
     corpus: list[CorpusChunk],
     symbol_index: SymbolIndex,
-    top_k: int = 6,
-    lexical_top_k: int = 10,
+    corpus_lookup: dict[str, CorpusChunk],
+    top_k: int = 3,
+    lexical_top_k: int = 5,
 ) -> RetrievalResult:
     symbol_result = retrieve_by_symbol(
-        query=query, corpus=corpus, symbol_index=symbol_index
+        query=query,
+        symbol_index=symbol_index,
+        corpus_lookup=corpus_lookup,
     )
     symbol_retrieved_docs = symbol_result["retrieved_docs"]
-    lexical_result = retrieve_by_lexical(
-        query=query, corpus=corpus, top_k=lexical_top_k
-    )
-    lexical_retrieved_docs = [
-        build_lexical_retrieved_doc(lexical_hit=lexical_hit)
-        for lexical_hit in lexical_result
-    ]
+    lexical_retrieved_docs = []
+    if len(symbol_retrieved_docs) < top_k:
+        lexical_result = retrieve_by_lexical(
+            query=query, corpus=corpus, top_k=lexical_top_k
+        )
+        lexical_retrieved_docs = [
+            build_lexical_retrieved_doc(lexical_hit=lexical_hit)
+            for lexical_hit in lexical_result
+        ]
     final_docs = merge_hybrid_docs(
         symbol_docs=symbol_retrieved_docs,
         lexical_hits=lexical_retrieved_docs,

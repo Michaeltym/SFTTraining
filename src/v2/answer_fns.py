@@ -5,8 +5,9 @@ from src.rag.inference import run_inference
 from src.v2.benchmark.types import BenchmarkAnswer, BenchmarkAnswerFn
 from src.v2.retrieval.hybrid import retrieve_hybrid
 from src.v2.retrieval.load import load_corpus, load_symbol_index
-from src.v2.retrieval.types import RetrievedDoc
-from src.v2.corpus.types import CorpusChunk
+from src.v2.retrieval.types import RetrievalResult
+from src.v2.corpus.build import extract_symbols
+from src.v2.prompts.router import build_hybrid_prompt
 
 
 def build_plain_generation_answer_fn(
@@ -52,53 +53,6 @@ def build_rag_answer_fn(model: Any, tokenizer: Any) -> BenchmarkAnswerFn:
     return answer_fn
 
 
-def build_hybrid_prompt(
-    retrieved_docs: list[RetrievedDoc],
-    query: str,
-    corpus_lookup: dict[str, CorpusChunk],
-) -> str:
-    context_blocks = []
-    for i, doc in enumerate(retrieved_docs, start=1):
-        if doc["doc_id"] in corpus_lookup:
-            chunk = corpus_lookup[doc["doc_id"]]
-            context_blocks.append(
-                "\n".join(
-                    [
-                        f"Context {i}:",
-                        f"Title: {chunk['title']}",
-                        f"URL: {chunk['url']}",
-                        f"Source Type: {chunk['source_type']}",
-                        f"Content: {chunk['text']}",
-                    ]
-                )
-            )
-
-    contexts = (
-        "\n\n".join(context_blocks)
-        if context_blocks
-        else "No supporting context found."
-    )
-    instructions = [
-        "You are a PyTorch API assistant.",
-        "Answer the question using the provided context.",
-        "If the context is insufficient, say you are not sure.",
-        "Reply with only the answer.",
-    ]
-    return "\n".join(
-        instructions
-        + [
-            "",
-            f"Question: {query}",
-            "",
-            "Context:",
-            "",
-            contexts,
-            "",
-            "Answer:",
-        ]
-    )
-
-
 def build_hybrid_answer_fn(model: Any, tokenizer: Any) -> BenchmarkAnswerFn:
     corpus = load_corpus()
     symbol_index = load_symbol_index()
@@ -106,13 +60,18 @@ def build_hybrid_answer_fn(model: Any, tokenizer: Any) -> BenchmarkAnswerFn:
 
     def answer_fn(question: str) -> BenchmarkAnswer:
         result = retrieve_hybrid(
-            query=question, corpus=corpus, symbol_index=symbol_index
+            query=question,
+            corpus=corpus,
+            symbol_index=symbol_index,
+            corpus_lookup=corpus_lookup,
         )
         docs = result["retrieved_docs"]
+        prompt_result = build_hybrid_prompt(
+            result=result, query=question, corpus_lookup=corpus_lookup
+        )
+        should_use_refusal = prompt_result["should_use_refusal"]
         inputs = tokenizer(
-            build_hybrid_prompt(
-                retrieved_docs=docs, query=question, corpus_lookup=corpus_lookup
-            ),
+            prompt_result["prompt"],
             return_tensors="pt",
         ).to(model.device)
         outputs = model.generate(
@@ -127,12 +86,14 @@ def build_hybrid_answer_fn(model: Any, tokenizer: Any) -> BenchmarkAnswerFn:
 
         return {
             "answer": answer,
-            "citations": [{"title": doc["title"], "url": doc["url"]} for doc in docs],
-            "used_symbols": [
-                matched["matched_symbol"] for matched in result["matched_symbols"]
-            ],
-            "abstained": False,
-            "confidence_band": "high",
+            "citations": (
+                []
+                if should_use_refusal
+                else [{"title": doc["title"], "url": doc["url"]} for doc in docs]
+            ),
+            "used_symbols": extract_symbols(answer),
+            "abstained": should_use_refusal,
+            "confidence_band": "low" if should_use_refusal else "high",
             "retrieval_debug": result["debug"],
         }
 

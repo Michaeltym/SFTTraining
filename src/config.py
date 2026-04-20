@@ -1,7 +1,7 @@
 from pathlib import Path
 
-MODEL_NAME = "Qwen/Qwen2.5-0.5B"
-MAX_NEW_TOKENS = 48
+MODEL_NAME = "Qwen/Qwen2.5-1.5B"
+MAX_NEW_TOKENS = 128
 RAG_MAX_NEW_TOKENS = 64
 USE_CHAT_TEMPLATE = False
 BATCH_SIZE = 8
@@ -20,7 +20,8 @@ CHECKPOINT_PATH = (
     CHECKPOINT_DIR
     / f"{MODEL_NAME.replace('/', '-')}-{DATASET_NAME}-{BATCH_SIZE}-{LEARNING_RATE}.pt"
 )
-BENCHMARK_DATA_PATH = Path("./data/eval/benchmark_core_pytorch.jsonl")
+BENCHMARK_NAME = "smoke"
+BENCHMARK_DATA_PATH = Path(f"./data/eval/benchmark_{BENCHMARK_NAME}_pytorch.jsonl")
 BENCHMARK_RESULTS_DIR = Path("./experiments/eval_results/benchmark")
 PYTORCH_DOCS_SOURCE_DIR = Path("./data/source/pytorch_docs")
 PYTORCH_CORPUS_OUTPUT_PATH = Path("./data/output/cache/pytorch_corpus.jsonl")
@@ -33,7 +34,8 @@ MODE_EVALUATE = "evaluate"
 MODE_INFERENCE = "inference"
 MODE_RAG_EVALUATE = "rag_evaluate"
 MODE_HYBRID = "hybrid"
-MODE = MODE_HYBRID
+MODE_HYBRID_WITH_BASE_MODEL = "hybrid_with_base_model"
+MODE = MODE_HYBRID_WITH_BASE_MODEL
 
 RAG_RETRIEVAL_TITLE_TOKEN_WEIGHT = 5
 RAG_RETRIEVAL_TAG_TOKEN_WEIGHT = 3
@@ -58,3 +60,5 @@ LORA_TARGET_MODULES = [
     "up_proj",
     "down_proj",
 ]
+
+HALLUCINATION_REFUSAL_THRESHOLD = 3

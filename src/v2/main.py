@@ -16,6 +16,7 @@ from src.config import (
     MODE_EVALUATE,
     MODE_RAG_EVALUATE,
     MODE_HYBRID,
+    MODE_HYBRID_WITH_BASE_MODEL,
     CHECKPOINT_PATH,
 )
 
@@ -29,6 +30,7 @@ if __name__ == "__main__":
     if MODE == MODE_BASELINE:
         model = load_model(model_name=MODEL_NAME)
         model.to(device)
+        model.eval()
         tokenizer = load_tokenizer(model_name=MODEL_NAME)
         answer_fn = build_plain_generation_answer_fn(model=model, tokenizer=tokenizer)
 
@@ -77,5 +79,17 @@ if __name__ == "__main__":
             system_name="hybrid",
             model_name=model_name,
             mode=MODE_HYBRID,
+            answer_fn=answer_fn,
+        )
+    if MODE == MODE_HYBRID_WITH_BASE_MODEL:
+        model = load_model(model_name=MODEL_NAME)
+        model.to(device)
+        model.eval()
+        tokenizer = load_tokenizer(model_name=MODEL_NAME)
+        answer_fn = build_hybrid_answer_fn(model=model, tokenizer=tokenizer)
+        run_benchmark(
+            system_name="hybrid_with_base_model",
+            model_name=MODEL_NAME,
+            mode=MODE_HYBRID_WITH_BASE_MODEL,
             answer_fn=answer_fn,
         )

@@ -96,7 +96,9 @@ def lookup_symbol_matches(
 
 
 def retrieve_by_symbol(
-    query: str, corpus: list[CorpusChunk], symbol_index: SymbolIndex
+    query: str,
+    symbol_index: SymbolIndex,
+    corpus_lookup: dict[str, CorpusChunk],
 ) -> RetrievalResult:
     debug: RetrievalDebug = {
         "symbol_hit_doc_ids": [],
@@ -114,14 +116,13 @@ def retrieve_by_symbol(
         query_symbols=query_symbols,
         symbol_index=symbol_index,
     )
-    chunks_by_id = {chunk["doc_id"]: chunk for chunk in corpus}
     for matched_doc in matched_docs:
         matched_symbols = matched_doc["matched_symbols"]
         doc_id = matched_doc["doc_id"]
         if doc_id not in result["debug"]["symbol_hit_doc_ids"]:
             result["debug"]["symbol_hit_doc_ids"].append(doc_id)
-        if doc_id in chunks_by_id:
-            chunk = chunks_by_id[doc_id]
+        if doc_id in corpus_lookup:
+            chunk = corpus_lookup[doc_id]
             result["retrieved_docs"].append(
                 {
                     **matched_doc,
@@ -137,11 +138,3 @@ def retrieve_by_symbol(
             )
 
     return result
-
-
-if __name__ == "__main__":
-    query = "what's is Tensor.backward"
-    corpus = load_corpus()
-    symbol_index = load_symbol_index()
-    result = retrieve_by_symbol(query=query, corpus=corpus, symbol_index=symbol_index)
-    print(result)

@@ -248,6 +248,29 @@ Evaluation should include both:
 
 If possible, keep a fixed prompt set under version control.
 
+### Benchmark Scoring Rules
+
+For benchmark label rules such as:
+
+- `must_include`
+- `must_not_include`
+- `expected_symbols`
+
+do not tailor the benchmark data to match the current model's exact answer wording.
+
+In particular:
+
+- do not add or edit `must_not_include` just to catch one current generated sentence pattern
+- do not make benchmark rules depend on the current model's phrasing quirks
+- prefer stable, semantics-level constraints over rules that chase today's output wording
+
+If a false positive or false negative only appears because the scorer is too shallow to judge semantic correctness, prefer:
+
+- recording it as a known scorer limitation
+- using manual spot checks for a small number of comparison/debugging cases
+
+rather than overfitting benchmark rules to one model snapshot.
+
 ## Output Layout
 
 Recommended output areas:

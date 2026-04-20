@@ -1,4 +1,127 @@
 {
+  "torch.tensor": {
+    "symbol": "torch.tensor",
+    "doc_ids": [
+      "api_docs_torch_tensor"
+    ],
+    "aliases": [
+      "tensor"
+    ]
+  },
+  "torch.device": {
+    "symbol": "torch.device",
+    "doc_ids": [
+      "api_docs_torch_tensor"
+    ],
+    "aliases": [
+      "device"
+    ]
+  },
+  "torch.as_tensor": {
+    "symbol": "torch.as_tensor",
+    "doc_ids": [
+      "api_docs_torch_tensor",
+      "api_docs_torch_as_tensor"
+    ],
+    "aliases": [
+      "as_tensor"
+    ]
+  },
+  "torch.from_numpy": {
+    "symbol": "torch.from_numpy",
+    "doc_ids": [
+      "api_docs_torch_tensor",
+      "api_docs_torch_as_tensor",
+      "api_docs_torch_from_numpy"
+    ],
+    "aliases": [
+      "from_numpy"
+    ]
+  },
+  "torch.clone": {
+    "symbol": "torch.clone",
+    "doc_ids": [
+      "api_docs_torch_tensor"
+    ],
+    "aliases": [
+      "clone"
+    ]
+  },
+  "torch.float32": {
+    "symbol": "torch.float32",
+    "doc_ids": [
+      "api_docs_torch_tensor",
+      "api_docs_torch_zeros",
+      "api_docs_torch_zeros_like",
+      "api_docs_tensor_dtype",
+      "api_docs_torch_float32",
+      "api_docs_torch_float16",
+      "api_docs_torch_matmul"
+    ],
+    "aliases": [
+      "float32"
+    ]
+  },
+  "torch.zeros": {
+    "symbol": "torch.zeros",
+    "doc_ids": [
+      "api_docs_torch_zeros",
+      "api_docs_torch_zeros_like",
+      "api_docs_tensor_dtype",
+      "api_docs_torch_float32"
+    ],
+    "aliases": [
+      "zeros"
+    ]
+  },
+  "torch.strided": {
+    "symbol": "torch.strided",
+    "doc_ids": [
+      "api_docs_torch_zeros"
+    ],
+    "aliases": [
+      "strided"
+    ]
+  },
+  "torch.set_default_dtype": {
+    "symbol": "torch.set_default_dtype",
+    "doc_ids": [
+      "api_docs_torch_zeros"
+    ],
+    "aliases": [
+      "set_default_dtype"
+    ]
+  },
+  "torch.zeros_like": {
+    "symbol": "torch.zeros_like",
+    "doc_ids": [
+      "api_docs_torch_zeros",
+      "api_docs_torch_zeros_like"
+    ],
+    "aliases": [
+      "zeros_like"
+    ]
+  },
+  "torch.nn.init": {
+    "symbol": "torch.nn.init",
+    "doc_ids": [
+      "api_docs_torch_zeros"
+    ],
+    "aliases": [
+      "nn.init",
+      "nn init",
+      "init"
+    ]
+  },
+  "torch.preserve_format": {
+    "symbol": "torch.preserve_format",
+    "doc_ids": [
+      "api_docs_torch_zeros_like"
+    ],
+    "aliases": [
+      "preserve_format"
+    ]
+  },
   "torch.Tensor.backward": {
     "symbol": "torch.Tensor.backward",
     "doc_ids": [
@@ -7,6 +130,15 @@
     "aliases": [
       "Tensor.backward",
       "Tensor backward",
+      "backward"
+    ]
+  },
+  "Tensor.backward": {
+    "symbol": "Tensor.backward",
+    "doc_ids": [
+      "api_docs_torch_tensor_backward"
+    ],
+    "aliases": [
       "backward"
     ]
   },
@@ -21,6 +153,54 @@
       "zero_grad"
     ]
   },
+  "Optimizer.zero_grad": {
+    "symbol": "Optimizer.zero_grad",
+    "doc_ids": [
+      "api_docs_optimizer_zero_grad"
+    ],
+    "aliases": [
+      "zero_grad"
+    ]
+  },
+  "optimizer.zero_grad": {
+    "symbol": "optimizer.zero_grad",
+    "doc_ids": [
+      "api_docs_optimizer_zero_grad",
+      "api_docs_optimizer_step",
+      "api_docs_optim_sgd",
+      "api_docs_optim_adam",
+      "api_docs_tensor_grad"
+    ],
+    "aliases": [
+      "zero_grad"
+    ]
+  },
+  "loss.backward": {
+    "symbol": "loss.backward",
+    "doc_ids": [
+      "api_docs_optimizer_zero_grad",
+      "api_docs_optimizer_step",
+      "api_docs_optim_sgd",
+      "api_docs_optim_adam",
+      "api_docs_tensor_requires_grad",
+      "api_docs_tensor_grad"
+    ],
+    "aliases": [
+      "backward"
+    ]
+  },
+  "optimizer.step": {
+    "symbol": "optimizer.step",
+    "doc_ids": [
+      "api_docs_optimizer_zero_grad",
+      "api_docs_optim_sgd",
+      "api_docs_optim_adam",
+      "api_docs_torch_checkpoint"
+    ],
+    "aliases": [
+      "step"
+    ]
+  },
   "torch.optim.Optimizer.step": {
     "symbol": "torch.optim.Optimizer.step",
     "doc_ids": [
@@ -30,6 +210,781 @@
       "Optimizer.step",
       "Optimizer step",
       "step"
+    ]
+  },
+  "Optimizer.step": {
+    "symbol": "Optimizer.step",
+    "doc_ids": [
+      "api_docs_optimizer_step"
+    ],
+    "aliases": [
+      "step"
+    ]
+  },
+  "parameter.grad": {
+    "symbol": "parameter.grad",
+    "doc_ids": [
+      "api_docs_optimizer_step"
+    ],
+    "aliases": [
+      "grad"
+    ]
+  },
+  "param.grad": {
+    "symbol": "param.grad",
+    "doc_ids": [
+      "api_docs_optimizer_step",
+      "api_docs_optim_sgd"
+    ],
+    "aliases": [
+      "grad"
+    ]
+  },
+  "optimizer.state_dict": {
+    "symbol": "optimizer.state_dict",
+    "doc_ids": [
+      "api_docs_optimizer_step",
+      "api_docs_optim_sgd",
+      "api_docs_optim_adam"
+    ],
+    "aliases": [
+      "state_dict"
+    ]
+  },
+  "optimizer.load_state_dict": {
+    "symbol": "optimizer.load_state_dict",
+    "doc_ids": [
+      "api_docs_optimizer_step",
+      "api_docs_optim_sgd"
+    ],
+    "aliases": [
+      "load_state_dict"
+    ]
+  },
+  "model.state_dict": {
+    "symbol": "model.state_dict",
+    "doc_ids": [
+      "api_docs_optimizer_step",
+      "api_docs_optim_adam"
+    ],
+    "aliases": [
+      "state_dict"
+    ]
+  },
+  "nn.CrossEntropyLoss": {
+    "symbol": "nn.CrossEntropyLoss",
+    "doc_ids": [
+      "api_docs_nn_cross_entropy_loss"
+    ],
+    "aliases": [
+      "CrossEntropyLoss"
+    ]
+  },
+  "torch.nn.CrossEntropyLoss": {
+    "symbol": "torch.nn.CrossEntropyLoss",
+    "doc_ids": [
+      "api_docs_nn_cross_entropy_loss"
+    ],
+    "aliases": [
+      "nn.CrossEntropyLoss",
+      "nn CrossEntropyLoss",
+      "CrossEntropyLoss"
+    ]
+  },
+  "nn.LogSoftmax": {
+    "symbol": "nn.LogSoftmax",
+    "doc_ids": [
+      "api_docs_nn_cross_entropy_loss"
+    ],
+    "aliases": [
+      "LogSoftmax"
+    ]
+  },
+  "nn.NLLLoss": {
+    "symbol": "nn.NLLLoss",
+    "doc_ids": [
+      "api_docs_nn_cross_entropy_loss"
+    ],
+    "aliases": [
+      "NLLLoss"
+    ]
+  },
+  "torch.optim.SGD": {
+    "symbol": "torch.optim.SGD",
+    "doc_ids": [
+      "api_docs_optim_sgd"
+    ],
+    "aliases": [
+      "optim.SGD",
+      "optim SGD",
+      "SGD"
+    ]
+  },
+  "torch.optim.Adam": {
+    "symbol": "torch.optim.Adam",
+    "doc_ids": [
+      "api_docs_optim_adam"
+    ],
+    "aliases": [
+      "optim.Adam",
+      "optim Adam",
+      "Adam"
+    ]
+  },
+  "torch.utils.checkpoint.checkpoint": {
+    "symbol": "torch.utils.checkpoint.checkpoint",
+    "doc_ids": [
+      "api_docs_torch_checkpoint"
+    ],
+    "aliases": [
+      "checkpoint.checkpoint",
+      "checkpoint checkpoint",
+      "checkpoint"
+    ]
+  },
+  "torch.utils.checkpoint.checkpoint_sequential": {
+    "symbol": "torch.utils.checkpoint.checkpoint_sequential",
+    "doc_ids": [
+      "api_docs_torch_checkpoint"
+    ],
+    "aliases": [
+      "checkpoint.checkpoint_sequential",
+      "checkpoint checkpoint_sequential",
+      "checkpoint_sequential"
+    ]
+  },
+  "torch.cuda.amp.GradScaler": {
+    "symbol": "torch.cuda.amp.GradScaler",
+    "doc_ids": [
+      "api_docs_torch_gradscaler"
+    ],
+    "aliases": [
+      "amp.GradScaler",
+      "amp GradScaler",
+      "GradScaler"
+    ]
+  },
+  "torch.cuda.amp.autocast": {
+    "symbol": "torch.cuda.amp.autocast",
+    "doc_ids": [
+      "api_docs_torch_gradscaler",
+      "api_docs_torch_float16"
+    ],
+    "aliases": [
+      "amp.autocast",
+      "amp autocast",
+      "autocast"
+    ]
+  },
+  "scaler.scale": {
+    "symbol": "scaler.scale",
+    "doc_ids": [
+      "api_docs_torch_gradscaler"
+    ],
+    "aliases": [
+      "scale"
+    ]
+  },
+  "scaler.step": {
+    "symbol": "scaler.step",
+    "doc_ids": [
+      "api_docs_torch_gradscaler"
+    ],
+    "aliases": [
+      "step"
+    ]
+  },
+  "scaler.update": {
+    "symbol": "scaler.update",
+    "doc_ids": [
+      "api_docs_torch_gradscaler"
+    ],
+    "aliases": [
+      "update"
+    ]
+  },
+  "Tensor.requires_grad": {
+    "symbol": "Tensor.requires_grad",
+    "doc_ids": [
+      "api_docs_tensor_requires_grad"
+    ],
+    "aliases": [
+      "requires_grad"
+    ]
+  },
+  "nn.Module": {
+    "symbol": "nn.Module",
+    "doc_ids": [
+      "api_docs_tensor_requires_grad"
+    ],
+    "aliases": [
+      "Module"
+    ]
+  },
+  "tensor.requires_grad_": {
+    "symbol": "tensor.requires_grad_",
+    "doc_ids": [
+      "api_docs_tensor_requires_grad"
+    ],
+    "aliases": [
+      "requires_grad_"
+    ]
+  },
+  "model.parameters": {
+    "symbol": "model.parameters",
+    "doc_ids": [
+      "api_docs_tensor_requires_grad"
+    ],
+    "aliases": [
+      "parameters"
+    ]
+  },
+  "Tensor.detach": {
+    "symbol": "Tensor.detach",
+    "doc_ids": [
+      "api_docs_tensor_detach"
+    ],
+    "aliases": [
+      "detach"
+    ]
+  },
+  "torch.no_grad": {
+    "symbol": "torch.no_grad",
+    "doc_ids": [
+      "api_docs_tensor_detach",
+      "api_docs_module_train",
+      "api_docs_module_eval",
+      "api_docs_torch_no_grad"
+    ],
+    "aliases": [
+      "no_grad"
+    ]
+  },
+  "Tensor.grad": {
+    "symbol": "Tensor.grad",
+    "doc_ids": [
+      "api_docs_tensor_grad"
+    ],
+    "aliases": [
+      "grad"
+    ]
+  },
+  "torch.utils.data.Dataset": {
+    "symbol": "torch.utils.data.Dataset",
+    "doc_ids": [
+      "api_docs_torch_utils_data_dataset",
+      "api_docs_torch_utils_data_tensordataset"
+    ],
+    "aliases": [
+      "data.Dataset",
+      "data Dataset",
+      "Dataset"
+    ]
+  },
+  "torch.utils.data.TensorDataset": {
+    "symbol": "torch.utils.data.TensorDataset",
+    "doc_ids": [
+      "api_docs_torch_utils_data_dataset",
+      "api_docs_torch_utils_data_tensordataset"
+    ],
+    "aliases": [
+      "data.TensorDataset",
+      "data TensorDataset",
+      "TensorDataset"
+    ]
+  },
+  "torch.utils.data.IterableDataset": {
+    "symbol": "torch.utils.data.IterableDataset",
+    "doc_ids": [
+      "api_docs_torch_utils_data_dataset"
+    ],
+    "aliases": [
+      "data.IterableDataset",
+      "data IterableDataset",
+      "IterableDataset"
+    ]
+  },
+  "torch.utils.data.DataLoader": {
+    "symbol": "torch.utils.data.DataLoader",
+    "doc_ids": [
+      "api_docs_torch_utils_data_dataloader"
+    ],
+    "aliases": [
+      "data.DataLoader",
+      "data DataLoader",
+      "DataLoader"
+    ]
+  },
+  "torch.utils.data.default_collate": {
+    "symbol": "torch.utils.data.default_collate",
+    "doc_ids": [
+      "api_docs_torch_utils_data_default_collate"
+    ],
+    "aliases": [
+      "data.default_collate",
+      "data default_collate",
+      "default_collate"
+    ]
+  },
+  "torch.utils.data.WeightedRandomSampler": {
+    "symbol": "torch.utils.data.WeightedRandomSampler",
+    "doc_ids": [
+      "api_docs_torch_utils_data_weightedrandomsampler"
+    ],
+    "aliases": [
+      "data.WeightedRandomSampler",
+      "data WeightedRandomSampler",
+      "WeightedRandomSampler"
+    ]
+  },
+  "Tensor.view": {
+    "symbol": "Tensor.view",
+    "doc_ids": [
+      "api_docs_tensor_view"
+    ],
+    "aliases": [
+      "view"
+    ]
+  },
+  "Tensor.reshape": {
+    "symbol": "Tensor.reshape",
+    "doc_ids": [
+      "api_docs_tensor_reshape"
+    ],
+    "aliases": [
+      "reshape"
+    ]
+  },
+  "Tensor.unsqueeze": {
+    "symbol": "Tensor.unsqueeze",
+    "doc_ids": [
+      "api_docs_tensor_unsqueeze"
+    ],
+    "aliases": [
+      "unsqueeze"
+    ]
+  },
+  "Tensor.flatten": {
+    "symbol": "Tensor.flatten",
+    "doc_ids": [
+      "api_docs_tensor_flatten"
+    ],
+    "aliases": [
+      "flatten"
+    ]
+  },
+  "torch.cat": {
+    "symbol": "torch.cat",
+    "doc_ids": [
+      "api_docs_torch_cat",
+      "api_docs_torch_stack"
+    ],
+    "aliases": [
+      "cat"
+    ]
+  },
+  "torch.stack": {
+    "symbol": "torch.stack",
+    "doc_ids": [
+      "api_docs_torch_cat",
+      "api_docs_torch_stack"
+    ],
+    "aliases": [
+      "stack"
+    ]
+  },
+  "torch.unsqueeze": {
+    "symbol": "torch.unsqueeze",
+    "doc_ids": [
+      "api_docs_torch_stack"
+    ],
+    "aliases": [
+      "unsqueeze"
+    ]
+  },
+  "Tensor.dtype": {
+    "symbol": "Tensor.dtype",
+    "doc_ids": [
+      "api_docs_tensor_dtype"
+    ],
+    "aliases": [
+      "dtype"
+    ]
+  },
+  "tensor.dtype": {
+    "symbol": "tensor.dtype",
+    "doc_ids": [
+      "api_docs_tensor_dtype",
+      "api_docs_torch_float32"
+    ],
+    "aliases": [
+      "dtype"
+    ]
+  },
+  "torch.dtype": {
+    "symbol": "torch.dtype",
+    "doc_ids": [
+      "api_docs_tensor_dtype"
+    ],
+    "aliases": [
+      "dtype"
+    ]
+  },
+  "torch.float64": {
+    "symbol": "torch.float64",
+    "doc_ids": [
+      "api_docs_tensor_dtype",
+      "api_docs_torch_float32"
+    ],
+    "aliases": [
+      "float64"
+    ]
+  },
+  "torch.int64": {
+    "symbol": "torch.int64",
+    "doc_ids": [
+      "api_docs_tensor_dtype",
+      "api_docs_torch_argmax",
+      "api_docs_torch_max"
+    ],
+    "aliases": [
+      "int64"
+    ]
+  },
+  "torch.bool": {
+    "symbol": "torch.bool",
+    "doc_ids": [
+      "api_docs_tensor_dtype"
+    ],
+    "aliases": [
+      "bool"
+    ]
+  },
+  "torch.ones": {
+    "symbol": "torch.ones",
+    "doc_ids": [
+      "api_docs_tensor_dtype",
+      "api_docs_torch_float32"
+    ],
+    "aliases": [
+      "ones"
+    ]
+  },
+  "torch.randn": {
+    "symbol": "torch.randn",
+    "doc_ids": [
+      "api_docs_tensor_dtype",
+      "api_docs_torch_float32"
+    ],
+    "aliases": [
+      "randn"
+    ]
+  },
+  "torch.float16": {
+    "symbol": "torch.float16",
+    "doc_ids": [
+      "api_docs_tensor_dtype",
+      "api_docs_tensor_to",
+      "api_docs_torch_float32",
+      "api_docs_torch_float16",
+      "api_docs_torch_matmul"
+    ],
+    "aliases": [
+      "float16"
+    ]
+  },
+  "torch.bfloat16": {
+    "symbol": "torch.bfloat16",
+    "doc_ids": [
+      "api_docs_tensor_dtype",
+      "api_docs_torch_float32"
+    ],
+    "aliases": [
+      "bfloat16"
+    ]
+  },
+  "torch.int32": {
+    "symbol": "torch.int32",
+    "doc_ids": [
+      "api_docs_tensor_dtype"
+    ],
+    "aliases": [
+      "int32"
+    ]
+  },
+  "torch.int16": {
+    "symbol": "torch.int16",
+    "doc_ids": [
+      "api_docs_tensor_dtype"
+    ],
+    "aliases": [
+      "int16"
+    ]
+  },
+  "torch.int8": {
+    "symbol": "torch.int8",
+    "doc_ids": [
+      "api_docs_tensor_dtype"
+    ],
+    "aliases": [
+      "int8"
+    ]
+  },
+  "tensor.to": {
+    "symbol": "tensor.to",
+    "doc_ids": [
+      "api_docs_tensor_dtype",
+      "api_docs_tensor_to",
+      "api_docs_torch_float16"
+    ],
+    "aliases": [
+      "to"
+    ]
+  },
+  "tensor.float": {
+    "symbol": "tensor.float",
+    "doc_ids": [
+      "api_docs_tensor_dtype"
+    ],
+    "aliases": [
+      "float"
+    ]
+  },
+  "tensor.half": {
+    "symbol": "tensor.half",
+    "doc_ids": [
+      "api_docs_tensor_dtype",
+      "api_docs_torch_float16"
+    ],
+    "aliases": [
+      "half"
+    ]
+  },
+  "tensor.int": {
+    "symbol": "tensor.int",
+    "doc_ids": [
+      "api_docs_tensor_dtype"
+    ],
+    "aliases": [
+      "int"
+    ]
+  },
+  "torch.matmul": {
+    "symbol": "torch.matmul",
+    "doc_ids": [
+      "api_docs_tensor_dtype",
+      "api_docs_tensor_to",
+      "api_docs_torch_float32",
+      "api_docs_torch_float16",
+      "api_docs_torch_matmul"
+    ],
+    "aliases": [
+      "matmul"
+    ]
+  },
+  "Tensor.to": {
+    "symbol": "Tensor.to",
+    "doc_ids": [
+      "api_docs_tensor_to"
+    ],
+    "aliases": [
+      "to"
+    ]
+  },
+  "tensor_b.to": {
+    "symbol": "tensor_b.to",
+    "doc_ids": [
+      "api_docs_tensor_to"
+    ],
+    "aliases": [
+      "to"
+    ]
+  },
+  "tensor_a.device": {
+    "symbol": "tensor_a.device",
+    "doc_ids": [
+      "api_docs_tensor_to"
+    ],
+    "aliases": [
+      "device"
+    ]
+  },
+  "torch.float": {
+    "symbol": "torch.float",
+    "doc_ids": [
+      "api_docs_torch_float32"
+    ],
+    "aliases": [
+      "float"
+    ]
+  },
+  "torch.cuda.amp": {
+    "symbol": "torch.cuda.amp",
+    "doc_ids": [
+      "api_docs_torch_float32"
+    ],
+    "aliases": [
+      "cuda.amp",
+      "cuda amp",
+      "amp"
+    ]
+  },
+  "torch.half": {
+    "symbol": "torch.half",
+    "doc_ids": [
+      "api_docs_torch_float16"
+    ],
+    "aliases": [
+      "half"
+    ]
+  },
+  "torch.mm": {
+    "symbol": "torch.mm",
+    "doc_ids": [
+      "api_docs_torch_matmul"
+    ],
+    "aliases": [
+      "mm"
+    ]
+  },
+  "Tensor.item": {
+    "symbol": "Tensor.item",
+    "doc_ids": [
+      "api_docs_tensor_item"
+    ],
+    "aliases": [
+      "item"
+    ]
+  },
+  "loss.item": {
+    "symbol": "loss.item",
+    "doc_ids": [
+      "api_docs_tensor_item"
+    ],
+    "aliases": [
+      "item"
+    ]
+  },
+  "torch.argmax": {
+    "symbol": "torch.argmax",
+    "doc_ids": [
+      "api_docs_torch_argmax",
+      "api_docs_torch_max"
+    ],
+    "aliases": [
+      "argmax"
+    ]
+  },
+  "torch.max": {
+    "symbol": "torch.max",
+    "doc_ids": [
+      "api_docs_torch_argmax",
+      "api_docs_torch_max"
+    ],
+    "aliases": [
+      "max"
+    ]
+  },
+  "torch.maximum": {
+    "symbol": "torch.maximum",
+    "doc_ids": [
+      "api_docs_torch_max"
+    ],
+    "aliases": [
+      "maximum"
+    ]
+  },
+  "torch.amax": {
+    "symbol": "torch.amax",
+    "doc_ids": [
+      "api_docs_torch_max"
+    ],
+    "aliases": [
+      "amax"
+    ]
+  },
+  "Module.train": {
+    "symbol": "Module.train",
+    "doc_ids": [
+      "api_docs_module_train"
+    ],
+    "aliases": [
+      "train"
+    ]
+  },
+  "model.train": {
+    "symbol": "model.train",
+    "doc_ids": [
+      "api_docs_module_train",
+      "api_docs_module_eval",
+      "api_docs_nn_dropout",
+      "api_docs_nn_batchnorm",
+      "api_docs_torch_no_grad"
+    ],
+    "aliases": [
+      "train"
+    ]
+  },
+  "model.eval": {
+    "symbol": "model.eval",
+    "doc_ids": [
+      "api_docs_module_train",
+      "api_docs_module_eval",
+      "api_docs_nn_dropout",
+      "api_docs_nn_batchnorm",
+      "api_docs_torch_no_grad"
+    ],
+    "aliases": [
+      "eval"
+    ]
+  },
+  "Module.eval": {
+    "symbol": "Module.eval",
+    "doc_ids": [
+      "api_docs_module_eval"
+    ],
+    "aliases": [
+      "eval"
+    ]
+  },
+  "nn.Dropout": {
+    "symbol": "nn.Dropout",
+    "doc_ids": [
+      "api_docs_nn_dropout"
+    ],
+    "aliases": [
+      "Dropout"
+    ]
+  },
+  "torch.nn.Dropout": {
+    "symbol": "torch.nn.Dropout",
+    "doc_ids": [
+      "api_docs_nn_dropout"
+    ],
+    "aliases": [
+      "nn.Dropout",
+      "nn Dropout",
+      "Dropout"
+    ]
+  },
+  "nn.BatchNorm2d": {
+    "symbol": "nn.BatchNorm2d",
+    "doc_ids": [
+      "api_docs_nn_batchnorm"
+    ],
+    "aliases": [
+      "BatchNorm2d"
+    ]
+  },
+  "torch.nn.BatchNorm2d": {
+    "symbol": "torch.nn.BatchNorm2d",
+    "doc_ids": [
+      "api_docs_nn_batchnorm"
+    ],
+    "aliases": [
+      "nn.BatchNorm2d",
+      "nn BatchNorm2d",
+      "BatchNorm2d"
     ]
   }
 }

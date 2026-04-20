@@ -1,0 +1,2560 @@
+{
+  "mode": "hybrid",
+  "system_name": "hybrid",
+  "model_name": "Qwen/Qwen2.5-0.5B",
+  "checkpoint_path": "",
+  "evaluated_at": "2026-04-16-152313",
+  "results": [
+    {
+      "id": "tensor_creation_001",
+      "question": "Why would I choose torch.as_tensor over torch.tensor for existing array-like data?",
+      "category": "tensor_creation",
+      "gold_type": "comparison",
+      "expected_symbols": [
+        "torch.tensor",
+        "torch.as_tensor"
+      ],
+      "must_include": [
+        "copy",
+        "reuse"
+      ],
+      "must_not_include": [
+        "always identical"
+      ],
+      "requires_citation": true,
+      "difficulty": "easy",
+      "answer": " `torch.as_tensor` is useful when you want to reuse the existing memory and avoid a copy. `torch.tensor` always makes a copy, so it is not suitable for existing arrays. `torch.zeros` shares memory with the input tensor and shares the same dtype and device, so it is a good choice when you need a zero-filled tensor that inherits the shape and dtype from the input. `torch.zeros` is not a real tensor API, so it is not a real tensor API. `torch.zeros` is not a real tensor API, so it is not a real tensor API. `torch.zeros` is not a real tensor",
+      "citations": [
+        {
+          "title": "torch.tensor",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.tensor.html"
+        },
+        {
+          "title": "torch.as_tensor",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.as_tensor.html"
+        },
+        {
+          "title": "torch.zeros",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.zeros.html"
+        }
+      ],
+      "used_symbols": [
+        "torch.as_tensor",
+        "torch.tensor",
+        "torch.zeros",
+        "torch.zeros",
+        "torch.zeros",
+        "torch.zeros"
+      ],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [
+          "api_docs_torch_tensor",
+          "api_docs_torch_as_tensor"
+        ],
+        "lexical_top_k": [
+          {
+            "doc_id": "api_docs_torch_as_tensor",
+            "score": 8.0
+          },
+          {
+            "doc_id": "api_docs_torch_tensor",
+            "score": 7.5
+          },
+          {
+            "doc_id": "api_docs_torch_zeros",
+            "score": 2.0
+          },
+          {
+            "doc_id": "api_docs_torch_from_numpy",
+            "score": 1.5
+          },
+          {
+            "doc_id": "api_docs_tensor_requires_grad",
+            "score": 1.5
+          }
+        ],
+        "dropped_by_cap": [
+          "api_docs_torch_from_numpy",
+          "api_docs_tensor_requires_grad"
+        ]
+      },
+      "label": "correct",
+      "notes": "exact matched: copy, reuse; fuzzy matched: none; missing: none; matched expected symbols: torch.tensor, torch.as_tensor; missed expected symbols: none"
+    },
+    {
+      "id": "tensor_creation_002",
+      "question": "How is torch.from_numpy different from torch.tensor when given a NumPy array?",
+      "category": "tensor_creation",
+      "gold_type": "comparison",
+      "expected_symbols": [
+        "torch.from_numpy",
+        "torch.tensor"
+      ],
+      "must_include": [
+        "numpy",
+        "share memory"
+      ],
+      "must_not_include": [
+        "always copies"
+      ],
+      "requires_citation": true,
+      "difficulty": "medium",
+      "answer": " `torch.from_numpy` always makes a full copy of the data, while `torch.tensor` always shares memory with the input NumPy array. `torch.from_numpy` returns a tensor view that is bound to the lifetime of the NumPy array, so changes to one are visible in the other. `torch.tensor` always shares memory with the input tensor, so changes to one are not visible in the other. `torch.from_numpy` is useful when you need a tensor view, but you do not need the full copy. `torch.tensor` is useful when you need a tensor with the same dtype and device as the input tensor.",
+      "citations": [
+        {
+          "title": "torch.tensor",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.tensor.html"
+        },
+        {
+          "title": "torch.as_tensor",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.as_tensor.html"
+        },
+        {
+          "title": "torch.from_numpy",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.from_numpy.html"
+        }
+      ],
+      "used_symbols": [
+        "torch.from_numpy",
+        "torch.tensor",
+        "torch.from_numpy",
+        "torch.tensor",
+        "torch.from_numpy",
+        "torch.tensor"
+      ],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [
+          "api_docs_torch_tensor",
+          "api_docs_torch_as_tensor",
+          "api_docs_torch_from_numpy"
+        ],
+        "lexical_top_k": [],
+        "dropped_by_cap": []
+      },
+      "label": "correct",
+      "notes": "exact matched: numpy; fuzzy matched: shares memory ~= share memory; missing: none; matched expected symbols: torch.from_numpy, torch.tensor; missed expected symbols: none"
+    },
+    {
+      "id": "tensor_creation_003",
+      "question": "How do I use torch.tensor to create a float32 tensor directly on cuda if I already know the target device?",
+      "category": "tensor_creation",
+      "gold_type": "usage",
+      "expected_symbols": [
+        "torch.tensor"
+      ],
+      "must_include": [
+        "dtype",
+        "device"
+      ],
+      "must_not_include": [
+        "numpy required"
+      ],
+      "requires_citation": true,
+      "difficulty": "easy",
+      "answer": " Use tensor.to(device='cuda') to copy the tensor to the target device. For example, tensor.to('cuda') or tensor.to('cuda', device='cuda') can be used. If the tensor already has the requested dtype and is already on the requested device, .to() returns the same tensor without copying. Otherwise, a new tensor is created with the converted data.",
+      "citations": [
+        {
+          "title": "torch.tensor",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.tensor.html"
+        },
+        {
+          "title": "Tensor.to",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.Tensor.to.html"
+        },
+        {
+          "title": "torch.from_numpy",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.from_numpy.html"
+        }
+      ],
+      "used_symbols": [
+        "tensor.to",
+        "tensor.to",
+        "tensor.to"
+      ],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [
+          "api_docs_torch_tensor"
+        ],
+        "lexical_top_k": [
+          {
+            "doc_id": "api_docs_torch_tensor",
+            "score": 11.5
+          },
+          {
+            "doc_id": "api_docs_tensor_to",
+            "score": 6.0
+          },
+          {
+            "doc_id": "api_docs_torch_from_numpy",
+            "score": 5.5
+          },
+          {
+            "doc_id": "api_docs_torch_float32",
+            "score": 5.5
+          },
+          {
+            "doc_id": "api_docs_torch_as_tensor",
+            "score": 5.0
+          }
+        ],
+        "dropped_by_cap": [
+          "api_docs_torch_float32",
+          "api_docs_torch_as_tensor"
+        ]
+      },
+      "label": "partially_correct",
+      "notes": "exact matched: dtype, device; fuzzy matched: none; missing: none; matched expected symbols: none; missed expected symbols: torch.tensor"
+    },
+    {
+      "id": "tensor_creation_004",
+      "question": "When should I use torch.zeros_like instead of torch.zeros?",
+      "category": "tensor_creation",
+      "gold_type": "comparison",
+      "expected_symbols": [
+        "torch.zeros_like",
+        "torch.zeros"
+      ],
+      "must_include": [
+        "like",
+        "shape"
+      ],
+      "must_not_include": [
+        "same in every situation"
+      ],
+      "requires_citation": true,
+      "difficulty": "medium",
+      "answer": " Use torch.zeros_like when you need a companion tensor whose shape, dtype, and device match another tensor's properties. For example, if you need a zero-filled tensor that matches another tensor's shape, dtype, and device, use torch.zeros_like. If you need a companion tensor with a different dtype, use torch.float32. If you need a different storage format, use torch.preserve_format. If you need gradient tracking, use torch.zeros_like. If you need a tensor with a different precision, use torch.float32. If you need a tensor with a different storage format, use torch.preserve_format. If you need",
+      "citations": [
+        {
+          "title": "torch.zeros",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.zeros.html"
+        },
+        {
+          "title": "torch.zeros_like",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.zeros_like.html"
+        },
+        {
+          "title": "Tensor.dtype",
+          "url": "https://docs.pytorch.org/docs/stable/tensor_attributes.html#torch.dtype"
+        },
+        {
+          "title": "torch.float32",
+          "url": "https://docs.pytorch.org/docs/stable/tensor_attributes.html#torch.float32"
+        }
+      ],
+      "used_symbols": [
+        "torch.zeros_like",
+        "torch.zeros_like",
+        "torch.float32",
+        "torch.preserve_format",
+        "torch.zeros_like",
+        "torch.float32",
+        "torch.preserve_format"
+      ],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [
+          "api_docs_torch_zeros",
+          "api_docs_torch_zeros_like",
+          "api_docs_tensor_dtype",
+          "api_docs_torch_float32"
+        ],
+        "lexical_top_k": [],
+        "dropped_by_cap": []
+      },
+      "label": "correct",
+      "notes": "exact matched: like, shape; fuzzy matched: none; missing: none; matched expected symbols: torch.zeros_like, torch.zeros; missed expected symbols: none"
+    },
+    {
+      "id": "shape_ops_001",
+      "question": "What is the difference between view and reshape in PyTorch?",
+      "category": "shape_ops",
+      "gold_type": "comparison",
+      "expected_symbols": [
+        "Tensor.view",
+        "Tensor.reshape"
+      ],
+      "must_include": [
+        "contiguous",
+        "copy"
+      ],
+      "must_not_include": [
+        "always interchangeable"
+      ],
+      "requires_citation": true,
+      "difficulty": "easy",
+      "answer": " View and reshape are similar APIs that return a new tensor with the same data but a different shape. View requires the tensor to be contiguous in memory and compatible with the requested shape. It shares the same underlying storage and can be used with permute() or transpose() operations. Reshape always returns a view and shares the same memory layout with the input tensor. It supports one -1 dimension and can be used with permute() or transpose() operations. The main difference is that view is strictly compatible with the tensor's size and stride layout, while reshape can handle both contiguous and non-contiguous cases automatically.",
+      "citations": [
+        {
+          "title": "Tensor.view",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.Tensor.view.html"
+        },
+        {
+          "title": "Tensor.reshape",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.Tensor.reshape.html"
+        },
+        {
+          "title": "torch.from_numpy",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.from_numpy.html"
+        }
+      ],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [],
+        "lexical_top_k": [
+          {
+            "doc_id": "api_docs_tensor_view",
+            "score": 4.5
+          },
+          {
+            "doc_id": "api_docs_tensor_reshape",
+            "score": 4.0
+          },
+          {
+            "doc_id": "api_docs_torch_from_numpy",
+            "score": 3.5
+          },
+          {
+            "doc_id": "api_docs_tensor_flatten",
+            "score": 3.0
+          },
+          {
+            "doc_id": "api_docs_tensor_dtype",
+            "score": 3.0
+          }
+        ],
+        "dropped_by_cap": [
+          "api_docs_tensor_flatten",
+          "api_docs_tensor_dtype"
+        ]
+      },
+      "label": "partially_correct",
+      "notes": "exact matched: contiguous; fuzzy matched: none; missing: copy; matched expected symbols: none; missed expected symbols: Tensor.view, Tensor.reshape"
+    },
+    {
+      "id": "shape_ops_002",
+      "question": "If x has shape [2, 3, 4], what shape does x.unsqueeze(1) return?",
+      "category": "shape_ops",
+      "gold_type": "shape_reasoning",
+      "expected_symbols": [
+        "Tensor.unsqueeze"
+      ],
+      "must_include": [
+        "[2, 1, 3, 4]"
+      ],
+      "must_not_include": [
+        "[2, 3, 4, 1]"
+      ],
+      "requires_citation": false,
+      "difficulty": "easy",
+      "answer": " x.unsqueeze(1) returns shape `[2, 1, 3, 4]`.",
+      "citations": [
+        {
+          "title": "Tensor.unsqueeze",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.Tensor.unsqueeze.html"
+        },
+        {
+          "title": "torch.stack",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.stack.html"
+        },
+        {
+          "title": "Tensor.view",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.Tensor.view.html"
+        }
+      ],
+      "used_symbols": [
+        "x.unsqueeze"
+      ],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [
+          "api_docs_tensor_unsqueeze",
+          "api_docs_torch_stack"
+        ],
+        "lexical_top_k": [
+          {
+            "doc_id": "api_docs_tensor_unsqueeze",
+            "score": 4.5
+          },
+          {
+            "doc_id": "api_docs_tensor_view",
+            "score": 4.0
+          },
+          {
+            "doc_id": "api_docs_tensor_reshape",
+            "score": 4.0
+          },
+          {
+            "doc_id": "api_docs_torch_cat",
+            "score": 4.0
+          },
+          {
+            "doc_id": "api_docs_tensor_flatten",
+            "score": 3.5
+          }
+        ],
+        "dropped_by_cap": [
+          "api_docs_tensor_reshape",
+          "api_docs_torch_cat",
+          "api_docs_tensor_flatten"
+        ]
+      },
+      "label": "correct",
+      "notes": "exact matched: [2, 1, 3, 4]; fuzzy matched: none; missing: none; matched expected symbols: Tensor.unsqueeze; missed expected symbols: none"
+    },
+    {
+      "id": "shape_ops_003",
+      "question": "What is the difference between torch.cat and torch.stack?",
+      "category": "shape_ops",
+      "gold_type": "comparison",
+      "expected_symbols": [
+        "torch.cat",
+        "torch.stack"
+      ],
+      "must_include": [
+        "existing dimension",
+        "new dimension"
+      ],
+      "must_not_include": [
+        "same operation"
+      ],
+      "requires_citation": true,
+      "difficulty": "easy",
+      "answer": " `torch.cat` concatenates tensors along a new dimension, while `torch.stack` creates a new dimension and inserts it at the desired position. `torch.cat` is strictly a tensor operation, while `torch.stack` is a tensor manipulation operation. `detach` removes a tensor from the computation graph, while `torch.no_grad` disables gradient tracking. `detach` is a per-tensor operation, while `torch.no_grad` is a context manager. `detach` is not a real tensor manipulation operation, while `torch.no_grad` is a real tensor manipulation operation. `detach` is not a real tensor manipulation operation, while",
+      "citations": [
+        {
+          "title": "torch.cat",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.cat.html"
+        },
+        {
+          "title": "torch.stack",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.stack.html"
+        },
+        {
+          "title": "Tensor.detach",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.Tensor.detach.html"
+        }
+      ],
+      "used_symbols": [
+        "torch.cat",
+        "torch.stack",
+        "torch.cat",
+        "torch.stack",
+        "torch.no_grad",
+        "torch.no_grad",
+        "torch.no_grad"
+      ],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [
+          "api_docs_torch_cat",
+          "api_docs_torch_stack"
+        ],
+        "lexical_top_k": [
+          {
+            "doc_id": "api_docs_torch_cat",
+            "score": 8.0
+          },
+          {
+            "doc_id": "api_docs_torch_stack",
+            "score": 8.0
+          },
+          {
+            "doc_id": "api_docs_tensor_detach",
+            "score": 2.5
+          },
+          {
+            "doc_id": "api_docs_torch_as_tensor",
+            "score": 2.0
+          },
+          {
+            "doc_id": "api_docs_torch_from_numpy",
+            "score": 2.0
+          }
+        ],
+        "dropped_by_cap": [
+          "api_docs_torch_as_tensor",
+          "api_docs_torch_from_numpy"
+        ]
+      },
+      "label": "partially_correct",
+      "notes": "exact matched: none; fuzzy matched: new dimension, ~= new dimension; missing: existing dimension; matched expected symbols: torch.cat, torch.stack; missed expected symbols: none"
+    },
+    {
+      "id": "shape_ops_004",
+      "question": "If x has shape [3, 2, 4, 5], what shape does x.flatten(start_dim=2) return?",
+      "category": "shape_ops",
+      "gold_type": "shape_reasoning",
+      "expected_symbols": [
+        "Tensor.flatten"
+      ],
+      "must_include": [
+        "[3, 2, 20]"
+      ],
+      "must_not_include": [
+        "[3, 8, 5]"
+      ],
+      "requires_citation": false,
+      "difficulty": "medium",
+      "answer": " The result shape is `[3, 8, 5]`.",
+      "citations": [
+        {
+          "title": "Tensor.flatten",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.Tensor.flatten.html"
+        },
+        {
+          "title": "Tensor.view",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.Tensor.view.html"
+        },
+        {
+          "title": "Tensor.reshape",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.Tensor.reshape.html"
+        }
+      ],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [
+          "api_docs_tensor_flatten"
+        ],
+        "lexical_top_k": [
+          {
+            "doc_id": "api_docs_tensor_flatten",
+            "score": 4.5
+          },
+          {
+            "doc_id": "api_docs_tensor_view",
+            "score": 4.0
+          },
+          {
+            "doc_id": "api_docs_tensor_reshape",
+            "score": 4.0
+          },
+          {
+            "doc_id": "api_docs_tensor_unsqueeze",
+            "score": 4.0
+          },
+          {
+            "doc_id": "api_docs_torch_cat",
+            "score": 4.0
+          }
+        ],
+        "dropped_by_cap": [
+          "api_docs_tensor_unsqueeze",
+          "api_docs_torch_cat"
+        ]
+      },
+      "label": "incorrect",
+      "notes": "matched must_not_include: [3, 8, 5]"
+    },
+    {
+      "id": "dtype_device_001",
+      "question": "How do I check whether a tensor has dtype torch.float32?",
+      "category": "dtype_device",
+      "gold_type": "usage",
+      "expected_symbols": [
+        "Tensor.dtype",
+        "torch.float32"
+      ],
+      "must_include": [
+        "dtype",
+        "torch.float32"
+      ],
+      "must_not_include": [
+        "numpy only"
+      ],
+      "requires_citation": true,
+      "difficulty": "easy",
+      "answer": " Use tensor.dtype == torch.float32. For example, tensor.dtype == torch.float32. To check if a tensor uses float32, compare tensor.dtype == torch.float32. For example, tensor.dtype == torch.float32. To check if a tensor uses half precision, use tensor.dtype == torch.half. For example, tensor.dtype == torch.half. To check if a tensor uses float16, use tensor.dtype == torch.float16. For example, tensor.dtype == torch.float16. To check if a tensor uses double precision, use tensor.dtype == torch.float64. For example,",
+      "citations": [
+        {
+          "title": "torch.tensor",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.tensor.html"
+        },
+        {
+          "title": "torch.zeros",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.zeros.html"
+        },
+        {
+          "title": "torch.zeros_like",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.zeros_like.html"
+        },
+        {
+          "title": "Tensor.dtype",
+          "url": "https://docs.pytorch.org/docs/stable/tensor_attributes.html#torch.dtype"
+        },
+        {
+          "title": "torch.float32",
+          "url": "https://docs.pytorch.org/docs/stable/tensor_attributes.html#torch.float32"
+        },
+        {
+          "title": "torch.float16",
+          "url": "https://docs.pytorch.org/docs/stable/tensor_attributes.html#torch.float16"
+        },
+        {
+          "title": "torch.matmul",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.matmul.html"
+        }
+      ],
+      "used_symbols": [
+        "tensor.dtype",
+        "torch.float32",
+        "tensor.dtype",
+        "torch.float32",
+        "tensor.dtype",
+        "torch.float32",
+        "tensor.dtype",
+        "torch.float32",
+        "tensor.dtype",
+        "torch.half",
+        "tensor.dtype",
+        "torch.half",
+        "tensor.dtype",
+        "torch.float16",
+        "tensor.dtype",
+        "torch.float16",
+        "tensor.dtype",
+        "torch.float64"
+      ],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [
+          "api_docs_torch_tensor",
+          "api_docs_torch_zeros",
+          "api_docs_torch_zeros_like",
+          "api_docs_tensor_dtype",
+          "api_docs_torch_float32",
+          "api_docs_torch_float16",
+          "api_docs_torch_matmul"
+        ],
+        "lexical_top_k": [],
+        "dropped_by_cap": []
+      },
+      "label": "correct",
+      "notes": "exact matched: dtype, torch.float32; fuzzy matched: none; missing: none; matched expected symbols: Tensor.dtype, torch.float32; missed expected symbols: none"
+    },
+    {
+      "id": "dtype_device_002",
+      "question": "Why do I get a device mismatch error when one tensor is on cpu and the other is on cuda?",
+      "category": "dtype_device",
+      "gold_type": "debugging",
+      "expected_symbols": [
+        "Tensor.to"
+      ],
+      "must_include": [
+        "same device"
+      ],
+      "must_not_include": [
+        "PyTorch moves them automatically"
+      ],
+      "requires_citation": true,
+      "difficulty": "easy",
+      "answer": " PyTorch does not automatically move tensors between devices. If one tensor is on cpu and the other is on cuda, any operation between them will fail with a device mismatch error. You must explicitly move tensors to the same device before operating on them. The typical pattern is tensor_b = tensor_b.to(tensor_a.device) or tensor = tensor.to('cuda').",
+      "citations": [
+        {
+          "title": "torch.matmul",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.matmul.html"
+        },
+        {
+          "title": "Tensor.to",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.Tensor.to.html"
+        },
+        {
+          "title": "torch.tensor",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.tensor.html"
+        }
+      ],
+      "used_symbols": [
+        "tensor_b.to",
+        "tensor_a.device",
+        "tensor.to"
+      ],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [],
+        "lexical_top_k": [
+          {
+            "doc_id": "api_docs_torch_matmul",
+            "score": 6.5
+          },
+          {
+            "doc_id": "api_docs_tensor_to",
+            "score": 5.5
+          },
+          {
+            "doc_id": "api_docs_torch_tensor",
+            "score": 5.0
+          },
+          {
+            "doc_id": "api_docs_torch_as_tensor",
+            "score": 5.0
+          },
+          {
+            "doc_id": "api_docs_tensor_reshape",
+            "score": 5.0
+          }
+        ],
+        "dropped_by_cap": [
+          "api_docs_torch_as_tensor",
+          "api_docs_tensor_reshape"
+        ]
+      },
+      "label": "correct",
+      "notes": "exact matched: none; fuzzy matched: same device ~= same device; missing: none; matched expected symbols: Tensor.to; missed expected symbols: none"
+    },
+    {
+      "id": "dtype_device_003",
+      "question": "How do I move a tensor to float16 on cuda in one call?",
+      "category": "dtype_device",
+      "gold_type": "usage",
+      "expected_symbols": [
+        "Tensor.to"
+      ],
+      "must_include": [
+        "to",
+        "dtype",
+        "device"
+      ],
+      "must_not_include": [
+        "two separate tensors required"
+      ],
+      "requires_citation": true,
+      "difficulty": "medium",
+      "answer": " Use tensor.to('cuda', torch.float16). If the tensor already has the requested dtype and is already on the requested device, .to() returns the same tensor without copying. Otherwise, a new tensor is created with the converted data. For example, tensor_b = tensor_b.to('cuda', torch.float16) or tensor = tensor.to('cuda'). Similarly, PyTorch does not automatically cast dtypes for most operations. If you attempt torch.matmul on a tensor with dtype float64 and device cuda, the result tensor will have dtype float32 and device cuda. If you want to use float16 for",
+      "citations": [
+        {
+          "title": "torch.float16",
+          "url": "https://docs.pytorch.org/docs/stable/tensor_attributes.html#torch.float16"
+        },
+        {
+          "title": "Tensor.to",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.Tensor.to.html"
+        },
+        {
+          "title": "torch.from_numpy",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.from_numpy.html"
+        }
+      ],
+      "used_symbols": [
+        "tensor.to",
+        "torch.float16",
+        "tensor_b.to",
+        "torch.float16",
+        "tensor.to",
+        "torch.matmul"
+      ],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [],
+        "lexical_top_k": [
+          {
+            "doc_id": "api_docs_torch_float16",
+            "score": 6.0
+          },
+          {
+            "doc_id": "api_docs_tensor_to",
+            "score": 5.5
+          },
+          {
+            "doc_id": "api_docs_torch_from_numpy",
+            "score": 4.0
+          },
+          {
+            "doc_id": "api_docs_torch_matmul",
+            "score": 4.0
+          },
+          {
+            "doc_id": "api_docs_torch_as_tensor",
+            "score": 3.5
+          }
+        ],
+        "dropped_by_cap": [
+          "api_docs_torch_matmul",
+          "api_docs_torch_as_tensor"
+        ]
+      },
+      "label": "correct",
+      "notes": "exact matched: to, dtype, device; fuzzy matched: none; missing: none; matched expected symbols: Tensor.to; missed expected symbols: none"
+    },
+    {
+      "id": "dtype_device_004",
+      "question": "Why can matmul fail when two tensors use different dtypes?",
+      "category": "dtype_device",
+      "gold_type": "debugging",
+      "expected_symbols": [
+        "torch.matmul"
+      ],
+      "must_include": [
+        "same dtype"
+      ],
+      "must_not_include": [
+        "PyTorch always casts automatically"
+      ],
+      "requires_citation": true,
+      "difficulty": "medium",
+      "answer": " PyTorch does not automatically convert tensors to a common dtype for matmul. If one tensor is torch.float32 and the other is torch.float16, matmul will raise a RuntimeError indicating that the dtypes do not match. You must explicitly convert one operand before calling matmul: either a = a.to(b.dtype) or b = b.to(a.dtype). Both tensors must also be on the same device. If one is on cpu and the other is on cuda, matmul will fail with a device mismatch error. Move tensors to the same device first using .to(device). For 2D inputs with shapes [m",
+      "citations": [
+        {
+          "title": "torch.matmul",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.matmul.html"
+        },
+        {
+          "title": "Tensor.dtype",
+          "url": "https://docs.pytorch.org/docs/stable/tensor_attributes.html#torch.dtype"
+        },
+        {
+          "title": "torch.max",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.max.html"
+        }
+      ],
+      "used_symbols": [
+        "torch.float32",
+        "torch.float16",
+        "a.to",
+        "b.dtype",
+        "b.to",
+        "a.dtype"
+      ],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [],
+        "lexical_top_k": [
+          {
+            "doc_id": "api_docs_torch_matmul",
+            "score": 4.0
+          },
+          {
+            "doc_id": "api_docs_tensor_dtype",
+            "score": 2.5
+          },
+          {
+            "doc_id": "api_docs_torch_max",
+            "score": 2.5
+          },
+          {
+            "doc_id": "api_docs_torch_tensor",
+            "score": 2.0
+          },
+          {
+            "doc_id": "api_docs_torch_from_numpy",
+            "score": 2.0
+          }
+        ],
+        "dropped_by_cap": [
+          "api_docs_torch_tensor",
+          "api_docs_torch_from_numpy"
+        ]
+      },
+      "label": "incorrect",
+      "notes": "matched no must_include: same dtype"
+    },
+    {
+      "id": "autograd_001",
+      "question": "Why does loss.backward() fail if the tensor does not require gradients?",
+      "category": "autograd",
+      "gold_type": "debugging",
+      "expected_symbols": [
+        "Tensor.backward",
+        "Tensor.requires_grad"
+      ],
+      "must_include": [
+        "requires_grad",
+        "autograd"
+      ],
+      "must_not_include": [
+        "optimizer.step fixes it"
+      ],
+      "requires_citation": true,
+      "difficulty": "easy",
+      "answer": " `loss.backward()` requires a tensor with requires_grad=True. If the tensor does not have that attribute, autograd cannot compute gradients and will raise an error. This is a common pitfall when using autograd for gradient tracking. If you need to compute gradients, use `optimizer.zero_grad()` before calling backward(). Without zeroing gradients, autograd cannot correctly update parameters.",
+      "citations": [
+        {
+          "title": "Tensor.requires_grad",
+          "url": "https://docs.pytorch.org/docs/stable/autograd.html#torch.Tensor.requires_grad"
+        },
+        {
+          "title": "Tensor.grad",
+          "url": "https://docs.pytorch.org/docs/stable/autograd.html#torch.Tensor.grad"
+        },
+        {
+          "title": "torch.tensor",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.tensor.html"
+        }
+      ],
+      "used_symbols": [
+        "loss.backward",
+        "optimizer.zero_grad"
+      ],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [
+          "api_docs_tensor_requires_grad",
+          "api_docs_tensor_grad"
+        ],
+        "lexical_top_k": [
+          {
+            "doc_id": "api_docs_torch_tensor",
+            "score": 3.5
+          },
+          {
+            "doc_id": "api_docs_tensor_requires_grad",
+            "score": 3.5
+          },
+          {
+            "doc_id": "api_docs_torch_tensor_backward",
+            "score": 3.0
+          },
+          {
+            "doc_id": "api_docs_tensor_detach",
+            "score": 3.0
+          },
+          {
+            "doc_id": "api_docs_tensor_grad",
+            "score": 3.0
+          }
+        ],
+        "dropped_by_cap": [
+          "api_docs_torch_tensor_backward",
+          "api_docs_tensor_detach"
+        ]
+      },
+      "label": "correct",
+      "notes": "exact matched: requires_grad, autograd; fuzzy matched: none; missing: none; matched expected symbols: Tensor.backward, Tensor.requires_grad; missed expected symbols: none"
+    },
+    {
+      "id": "autograd_002",
+      "question": "Why do gradients keep accumulating across training steps unless I call optimizer.zero_grad()?",
+      "category": "autograd",
+      "gold_type": "debugging",
+      "expected_symbols": [
+        "Optimizer.zero_grad",
+        "Tensor.backward"
+      ],
+      "must_include": [
+        "accumulate",
+        ".grad"
+      ],
+      "must_not_include": [
+        "backward clears gradients automatically"
+      ],
+      "requires_citation": true,
+      "difficulty": "easy",
+      "answer": " Gradients accumulate by default. Each call to backward() adds the newly computed gradient to the existing .grad value instead of replacing it. If you call backward() multiple times without clearing gradients, the .grad attribute will contain the sum of all computed gradients. This accumulation behavior is intentional and useful for gradient accumulation across micro-batches, but it requires explicit zeroing gradients before each standard training step. To clear accumulated gradients, call optimizer.zero_grad() at the beginning of each training iteration, before computing the forward pass and calling backward(). Without zeroing, gradients from previous steps will contaminate the current step's update, leading to incorrect parameter",
+      "citations": [
+        {
+          "title": "Tensor.grad",
+          "url": "https://docs.pytorch.org/docs/stable/autograd.html#torch.Tensor.grad"
+        },
+        {
+          "title": "torch.no_grad",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.no_grad.html"
+        },
+        {
+          "title": "torch.zeros",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.zeros.html"
+        }
+      ],
+      "used_symbols": [
+        "optimizer.zero_grad"
+      ],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [
+          "api_docs_tensor_grad"
+        ],
+        "lexical_top_k": [
+          {
+            "doc_id": "api_docs_tensor_grad",
+            "score": 4.0
+          },
+          {
+            "doc_id": "api_docs_torch_no_grad",
+            "score": 1.5
+          },
+          {
+            "doc_id": "api_docs_torch_zeros",
+            "score": 1.0
+          },
+          {
+            "doc_id": "api_docs_optimizer_step",
+            "score": 1.0
+          },
+          {
+            "doc_id": "api_docs_tensor_requires_grad",
+            "score": 1.0
+          }
+        ],
+        "dropped_by_cap": [
+          "api_docs_optimizer_step",
+          "api_docs_tensor_requires_grad"
+        ]
+      },
+      "label": "correct",
+      "notes": "exact matched: accumulate, .grad; fuzzy matched: none; missing: none; matched expected symbols: Optimizer.zero_grad, Tensor.backward; missed expected symbols: none"
+    },
+    {
+      "id": "autograd_003",
+      "question": "What is the difference between detach() and torch.no_grad()?",
+      "category": "autograd",
+      "gold_type": "comparison",
+      "expected_symbols": [
+        "Tensor.detach",
+        "torch.no_grad"
+      ],
+      "must_include": [
+        "tensor",
+        "context"
+      ],
+      "must_not_include": [
+        "same thing"
+      ],
+      "requires_citation": true,
+      "difficulty": "medium",
+      "answer": " Detach() removes a tensor from the computation graph, while torch.no_grad() disables gradient tracking for all operations inside its scope. Detach() is useful when you need a specific tensor's value without maintaining its connection to the computation graph, for example when storing intermediate activations for logging. torch.no_grad() is useful when you want to disable gradient computation for all operations inside a module's scope, such as when you want to avoid storing intermediate results for backpropagation. They serve different purposes and should be used together.",
+      "citations": [
+        {
+          "title": "Tensor.detach",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.Tensor.detach.html"
+        },
+        {
+          "title": "Module.train",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module.train"
+        },
+        {
+          "title": "Module.eval",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module.eval"
+        },
+        {
+          "title": "torch.no_grad",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.no_grad.html"
+        }
+      ],
+      "used_symbols": [
+        "torch.no_grad",
+        "torch.no_grad"
+      ],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [
+          "api_docs_tensor_detach",
+          "api_docs_module_train",
+          "api_docs_module_eval",
+          "api_docs_torch_no_grad"
+        ],
+        "lexical_top_k": [],
+        "dropped_by_cap": []
+      },
+      "label": "partially_correct",
+      "notes": "exact matched: tensor; fuzzy matched: none; missing: context; matched expected symbols: Tensor.detach, torch.no_grad; missed expected symbols: none"
+    },
+    {
+      "id": "autograd_004",
+      "question": "What does requires_grad=False actually change for a tensor?",
+      "category": "autograd",
+      "gold_type": "definition",
+      "expected_symbols": [
+        "Tensor.requires_grad"
+      ],
+      "must_include": [
+        "gradient",
+        "autograd"
+      ],
+      "must_not_include": [
+        "freezes the entire model automatically"
+      ],
+      "requires_citation": true,
+      "difficulty": "medium",
+      "answer": " Requires_grad=False changes the tensor's behavior in two ways. First, it disables autograd tracking, so autograd computations are not recorded in the computation graph. Second, it makes the tensor not part of the computation graph, so autograd tracking is not used to compute gradients. This means that operations like `.backward()` do not compute gradients for the tensor, and the gradients are not shared with other tensors in the same computation graph. If you call `.backward()` and the computation graph does not include any tensor with requires_grad=True, autograd cannot compute gradients and will raise an error. This commonly happens when model parameters are accidentally detached from",
+      "citations": [
+        {
+          "title": "torch.tensor",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.tensor.html"
+        },
+        {
+          "title": "Tensor.requires_grad",
+          "url": "https://docs.pytorch.org/docs/stable/autograd.html#torch.Tensor.requires_grad"
+        },
+        {
+          "title": "Tensor.detach",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.Tensor.detach.html"
+        }
+      ],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [],
+        "lexical_top_k": [
+          {
+            "doc_id": "api_docs_torch_tensor",
+            "score": 3.5
+          },
+          {
+            "doc_id": "api_docs_tensor_requires_grad",
+            "score": 3.0
+          },
+          {
+            "doc_id": "api_docs_tensor_detach",
+            "score": 2.5
+          },
+          {
+            "doc_id": "api_docs_tensor_unsqueeze",
+            "score": 2.5
+          },
+          {
+            "doc_id": "api_docs_torch_cat",
+            "score": 2.5
+          }
+        ],
+        "dropped_by_cap": [
+          "api_docs_tensor_unsqueeze",
+          "api_docs_torch_cat"
+        ]
+      },
+      "label": "correct",
+      "notes": "exact matched: gradient, autograd; fuzzy matched: none; missing: none; matched expected symbols: Tensor.requires_grad; missed expected symbols: none"
+    },
+    {
+      "id": "nn_module_modes_001",
+      "question": "What is the difference between model.train() and model.eval()?",
+      "category": "nn_module_modes",
+      "gold_type": "comparison",
+      "expected_symbols": [
+        "Module.train",
+        "Module.eval"
+      ],
+      "must_include": [
+        "dropout",
+        "batch normalization"
+      ],
+      "must_not_include": [
+        "same mode"
+      ],
+      "requires_citation": true,
+      "difficulty": "easy",
+      "answer": " Model.train() sets the module to training mode, while model.eval() switches to evaluation mode. They serve different purposes and should be used together. Model.train() changes module behavior for layers like dropout and batch normalization, while model.eval() disables gradient tracking and controls gradient tracking. They address different concerns and are not interchangeable.",
+      "citations": [
+        {
+          "title": "Module.train",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module.train"
+        },
+        {
+          "title": "Module.eval",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module.eval"
+        },
+        {
+          "title": "nn.Dropout",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.Dropout.html"
+        },
+        {
+          "title": "nn.BatchNorm2d",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.BatchNorm2d.html"
+        },
+        {
+          "title": "torch.no_grad",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.no_grad.html"
+        }
+      ],
+      "used_symbols": [
+        "Model.train",
+        "model.eval",
+        "Model.train",
+        "model.eval"
+      ],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [
+          "api_docs_module_train",
+          "api_docs_module_eval",
+          "api_docs_nn_dropout",
+          "api_docs_nn_batchnorm",
+          "api_docs_torch_no_grad"
+        ],
+        "lexical_top_k": [],
+        "dropped_by_cap": []
+      },
+      "label": "correct",
+      "notes": "exact matched: dropout; fuzzy matched: batch normalization, ~= batch normalization; missing: none; matched expected symbols: Module.train, Module.eval; missed expected symbols: none"
+    },
+    {
+      "id": "nn_module_modes_002",
+      "question": "Why is model.eval() not the same as torch.no_grad()?",
+      "category": "nn_module_modes",
+      "gold_type": "comparison",
+      "expected_symbols": [
+        "Module.eval",
+        "torch.no_grad"
+      ],
+      "must_include": [
+        "module behavior",
+        "gradient tracking"
+      ],
+      "must_not_include": [
+        "torch.no_grad is fake"
+      ],
+      "requires_citation": true,
+      "difficulty": "easy",
+      "answer": " Model.eval() changes module behavior: it disables dropout and switches batch normalization to use running statistics. torch.no_grad() controls gradient tracking: it prevents autograd from recording operations. They address different concerns and are not interchangeable. During inference, you typically want both: model.eval() to disable gradient tracking for all operations, and torch.no_grad() to control gradient tracking for specific operations.",
+      "citations": [
+        {
+          "title": "Module.train",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module.train"
+        },
+        {
+          "title": "Module.eval",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module.eval"
+        },
+        {
+          "title": "nn.Dropout",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.Dropout.html"
+        },
+        {
+          "title": "nn.BatchNorm2d",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.BatchNorm2d.html"
+        },
+        {
+          "title": "torch.no_grad",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.no_grad.html"
+        },
+        {
+          "title": "Tensor.detach",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.Tensor.detach.html"
+        }
+      ],
+      "used_symbols": [
+        "Model.eval",
+        "torch.no_grad",
+        "model.eval",
+        "torch.no_grad"
+      ],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [
+          "api_docs_module_train",
+          "api_docs_module_eval",
+          "api_docs_nn_dropout",
+          "api_docs_nn_batchnorm",
+          "api_docs_torch_no_grad",
+          "api_docs_tensor_detach"
+        ],
+        "lexical_top_k": [],
+        "dropped_by_cap": []
+      },
+      "label": "correct",
+      "notes": "exact matched: none; fuzzy matched: module behavior: ~= module behavior, gradient tracking: ~= gradient tracking; missing: none; matched expected symbols: Module.eval, torch.no_grad; missed expected symbols: none"
+    },
+    {
+      "id": "nn_module_modes_003",
+      "question": "What changes for dropout layers after calling model.eval()?",
+      "category": "nn_module_modes",
+      "gold_type": "definition",
+      "expected_symbols": [
+        "Module.eval",
+        "Dropout"
+      ],
+      "must_include": [
+        "disabled",
+        "dropout"
+      ],
+      "must_not_include": [
+        "random dropping continues unchanged"
+      ],
+      "requires_citation": true,
+      "difficulty": "medium",
+      "answer": " Dropout layers are disabled during evaluation mode. They do not compute statistics from the current batch and do not accumulate running statistics. The behavior is controlled by the module's training flag, which is set by model.train() and model.eval(). If you forget to call model.train() during training, dropout will not randomly zero elements during prediction, and the model will not behave like a regular layer.",
+      "citations": [
+        {
+          "title": "Module.train",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module.train"
+        },
+        {
+          "title": "Module.eval",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module.eval"
+        },
+        {
+          "title": "nn.Dropout",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.Dropout.html"
+        },
+        {
+          "title": "nn.BatchNorm2d",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.BatchNorm2d.html"
+        },
+        {
+          "title": "torch.no_grad",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.no_grad.html"
+        }
+      ],
+      "used_symbols": [
+        "model.train",
+        "model.eval",
+        "model.train"
+      ],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [
+          "api_docs_module_train",
+          "api_docs_module_eval",
+          "api_docs_nn_dropout",
+          "api_docs_nn_batchnorm",
+          "api_docs_torch_no_grad"
+        ],
+        "lexical_top_k": [],
+        "dropped_by_cap": []
+      },
+      "label": "correct",
+      "notes": "exact matched: disabled, dropout; fuzzy matched: none; missing: none; matched expected symbols: Module.eval, Dropout; missed expected symbols: none"
+    },
+    {
+      "id": "nn_module_modes_004",
+      "question": "Why can batch normalization behave differently in train mode and eval mode?",
+      "category": "nn_module_modes",
+      "gold_type": "debugging",
+      "expected_symbols": [
+        "BatchNorm",
+        "Module.train",
+        "Module.eval"
+      ],
+      "must_include": [
+        "running statistics"
+      ],
+      "must_not_include": [
+        "only dropout is affected"
+      ],
+      "requires_citation": true,
+      "difficulty": "medium",
+      "answer": " Batch normalization behaves differently in train mode and eval mode because it uses different statistics and updates. In train mode, it normalizes the input over the channel dimension using batch statistics, while in eval mode, it uses the stored running statistics instead. This means the output is deterministic and does not depend on other samples in the batch. The running statistics are stored as running_mean and running_var buffers in the module. If the model is evaluated before sufficient training iterations, the running statistics may be inaccurate, leading to poor inference results. This is a common source of bugs.",
+      "citations": [
+        {
+          "title": "nn.BatchNorm2d",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.BatchNorm2d.html"
+        },
+        {
+          "title": "Module.train",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module.train"
+        },
+        {
+          "title": "Module.eval",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module.eval"
+        }
+      ],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [],
+        "lexical_top_k": [
+          {
+            "doc_id": "api_docs_nn_batchnorm",
+            "score": 4.0
+          },
+          {
+            "doc_id": "api_docs_module_train",
+            "score": 3.5
+          },
+          {
+            "doc_id": "api_docs_module_eval",
+            "score": 3.5
+          },
+          {
+            "doc_id": "api_docs_optimizer_zero_grad",
+            "score": 2.5
+          },
+          {
+            "doc_id": "api_docs_nn_dropout",
+            "score": 2.0
+          }
+        ],
+        "dropped_by_cap": [
+          "api_docs_optimizer_zero_grad",
+          "api_docs_nn_dropout"
+        ]
+      },
+      "label": "partially_correct",
+      "notes": "exact matched: none; fuzzy matched: running statistics ~= running statistics; missing: none; matched expected symbols: none; missed expected symbols: BatchNorm, Module.train, Module.eval"
+    },
+    {
+      "id": "optim_training_loop_001",
+      "question": "What does optimizer.zero_grad() do in a standard training loop?",
+      "category": "optim_training_loop",
+      "gold_type": "definition",
+      "expected_symbols": [
+        "Optimizer.zero_grad"
+      ],
+      "must_include": [
+        "clear",
+        "gradients"
+      ],
+      "must_not_include": [
+        "updates parameters"
+      ],
+      "requires_citation": true,
+      "difficulty": "easy",
+      "answer": " It resets the gradient tracking for all parameters in the optimizer. This is useful when you want to clear gradients for a specific layer or batch normalization layer, such as `model.layer1`. It does not change the behavior of autograd or gradient tracking. The default behavior is to clear gradients only when you call optimizer.zero_grad() explicitly. If you call optimizer.zero_grad() multiple times without clearing gradients, the gradient tracking is reset for each call.",
+      "citations": [
+        {
+          "title": "Tensor.grad",
+          "url": "https://docs.pytorch.org/docs/stable/autograd.html#torch.Tensor.grad"
+        },
+        {
+          "title": "Module.train",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module.train"
+        },
+        {
+          "title": "torch.zeros",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.zeros.html"
+        }
+      ],
+      "used_symbols": [
+        "model.layer1",
+        "optimizer.zero_grad",
+        "optimizer.zero_grad"
+      ],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [
+          "api_docs_tensor_grad"
+        ],
+        "lexical_top_k": [
+          {
+            "doc_id": "api_docs_tensor_grad",
+            "score": 3.0
+          },
+          {
+            "doc_id": "api_docs_module_train",
+            "score": 2.5
+          },
+          {
+            "doc_id": "api_docs_torch_zeros",
+            "score": 2.0
+          },
+          {
+            "doc_id": "api_docs_torch_zeros_like",
+            "score": 2.0
+          },
+          {
+            "doc_id": "api_docs_optimizer_step",
+            "score": 2.0
+          }
+        ],
+        "dropped_by_cap": [
+          "api_docs_torch_zeros_like",
+          "api_docs_optimizer_step"
+        ]
+      },
+      "label": "correct",
+      "notes": "exact matched: clear, gradients; fuzzy matched: none; missing: none; matched expected symbols: Optimizer.zero_grad; missed expected symbols: none"
+    },
+    {
+      "id": "optim_training_loop_002",
+      "question": "Why does nn.CrossEntropyLoss usually expect integer class targets instead of one-hot vectors?",
+      "category": "optim_training_loop",
+      "gold_type": "debugging",
+      "expected_symbols": [
+        "nn.CrossEntropyLoss"
+      ],
+      "must_include": [
+        "class indices"
+      ],
+      "must_not_include": [
+        "requires one-hot in standard usage"
+      ],
+      "requires_citation": true,
+      "difficulty": "medium",
+      "answer": " nn.CrossEntropyLoss usually expects integer class targets because it computes the cross-entropy loss directly. One-hot vectors are not a valid target tensor format. If you need one-hot targets, use nn.CrossEntropyLossWithLogits. If you need integer targets, use nn.CrossEntropyLoss.",
+      "citations": [
+        {
+          "title": "torch.argmax",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.argmax.html"
+        },
+        {
+          "title": "torch.zeros",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.zeros.html"
+        },
+        {
+          "title": "Module.eval",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module.eval"
+        }
+      ],
+      "used_symbols": [
+        "nn.CrossEntropyLoss",
+        "nn.CrossEntropyLossWithLogits",
+        "nn.CrossEntropyLoss"
+      ],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [],
+        "lexical_top_k": [
+          {
+            "doc_id": "api_docs_torch_argmax",
+            "score": 2.5
+          },
+          {
+            "doc_id": "api_docs_torch_zeros",
+            "score": 1.5
+          },
+          {
+            "doc_id": "api_docs_module_eval",
+            "score": 1.5
+          },
+          {
+            "doc_id": "api_docs_nn_batchnorm",
+            "score": 1.5
+          },
+          {
+            "doc_id": "api_docs_torch_tensor",
+            "score": 1.0
+          }
+        ],
+        "dropped_by_cap": [
+          "api_docs_nn_batchnorm",
+          "api_docs_torch_tensor"
+        ]
+      },
+      "label": "incorrect",
+      "notes": "matched no must_include: class indices"
+    },
+    {
+      "id": "optim_training_loop_003",
+      "question": "What should I save in a checkpoint if I want to resume training later?",
+      "category": "optim_training_loop",
+      "gold_type": "usage",
+      "expected_symbols": [
+        "torch.save",
+        "Module.state_dict",
+        "Optimizer.state_dict"
+      ],
+      "must_include": [
+        "model.state_dict",
+        "optimizer.state_dict"
+      ],
+      "must_not_include": [
+        "save only generated text"
+      ],
+      "requires_citation": true,
+      "difficulty": "medium",
+      "answer": " Save the model state dict and optimizer state dict. If you want to resume training later, load them from the checkpoint. For example, checkpoint = torch.load('checkpoint.pth.tar') restores the model state dict and optimizer state dict. If you want to resume training with a different checkpoint, use checkpoint['model_state_dict'] or checkpoint['optimizer_state_dict'].",
+      "citations": [
+        {
+          "title": "torch.zeros",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.zeros.html"
+        },
+        {
+          "title": "torch.zeros_like",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.zeros_like.html"
+        },
+        {
+          "title": "Tensor.to",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.Tensor.to.html"
+        }
+      ],
+      "used_symbols": [
+        "torch.load",
+        "checkpoint.pth.tar"
+      ],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [],
+        "lexical_top_k": [
+          {
+            "doc_id": "api_docs_torch_zeros",
+            "score": 3.0
+          },
+          {
+            "doc_id": "api_docs_torch_zeros_like",
+            "score": 3.0
+          },
+          {
+            "doc_id": "api_docs_tensor_to",
+            "score": 3.0
+          },
+          {
+            "doc_id": "api_docs_torch_as_tensor",
+            "score": 2.5
+          },
+          {
+            "doc_id": "api_docs_torch_tensor_backward",
+            "score": 2.5
+          }
+        ],
+        "dropped_by_cap": [
+          "api_docs_torch_as_tensor",
+          "api_docs_torch_tensor_backward"
+        ]
+      },
+      "label": "incorrect",
+      "notes": "matched no must_include: model.state_dict, optimizer.state_dict"
+    },
+    {
+      "id": "optim_training_loop_004",
+      "question": "When is gradient accumulation useful in training?",
+      "category": "optim_training_loop",
+      "gold_type": "definition",
+      "expected_symbols": [
+        "Tensor.backward",
+        "Optimizer.step"
+      ],
+      "must_include": [
+        "effective batch size"
+      ],
+      "must_not_include": [
+        "same as zeroing every micro-step"
+      ],
+      "requires_citation": true,
+      "difficulty": "hard",
+      "answer": " Gradient accumulation is useful when you need to compute gradients for a batch of tensors that share a common storage layout. For example, if you use autograd to compute the loss gradient for a batch of activations, you can accumulate gradients across the batch by calling backward() multiple times without clearing gradients. This is useful when you need to share gradients across multiple backward calls. For example, if you use autograd to compute the gradient of a batch of activations, you can accumulate gradients across the batch by calling backward() multiple times without clearing gradients. This is useful when you need to share gradients across multiple backward calls. For example, if you use aut",
+      "citations": [
+        {
+          "title": "torch.zeros_like",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.zeros_like.html"
+        },
+        {
+          "title": "Tensor.grad",
+          "url": "https://docs.pytorch.org/docs/stable/autograd.html#torch.Tensor.grad"
+        },
+        {
+          "title": "torch.zeros",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.zeros.html"
+        }
+      ],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [],
+        "lexical_top_k": [
+          {
+            "doc_id": "api_docs_torch_zeros_like",
+            "score": 3.0
+          },
+          {
+            "doc_id": "api_docs_tensor_grad",
+            "score": 3.0
+          },
+          {
+            "doc_id": "api_docs_torch_zeros",
+            "score": 2.5
+          },
+          {
+            "doc_id": "api_docs_torch_float16",
+            "score": 2.5
+          },
+          {
+            "doc_id": "api_docs_tensor_item",
+            "score": 2.5
+          }
+        ],
+        "dropped_by_cap": [
+          "api_docs_torch_float16",
+          "api_docs_tensor_item"
+        ]
+      },
+      "label": "incorrect",
+      "notes": "matched no must_include: effective batch size"
+    },
+    {
+      "id": "data_loading_001",
+      "question": "What methods does a custom map-style PyTorch Dataset usually implement?",
+      "category": "data_loading",
+      "gold_type": "definition",
+      "expected_symbols": [
+        "Dataset.__len__",
+        "Dataset.__getitem__"
+      ],
+      "must_include": [
+        "__len__",
+        "__getitem__"
+      ],
+      "must_not_include": [
+        "fit"
+      ],
+      "requires_citation": true,
+      "difficulty": "easy",
+      "answer": " A custom map-style PyTorch Dataset usually implements the `__getitem__` method, which returns a single tensor. It may also implement `__len__` to return the number of elements. If the dataset has a `__len__` method, it can use `len(self)` to get the number of elements. If the dataset has a `__iter__` method, it can use `next(self)` to get the next element. If the dataset has a `__iter__` method and `__len__` method, it can use `next(self)` and `len(self)` together. If the dataset has",
+      "citations": [
+        {
+          "title": "Tensor.to",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.Tensor.to.html"
+        },
+        {
+          "title": "torch.float32",
+          "url": "https://docs.pytorch.org/docs/stable/tensor_attributes.html#torch.float32"
+        },
+        {
+          "title": "torch.matmul",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.matmul.html"
+        }
+      ],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [],
+        "lexical_top_k": [
+          {
+            "doc_id": "api_docs_tensor_to",
+            "score": 1.5
+          },
+          {
+            "doc_id": "api_docs_torch_float32",
+            "score": 1.5
+          },
+          {
+            "doc_id": "api_docs_torch_matmul",
+            "score": 1.5
+          },
+          {
+            "doc_id": "api_docs_torch_argmax",
+            "score": 1.5
+          },
+          {
+            "doc_id": "api_docs_torch_no_grad",
+            "score": 1.5
+          }
+        ],
+        "dropped_by_cap": [
+          "api_docs_torch_argmax",
+          "api_docs_torch_no_grad"
+        ]
+      },
+      "label": "correct",
+      "notes": "exact matched: __len__, __getitem__; fuzzy matched: none; missing: none; matched expected symbols: Dataset.__len__, Dataset.__getitem__; missed expected symbols: none"
+    },
+    {
+      "id": "data_loading_002",
+      "question": "When do I need a custom collate_fn in a DataLoader?",
+      "category": "data_loading",
+      "gold_type": "usage",
+      "expected_symbols": [
+        "DataLoader",
+        "collate_fn"
+      ],
+      "must_include": [
+        "batch",
+        "variable length"
+      ],
+      "must_not_include": [
+        "always required"
+      ],
+      "requires_citation": true,
+      "difficulty": "medium",
+      "answer": " When you need to manually split the batch into multiple tensors. For example, if you want to split a batch into multiple sequences, or if you want to split a batch into multiple batches. If you need to manually pad the batch, such as when you want to pad the batch with a special value like `-1` or `0`. If you need to manually shuffle the batch, such as when you want to shuffle the batch indices. If you need to manually pad the batch, such as when you want to pad the batch with a special value like `-1` or `0`. If you need to manually shuffle the batch",
+      "citations": [
+        {
+          "title": "torch.as_tensor",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.as_tensor.html"
+        },
+        {
+          "title": "torch.from_numpy",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.from_numpy.html"
+        },
+        {
+          "title": "torch.zeros",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.zeros.html"
+        }
+      ],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [],
+        "lexical_top_k": [
+          {
+            "doc_id": "api_docs_torch_as_tensor",
+            "score": 2.0
+          },
+          {
+            "doc_id": "api_docs_torch_from_numpy",
+            "score": 2.0
+          },
+          {
+            "doc_id": "api_docs_torch_zeros",
+            "score": 2.0
+          },
+          {
+            "doc_id": "api_docs_torch_zeros_like",
+            "score": 2.0
+          },
+          {
+            "doc_id": "api_docs_tensor_reshape",
+            "score": 2.0
+          }
+        ],
+        "dropped_by_cap": [
+          "api_docs_torch_zeros_like",
+          "api_docs_tensor_reshape"
+        ]
+      },
+      "label": "partially_correct",
+      "notes": "exact matched: batch; fuzzy matched: none; missing: variable length; matched expected symbols: none; missed expected symbols: DataLoader, collate_fn"
+    },
+    {
+      "id": "data_loading_003",
+      "question": "Why might pin_memory help when training on cuda?",
+      "category": "data_loading",
+      "gold_type": "definition",
+      "expected_symbols": [
+        "DataLoader",
+        "pin_memory"
+      ],
+      "must_include": [
+        "host memory",
+        "cuda"
+      ],
+      "must_not_include": [
+        "moves tensors to gpu by itself"
+      ],
+      "requires_citation": true,
+      "difficulty": "hard",
+      "answer": " Pin_memory helps when training on cuda because it allows the model to share memory with the GPU. Without pin_memory, the model shares memory with the CPU, which can lead to incorrect gradients and reduced stability. For example, if you use `model.to(device)` and then call `model.train()`, the model shares memory with the CPU, and training on cuda can lead to incorrect gradients. Pin_memory ensures that the model shares memory with the GPU, so training on cuda is safe.",
+      "citations": [
+        {
+          "title": "torch.float16",
+          "url": "https://docs.pytorch.org/docs/stable/tensor_attributes.html#torch.float16"
+        },
+        {
+          "title": "nn.Dropout",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.Dropout.html"
+        },
+        {
+          "title": "torch.from_numpy",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.from_numpy.html"
+        }
+      ],
+      "used_symbols": [
+        "model.to",
+        "model.train"
+      ],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [],
+        "lexical_top_k": [
+          {
+            "doc_id": "api_docs_torch_float16",
+            "score": 2.0
+          },
+          {
+            "doc_id": "api_docs_nn_dropout",
+            "score": 2.0
+          },
+          {
+            "doc_id": "api_docs_torch_from_numpy",
+            "score": 1.5
+          },
+          {
+            "doc_id": "api_docs_torch_zeros",
+            "score": 1.5
+          },
+          {
+            "doc_id": "api_docs_torch_zeros_like",
+            "score": 1.5
+          }
+        ],
+        "dropped_by_cap": [
+          "api_docs_torch_zeros",
+          "api_docs_torch_zeros_like"
+        ]
+      },
+      "label": "partially_correct",
+      "notes": "exact matched: cuda; fuzzy matched: none; missing: host memory; matched expected symbols: pin_memory; missed expected symbols: DataLoader"
+    },
+    {
+      "id": "data_loading_004",
+      "question": "Should I usually shuffle the validation DataLoader, or keep it unshuffled?",
+      "category": "data_loading",
+      "gold_type": "usage",
+      "expected_symbols": [
+        "DataLoader"
+      ],
+      "must_include": [
+        "validation",
+        "unshuffled"
+      ],
+      "must_not_include": [
+        "must always shuffle validation"
+      ],
+      "requires_citation": true,
+      "difficulty": "medium",
+      "answer": " Keep the validation DataLoader unshuffled unless you need to shuffle the data for validation. If you need to shuffle the data, use `shuffle=True` when creating the dataloader. If you need to shuffle the data for validation, use `shuffle=True` when creating the dataloader. If you need to shuffle the data for both validation and training, use `shuffle=True` when creating the dataloader. If you need to shuffle the data for training, use `shuffle=True` when creating the dataloader. If you need to shuffle the data for both training and validation, use `shuffle=True` when creating the dat",
+      "citations": [
+        {
+          "title": "torch.tensor",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.tensor.html"
+        },
+        {
+          "title": "torch.Tensor.backward",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.Tensor.backward.html"
+        },
+        {
+          "title": "Tensor.detach",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.Tensor.detach.html"
+        }
+      ],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [],
+        "lexical_top_k": [
+          {
+            "doc_id": "api_docs_torch_tensor",
+            "score": 2.0
+          },
+          {
+            "doc_id": "api_docs_torch_tensor_backward",
+            "score": 2.0
+          },
+          {
+            "doc_id": "api_docs_tensor_detach",
+            "score": 2.0
+          },
+          {
+            "doc_id": "api_docs_module_train",
+            "score": 2.0
+          },
+          {
+            "doc_id": "api_docs_module_eval",
+            "score": 2.0
+          }
+        ],
+        "dropped_by_cap": [
+          "api_docs_module_train",
+          "api_docs_module_eval"
+        ]
+      },
+      "label": "correct",
+      "notes": "exact matched: validation, unshuffled; fuzzy matched: none; missing: none; matched expected symbols: DataLoader; missed expected symbols: none"
+    },
+    {
+      "id": "debugging_001",
+      "question": "Why does x.view(...) often fail after x = x.permute(...)?",
+      "category": "debugging",
+      "gold_type": "debugging",
+      "expected_symbols": [
+        "Tensor.view",
+        "Tensor.permute",
+        "Tensor.contiguous",
+        "Tensor.reshape"
+      ],
+      "must_include": [
+        "non-contiguous"
+      ],
+      "must_not_include": [
+        "permute copies and makes contiguous"
+      ],
+      "requires_citation": true,
+      "difficulty": "easy",
+      "answer": " `x.view(...)` requires the tensor to be contiguous in memory and compatible with the requested shape. `x.permute(...)` changes the tensor's layout, so it is not compatible with the requested shape. If you need a view-compatible tensor, use `reshape(...)` instead. `x = x.permute(...)` usually returns a new tensor with the desired shape, but it is not always safe. For example, `x = x.permute(1, 0)` returns a new tensor with shape `[2, 3]`, but `x = x.permute(0, 1)` returns a new tensor with",
+      "citations": [
+        {
+          "title": "Tensor.view",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.Tensor.view.html"
+        },
+        {
+          "title": "Tensor.detach",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.Tensor.detach.html"
+        },
+        {
+          "title": "Tensor.reshape",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.Tensor.reshape.html"
+        }
+      ],
+      "used_symbols": [
+        "x.view",
+        "x.permute",
+        "x.permute",
+        "x.permute",
+        "x.permute"
+      ],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [
+          "api_docs_tensor_view"
+        ],
+        "lexical_top_k": [
+          {
+            "doc_id": "api_docs_tensor_detach",
+            "score": 1.0
+          },
+          {
+            "doc_id": "api_docs_tensor_view",
+            "score": 1.0
+          },
+          {
+            "doc_id": "api_docs_tensor_reshape",
+            "score": 1.0
+          },
+          {
+            "doc_id": "api_docs_tensor_unsqueeze",
+            "score": 1.0
+          },
+          {
+            "doc_id": "api_docs_tensor_flatten",
+            "score": 1.0
+          }
+        ],
+        "dropped_by_cap": [
+          "api_docs_tensor_unsqueeze",
+          "api_docs_tensor_flatten"
+        ]
+      },
+      "label": "incorrect",
+      "notes": "matched no must_include: non-contiguous"
+    },
+    {
+      "id": "debugging_002",
+      "question": "Why does torch.cat fail when tensor sizes differ in a non-concatenated dimension?",
+      "category": "debugging",
+      "gold_type": "debugging",
+      "expected_symbols": [
+        "torch.cat"
+      ],
+      "must_include": [
+        "same size",
+        "other dimensions"
+      ],
+      "must_not_include": [
+        "PyTorch pads automatically"
+      ],
+      "requires_citation": true,
+      "difficulty": "easy",
+      "answer": " `torch.cat` raises a `RuntimeError` when the tensors have different sizes in any non-concatenated dimension. This is because concatenation requires matching sizes in all dimensions except the concatenation dimension. If the tensors have different sizes, the result tensor cannot be concatenated along that dimension, so the operation fails. For example, concatenating a tensor of shape `[2, 3]` and a tensor of shape `[2, 4]` along dimension 0 will fail because the second dimension, 3 versus 4, does not match. The key difference from `torch.stack` is that `cat` creates a",
+      "citations": [
+        {
+          "title": "torch.cat",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.cat.html"
+        },
+        {
+          "title": "torch.stack",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.stack.html"
+        },
+        {
+          "title": "torch.tensor",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.tensor.html"
+        }
+      ],
+      "used_symbols": [
+        "torch.cat",
+        "torch.stack"
+      ],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [
+          "api_docs_torch_cat",
+          "api_docs_torch_stack"
+        ],
+        "lexical_top_k": [
+          {
+            "doc_id": "api_docs_torch_cat",
+            "score": 9.5
+          },
+          {
+            "doc_id": "api_docs_torch_stack",
+            "score": 4.0
+          },
+          {
+            "doc_id": "api_docs_torch_tensor",
+            "score": 3.0
+          },
+          {
+            "doc_id": "api_docs_torch_as_tensor",
+            "score": 2.5
+          },
+          {
+            "doc_id": "api_docs_torch_zeros",
+            "score": 2.5
+          }
+        ],
+        "dropped_by_cap": [
+          "api_docs_torch_as_tensor",
+          "api_docs_torch_zeros"
+        ]
+      },
+      "label": "incorrect",
+      "notes": "matched no must_include: same size, other dimensions"
+    },
+    {
+      "id": "debugging_003",
+      "question": "Why can .item() only be called on a one-element tensor?",
+      "category": "debugging",
+      "gold_type": "debugging",
+      "expected_symbols": [
+        "Tensor.item"
+      ],
+      "must_include": [
+        "one element",
+        "scalar"
+      ],
+      "must_not_include": [
+        "returns None for larger tensors"
+      ],
+      "requires_citation": true,
+      "difficulty": "easy",
+      "answer": " `.item()` is not a standard PyTorch API. It is not a real tensor API. It is not a real tensor API. It is not a real tensor API. It is not a real tensor API. It is not a real tensor API. It is not a real tensor API. It is not a real tensor API. It is not a real tensor API. It is not a real tensor API. It is not a real tensor API. It is not a real tensor API. It is not a real tensor API. It is not a real tensor API. It is not a real tensor API. It is not a",
+      "citations": [
+        {
+          "title": "torch.tensor",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.tensor.html"
+        },
+        {
+          "title": "torch.zeros_like",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.zeros_like.html"
+        },
+        {
+          "title": "Tensor.to",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.Tensor.to.html"
+        }
+      ],
+      "used_symbols": [],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [],
+        "lexical_top_k": [
+          {
+            "doc_id": "api_docs_torch_tensor",
+            "score": 3.5
+          },
+          {
+            "doc_id": "api_docs_torch_zeros_like",
+            "score": 3.0
+          },
+          {
+            "doc_id": "api_docs_tensor_to",
+            "score": 3.0
+          },
+          {
+            "doc_id": "api_docs_torch_from_numpy",
+            "score": 2.5
+          },
+          {
+            "doc_id": "api_docs_torch_zeros",
+            "score": 2.5
+          }
+        ],
+        "dropped_by_cap": [
+          "api_docs_torch_from_numpy",
+          "api_docs_torch_zeros"
+        ]
+      },
+      "label": "incorrect",
+      "notes": "matched no must_include: one element, scalar"
+    },
+    {
+      "id": "debugging_004",
+      "question": "Why is torch.argmax(x, dim=1) the wrong choice if I need maximum values instead of indices?",
+      "category": "debugging",
+      "gold_type": "debugging",
+      "expected_symbols": [
+        "torch.argmax",
+        "torch.max"
+      ],
+      "must_include": [
+        "indices",
+        "values"
+      ],
+      "must_not_include": [
+        "argmax returns the maximum values"
+      ],
+      "requires_citation": true,
+      "difficulty": "medium",
+      "answer": " `torch.argmax(x, dim=1)` returns the indices of the maximum values along a dimension, not the maximum values themselves. If you need the maximum values, use `torch.max(x, dim=1)` instead. `torch.argmax` is commonly used in classification tasks to convert model logits into predicted class labels: predicted_classes. `torch.max` is the wrong choice because it returns both the maximum values and their indices, not just the maximum values. Use `torch.max` when you need the actual maximum values, and use `torch.argmax` when you only need the positions.",
+      "citations": [
+        {
+          "title": "torch.argmax",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.argmax.html"
+        },
+        {
+          "title": "torch.max",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.max.html"
+        },
+        {
+          "title": "torch.zeros",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.zeros.html"
+        }
+      ],
+      "used_symbols": [
+        "torch.argmax",
+        "torch.max",
+        "torch.argmax",
+        "torch.max",
+        "torch.max",
+        "torch.argmax"
+      ],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [
+          "api_docs_torch_argmax",
+          "api_docs_torch_max"
+        ],
+        "lexical_top_k": [
+          {
+            "doc_id": "api_docs_torch_argmax",
+            "score": 6.0
+          },
+          {
+            "doc_id": "api_docs_torch_max",
+            "score": 4.0
+          },
+          {
+            "doc_id": "api_docs_torch_zeros",
+            "score": 3.0
+          },
+          {
+            "doc_id": "api_docs_torch_as_tensor",
+            "score": 2.5
+          },
+          {
+            "doc_id": "api_docs_torch_from_numpy",
+            "score": 2.5
+          }
+        ],
+        "dropped_by_cap": [
+          "api_docs_torch_as_tensor",
+          "api_docs_torch_from_numpy"
+        ]
+      },
+      "label": "correct",
+      "notes": "exact matched: indices, values; fuzzy matched: none; missing: none; matched expected symbols: torch.argmax, torch.max; missed expected symbols: none"
+    },
+    {
+      "id": "hallucination_refusal_001",
+      "question": "What does torch.safe_backward() do?",
+      "category": "hallucination_refusal",
+      "gold_type": "hallucination_check",
+      "expected_symbols": [
+        "torch.safe_backward"
+      ],
+      "must_include": [
+        "does not exist"
+      ],
+      "must_not_include": [
+        "invented behavior"
+      ],
+      "requires_citation": false,
+      "difficulty": "easy",
+      "answer": " `torch.safe_backward()` is a context manager and decorator that safely calls backward pass without raising an error if the backward computation is not valid. It returns a new backward pass object that can be used normally. If the backward computation is valid, the result tensor is returned. If the backward computation is invalid, the backward pass is not recorded and the result tensor is not returned. `torch.safe_backward()` is not a real backward pass implementation, so it does not change the backward pass behavior. It is useful when you want to safely call backward pass without raising an error. For example, `torch.no_grad().backward()` is a real backward",
+      "citations": [
+        {
+          "title": "torch.matmul",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.matmul.html"
+        },
+        {
+          "title": "torch.argmax",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.argmax.html"
+        },
+        {
+          "title": "torch.no_grad",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.no_grad.html"
+        }
+      ],
+      "used_symbols": [
+        "torch.safe_backward",
+        "torch.safe_backward",
+        "torch.no_grad"
+      ],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [],
+        "lexical_top_k": [
+          {
+            "doc_id": "api_docs_torch_matmul",
+            "score": 1.0
+          },
+          {
+            "doc_id": "api_docs_torch_argmax",
+            "score": 1.0
+          },
+          {
+            "doc_id": "api_docs_torch_no_grad",
+            "score": 1.0
+          },
+          {
+            "doc_id": "api_docs_torch_tensor",
+            "score": 0.5
+          },
+          {
+            "doc_id": "api_docs_torch_as_tensor",
+            "score": 0.5
+          }
+        ],
+        "dropped_by_cap": [
+          "api_docs_torch_tensor",
+          "api_docs_torch_as_tensor"
+        ]
+      },
+      "label": "incorrect",
+      "notes": "matched no must_include: does not exist"
+    },
+    {
+      "id": "hallucination_refusal_002",
+      "question": "How do I use nn.ShapeAlign in PyTorch?",
+      "category": "hallucination_refusal",
+      "gold_type": "hallucination_check",
+      "expected_symbols": [
+        "nn.ShapeAlign"
+      ],
+      "must_include": [
+        "does not exist"
+      ],
+      "must_not_include": [
+        "invented constructor"
+      ],
+      "requires_citation": false,
+      "difficulty": "easy",
+      "answer": " nn.ShapeAlign is a custom module that aligns the input shape with the desired output shape. You can use it like this: nn.ShapeAlign(input_shape, output_shape). The module returns a new tensor with the same data and shape as the input, but with the correct strides. For example, nn.ShapeAlign(torch.randn(2, 3), torch.randn(2, 3)). The returned tensor shares the same memory as the input tensor and has the correct strides. If you need to align the tensor with a different output shape, use nn.ShapeAlign with the desired output shape as the input shape. For example, nn.Shape",
+      "citations": [
+        {
+          "title": "torch.from_numpy",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.from_numpy.html"
+        },
+        {
+          "title": "Tensor.grad",
+          "url": "https://docs.pytorch.org/docs/stable/autograd.html#torch.Tensor.grad"
+        },
+        {
+          "title": "Tensor.reshape",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.Tensor.reshape.html"
+        }
+      ],
+      "used_symbols": [
+        "nn.ShapeAlign",
+        "nn.ShapeAlign",
+        "nn.ShapeAlign",
+        "torch.randn",
+        "torch.randn",
+        "nn.ShapeAlign",
+        "nn.Shape"
+      ],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [],
+        "lexical_top_k": [
+          {
+            "doc_id": "api_docs_torch_from_numpy",
+            "score": 1.5
+          },
+          {
+            "doc_id": "api_docs_tensor_grad",
+            "score": 1.5
+          },
+          {
+            "doc_id": "api_docs_tensor_reshape",
+            "score": 1.5
+          },
+          {
+            "doc_id": "api_docs_tensor_dtype",
+            "score": 1.5
+          },
+          {
+            "doc_id": "api_docs_torch_matmul",
+            "score": 1.5
+          }
+        ],
+        "dropped_by_cap": [
+          "api_docs_tensor_dtype",
+          "api_docs_torch_matmul"
+        ]
+      },
+      "label": "incorrect",
+      "notes": "matched no must_include: does not exist"
+    },
+    {
+      "id": "hallucination_refusal_003",
+      "question": "When should I switch from optim.Adam to optim.AdamFast?",
+      "category": "hallucination_refusal",
+      "gold_type": "hallucination_check",
+      "expected_symbols": [
+        "optim.AdamFast"
+      ],
+      "must_include": [
+        "does not exist"
+      ],
+      "must_not_include": [
+        "invented optimizer"
+      ],
+      "requires_citation": false,
+      "difficulty": "easy",
+      "answer": " Use optim.AdamFast when you need fast optimization and do not need the default Adam optimizer behavior such as automatic weight decay or adaptive momentum. Use optim.Adam when you need the default Adam optimizer behavior such as automatic weight decay or adaptive momentum. If you need both, use optim.AdamW. If you need both, use optim.AdamW. If you need both, use optim.AdamW. If you need both, use optim.AdamW. If you need both, use optim.AdamW. If you need both, use optim.AdamW. If you need both, use optim.AdamW. If you need both, use optim.AdamW. If",
+      "citations": [
+        {
+          "title": "torch.tensor",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.tensor.html"
+        },
+        {
+          "title": "Tensor.detach",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.Tensor.detach.html"
+        },
+        {
+          "title": "torch.as_tensor",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.as_tensor.html"
+        }
+      ],
+      "used_symbols": [
+        "optim.AdamFast",
+        "optim.Adam",
+        "optim.AdamW",
+        "optim.AdamW",
+        "optim.AdamW",
+        "optim.AdamW",
+        "optim.AdamW",
+        "optim.AdamW",
+        "optim.AdamW",
+        "optim.AdamW"
+      ],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [],
+        "lexical_top_k": [
+          {
+            "doc_id": "api_docs_torch_tensor",
+            "score": 2.0
+          },
+          {
+            "doc_id": "api_docs_tensor_detach",
+            "score": 2.0
+          },
+          {
+            "doc_id": "api_docs_torch_as_tensor",
+            "score": 1.5
+          },
+          {
+            "doc_id": "api_docs_torch_from_numpy",
+            "score": 1.5
+          },
+          {
+            "doc_id": "api_docs_torch_zeros",
+            "score": 1.5
+          }
+        ],
+        "dropped_by_cap": [
+          "api_docs_torch_from_numpy",
+          "api_docs_torch_zeros"
+        ]
+      },
+      "label": "incorrect",
+      "notes": "matched no must_include: does not exist"
+    },
+    {
+      "id": "hallucination_refusal_004",
+      "question": "How can I call Tensor.auto_unsqueeze() before stacking tensors?",
+      "category": "hallucination_refusal",
+      "gold_type": "hallucination_check",
+      "expected_symbols": [
+        "Tensor.auto_unsqueeze"
+      ],
+      "must_include": [
+        "does not exist"
+      ],
+      "must_not_include": [
+        "invented method"
+      ],
+      "requires_citation": false,
+      "difficulty": "easy",
+      "answer": " Use `x.auto_unsqueeze()` before stacking tensors. For example, `x.auto_unsqueeze(0)` calls `squeeze()` before stacking. If you need to call `squeeze()` after stacking, use `x.squeeze(0)` before stacking. `squeeze()` removes the singleton dimension, so stacking before squeezing is not recommended. `squeeze()` is not a real autograd operation, so it is not recommended to use it as a proxy for autograd. `squeeze()` is not a real autograd operation, so it is not recommended to use it as a proxy for autograd. `squeeze()` is not a real autograd operation",
+      "citations": [
+        {
+          "title": "torch.zeros",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.zeros.html"
+        },
+        {
+          "title": "Tensor.grad",
+          "url": "https://docs.pytorch.org/docs/stable/autograd.html#torch.Tensor.grad"
+        },
+        {
+          "title": "Tensor.view",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.Tensor.view.html"
+        }
+      ],
+      "used_symbols": [
+        "x.auto_unsqueeze",
+        "x.auto_unsqueeze",
+        "x.squeeze"
+      ],
+      "abstained": false,
+      "confidence_band": "high",
+      "retrieval_debug": {
+        "symbol_hit_doc_ids": [],
+        "lexical_top_k": [
+          {
+            "doc_id": "api_docs_torch_zeros",
+            "score": 1.5
+          },
+          {
+            "doc_id": "api_docs_tensor_grad",
+            "score": 1.5
+          },
+          {
+            "doc_id": "api_docs_tensor_view",
+            "score": 1.5
+          },
+          {
+            "doc_id": "api_docs_tensor_dtype",
+            "score": 1.5
+          },
+          {
+            "doc_id": "api_docs_tensor_to",
+            "score": 1.5
+          }
+        ],
+        "dropped_by_cap": [
+          "api_docs_tensor_dtype",
+          "api_docs_tensor_to"
+        ]
+      },
+      "label": "incorrect",
+      "notes": "matched no must_include: does not exist"
+    }
+  ],
+  "summary": {
+    "total": 36,
+    "correct": 17,
+    "partially_correct": 7,
+    "incorrect": 12,
+    "overall_accuracy": 0.4722222222222222,
+    "citation_support_rate": 1.0,
+    "hallucination_refusal_accuracy": 0.0,
+    "per_category_accuracy": {
+      "autograd": 0.75,
+      "data_loading": 0.5,
+      "debugging": 0.25,
+      "dtype_device": 0.75,
+      "hallucination_refusal": 0.0,
+      "nn_module_modes": 0.75,
+      "optim_training_loop": 0.25,
+      "shape_ops": 0.25,
+      "tensor_creation": 0.75
+    }
+  }
+}

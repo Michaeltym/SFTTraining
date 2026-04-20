@@ -126,3 +126,7 @@ def write_symbol_index_json(symbol_index: SymbolIndex):
     with open(PYTORCH_SYMBOL_INDEX_OUTPUT_PATH, "w", encoding="utf-8") as f:
         json.dump(symbol_index, f, ensure_ascii=False, indent=2)
     print("##### pytorch_symbol_index.json saved #####")
+
+
+if __name__ == "__main__":
+    build_corpus()
