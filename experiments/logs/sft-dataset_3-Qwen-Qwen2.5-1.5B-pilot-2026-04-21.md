@@ -245,42 +245,157 @@ apples-to-apples comparison still needs a **fresh SFT + hybrid run** on
 the post-fix stack. That re-run is not required yet; it is gated on the
 scorer work (Next Step #1 and #2).
 
+### Scorer tightening (Next Step #1 — done)
+
+Added a second forbidden-content layer so known FP patterns are caught
+without relying on a re-run of inference.
+
+Schema change in `src/v2/benchmark/types.py`:
+
+- `BenchmarkItem` gains `must_not_include_regex: NotRequired[list[str]]`.
+- `BenchmarkResultItem.notes` changed from `NotRequired[str]` to
+  `NotRequired[BenchmarkLabelNotes]`, where `BenchmarkLabelNotes` is a
+  structured `TypedDict` that mirrors the item's rule sections
+  (`must_include`, `must_include_any_of`, `must_not_include`,
+  `expected_symbols`). The structured notes record which patterns /
+  phrases / symbols matched and which did not, so partially-correct
+  reasons are now visible in the output JSON instead of being a freeform
+  string.
+
+Scorer change in `src/v2/benchmark/label.py`:
+
+- New helper `get_matched_forbidden_regex(patterns, normalized_answer)`
+  runs `re.search(..., re.IGNORECASE)` against the normalized answer.
+  Its docstring spells out the normalization contract (lowercased +
+  whitespace collapsed to single space + strip, punctuation preserved)
+  so pattern authors know what shape of text their regex will see.
+- Two-tier forbidden semantics (option 丙 — explicitly chosen over the
+  uniform "both soft" alternative):
+  - `must_not_include` (keyword phrase): **hard rule**, hit forces
+    `incorrect`. Preserves the historical keyword-layer semantics so
+    older result files remain directly comparable on this axis.
+  - `must_not_include_regex` (per-row regex): **soft rule**, hit caps
+    the label at `partially_correct`. Acts as an additive experimental
+    signal we can observe before deciding to promote any pattern to a
+    hard rule.
+- Historical impact of the two-tier choice on the three runs analysed
+  in this log: zero. `must_not_include` (keyword) fired 0 times across
+  all 36 rows of all three runs, so the soft-vs-hard split only affects
+  future authoring.
+
+Seven FP patterns added to `data/eval/benchmark_core_pytorch.jsonl`
+(one `must_not_include_regex` entry per FP-ed row, two patterns on
+`tensor_creation_001`):
+
+| Row                        | Pattern                                                |
+|----------------------------|--------------------------------------------------------|
+| `tensor_creation_001`      | `torch\.tensor cannot`                                 |
+| `tensor_creation_001`      | `safer to modify[^.]{0,40}without affecting`           |
+| `shape_ops_003`            | `cat is stricter than`                                 |
+| `autograd_001`             | `optimizer\.zero_grad`                                 |
+| `nn_module_modes_001`      | `training mode[^.]{0,60}(disabled|off|skip)`           |
+| `optim_training_loop_001`  | `added to (current|previous|the) gradients`            |
+| `debugging_002`            | `\[4, ?3\][\s\S]{0,150}(raise|fail|error)`             |
+| `debugging_004`            | `flattened tensor as a scalar`                         |
+
+Each pattern was verified against the three historical runs
+(`101108` base mainline, `171427` post-fix base, `111202` SFT) by
+walking both `normalize_text(answer)` and raw `answer` and confirming
+identical hit behaviour — i.e. none of the seven patterns smuggle in a
+hidden dependency on raw whitespace or case. Same-row cross-run checks
+confirm each pattern fires exactly on the intended FP answers and not
+on same-row answers that are substantively correct.
+
+### Rescore across the three historical runs (Next Step #4 — done)
+
+New script: `scripts/rescore_benchmark.py`. Loads a previous benchmark
+result JSON, re-labels every row using the current
+`get_benchmark_label`, recomputes the summary, and writes a copy to
+`experiments/eval_results/benchmark/rescored/<stem>-rescored.json`.
+Inference-time fields (`answer`, `citations`, `used_symbols`,
+`abstained`, `confidence_band`, `retrieval_debug`) are preserved
+untouched. Two new top-level fields (`rescored_at`, `rescored_from`)
+record the rescoring provenance.
+
+Rescored outputs:
+
+| Run                          | Before    | After (new scorer) | Label changes |
+|------------------------------|-----------|--------------------|---------------|
+| `171427` post-fix base       | `30/6/0 = 0.833` | `29/7/0 = 0.806` | 1 (`tensor_creation_001`) |
+| `101108` base mainline       | `31/5/0 = 0.861` | `27/9/0 = 0.750` | 4 (`tensor_creation_001`, `autograd_001`, `nn_module_modes_001`, `optim_training_loop_001`) |
+| `111202` SFT + hybrid        | `32/4/0 = 0.889` | `28/8/0 = 0.778` | 4 (`shape_ops_003`, `autograd_001`, `debugging_002`, `debugging_004`) |
+
+Numbers match the FP-adjusted column in the earlier table, confirming
+the scorer changes simply automate what was previously a by-hand
+audit. Zero rows moved between `partially_correct` and `incorrect`
+because no `must_not_include` keyword hits were observed anywhere.
+
+Reference paths for the rescored JSONs:
+
+- [post-fix base rescored](../eval_results/benchmark/rescored/hybrid_with_base_model-hybrid_with_base_model-Qwen-Qwen2.5-1.5B-core-2026-04-21-171427-rescored.json)
+- [base mainline rescored](../eval_results/benchmark/rescored/hybrid_with_base_model-hybrid_with_base_model-Qwen-Qwen2.5-1.5B-core-2026-04-21-101108-rescored.json)
+- [SFT + hybrid rescored](../eval_results/benchmark/rescored/hybrid-hybrid-Qwen-Qwen2.5-1.5B-core-2026-04-21-111202-rescored.json)
+
+### Scorer-adjusted SFT comparison
+
+With all three runs rescored under the new scorer, the current
+apples-to-apples numbers are:
+
+| Run                      | correct | partially | incorrect | accuracy |
+|--------------------------|---------|-----------|-----------|----------|
+| `101108` base, pre-fix   | 27      | 9         | 0         | `0.750`  |
+| `171427` base, post-fix  | 29      | 7         | 0         | `0.806`  |
+| `111202` SFT, pre-fix    | 28      | 8         | 0         | `0.778`  |
+
+The SFT pilot (`111202`) was run on **pre-fix retrieval**. The
+appropriate baseline for it is `101108` (also pre-fix), not `171427`.
+Under that comparison the SFT pilot is `+1 correct, -1 partially`
+relative to its matched baseline, net `+0.028` accuracy — still within
+FP-audit noise, and the retrieval fix alone (`101108 -> 171427`) moves
+the baseline by more than the SFT did (`+2 correct` vs `+1 correct`).
+A fresh SFT + hybrid run on the post-fix retrieval stack is still
+required to get a clean read on the SFT contribution.
+
 ## Next Step
 
 **Do not scale to 200 rows yet.** The `+1 correct` signal is within FP noise
 (`28 vs 27` after adjustment). Before any further SFT scaling, tighten the
 measurement layer, then rerun:
 
-1. Extend `src/v2/benchmark/scorer.py` (or equivalent) so a handful of known
-   FP patterns are caught:
-   - worked example consistency — when a row has `must_not_include` or
-     shape literals, cross-check the example arithmetic against the stated
-     principle.
-   - self-contradiction check — flag answers where a phrase and its direct
-     inverse both appear (e.g. "clears" and "added to" both applied to the
-     same subject in one answer).
-   - `dim=` grounded checks for argmax / max / sum / flatten — the answer
-     must not describe per-dim reductions as "scalar" or "flattened".
-2. Add the six FPs / FP-like failures above as **scorer unit tests** so we
-   do not regress this again. Seeding the scorer with the actual strings
-   from today's runs gives us a concrete target.
+1. ~~Extend `src/v2/benchmark/scorer.py` (or equivalent) so a handful of
+   known FP patterns are caught~~ — **done**. Shipped as
+   `must_not_include_regex` (soft forbidden layer) in
+   `src/v2/benchmark/types.py` and `src/v2/benchmark/label.py`. Seven
+   patterns added to `data/eval/benchmark_core_pytorch.jsonl`. See
+   "Scorer tightening" above for the schema change and the two-tier
+   (hard keyword vs soft regex) semantics.
+2. ~~Add the six FPs / FP-like failures above as **scorer unit tests**~~
+   — **skipped for now**. No test framework in the repo, scorer is a
+   small pure function, and the seven regex patterns have already been
+   empirically verified across all three historical runs (see "Scorer
+   tightening" above). The rescore script serves as the regression
+   check. Revisit if/when the scorer accumulates more rules or we add
+   `tests/` for other reasons.
 3. ~~Audit the `autograd_001` RAG passage~~ — **done** (see "Post-fix
    verification" above). Root cause was symbol-index pollution from
    object-prefix placeholders, not the RAG passage itself. Fix landed in
    `src/v2/corpus/build.py`, verified with smoke + core re-run. Three of
    the four base-run FPs are eliminated, one remains
    (`tensor_creation_001`, unrelated to retrieval).
-4. After the scorer is tighter, rerun **base + hybrid** on
-   `benchmark_core` to re-establish the baseline under the new scorer.
-   Keep that number as the real plateau. (The post-fix `30/6/0` /
-   `29/7/0-adjusted` from 171427.json is the current baseline.)
-5. Only then, rerun the SFT pilot (same config, same seed) under the new
-   scorer and post-fix retrieval. If the delta is still near zero or
-   negative, the SFT-broke / SFT-fixed swap in this run is the true
-   signal: concept-level gain, API precision loss, net near zero. In that
-   case the next SFT experiment should change the **training data mix**,
-   not the **scale**, to include more argument-level, shape, and
-   debugging rows.
+4. ~~After the scorer is tighter, rerun **base + hybrid** on
+   `benchmark_core` to re-establish the baseline under the new
+   scorer~~ — **done via rescore** (see "Rescore across the three
+   historical runs" above). Baseline under the new scorer is
+   `29/7/0 = 0.806` (post-fix `171427`). The pre-fix baseline
+   `101108` rescores to `27/9/0 = 0.750`.
+5. **Next: fresh SFT + hybrid run on the post-fix retrieval stack, same
+   config and seed, new scorer.** Compare against `171427` (`29/7/0 =
+   0.806`), not the pre-fix `101108`. If the delta is still near zero
+   or negative, the SFT-broke / SFT-fixed swap in this run is the true
+   signal: concept-level gain, API precision loss, net near zero. In
+   that case the next SFT experiment should change the **training data
+   mix**, not the **scale**, to include more argument-level, shape,
+   and debugging rows.
 
 ## Other Important Info
 
@@ -320,3 +435,11 @@ measurement layer, then rerun:
   next-round work is the scorer. All retrieval-side changes are in
   `src/v2/corpus/build.py` under `OBJECT_EXAMPLE_PREFIXES` and
   `NOISE_OBJECT_PREFIXES` with inline comments explaining each rule.
+- **Update after scorer tightening:** scorer work is now complete for
+  this pilot. Two-tier forbidden layer (keyword = hard, regex = soft)
+  is documented in `get_matched_forbidden_regex`'s docstring, and the
+  seven regex patterns live alongside the per-row rules in
+  `benchmark_core_pytorch.jsonl`. The `scripts/rescore_benchmark.py`
+  tool is available for future scorer/rule changes — run it against
+  the three archived JSONs listed above (or any other result JSON) to
+  re-label without re-running inference.

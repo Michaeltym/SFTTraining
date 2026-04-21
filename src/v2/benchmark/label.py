@@ -3,7 +3,7 @@ import re
 from rapidfuzz import fuzz
 from typing import Any
 
-from src.v2.benchmark.types import BenchmarkItem, BenchmarkLabel
+from src.v2.benchmark.types import BenchmarkItem, BenchmarkLabel, BenchmarkLabelNotes
 
 NATURAL_LANGUAGE_PHRASE_PATTERN = r"^[a-z]+(?:\s+[a-z]+)+$"
 FUZZY_MATCH_SCORE_THRESHOLD = 90
@@ -98,13 +98,36 @@ def fuzzy_match_requirement(
     return False, ""
 
 
-def get_matched_forbidden_phrase(
+def get_matched_forbidden_phrases(
     forbidden_phrases: list[str], normalized_answer: str
-) -> str | None:
-    for forbidden_phrase in forbidden_phrases:
-        if normalize_text(forbidden_phrase) in normalized_answer:
-            return forbidden_phrase
-    return None
+) -> list[str]:
+    return [
+        forbidden_phrase
+        for forbidden_phrase in forbidden_phrases
+        if normalize_text(forbidden_phrase) in normalized_answer
+    ]
+
+
+def get_matched_forbidden_regex(
+    regex_patterns: list[str], normalized_answer: str
+) -> list[str]:
+    """Match forbidden regex patterns against the normalized answer.
+
+    Patterns are matched against ``normalize_text()`` output, NOT the raw answer:
+      - text is lowercased and any whitespace run is collapsed to a single space
+      - leading / trailing whitespace is stripped
+      - punctuation (``.``, ``[``, ``]``, backticks, commas, etc.) is preserved
+
+    Write patterns for that normalized form. In particular:
+      - do not rely on raw newlines, tabs, or multi-space runs -- they all collapse to one space
+      - patterns are typically written lowercase; ``re.IGNORECASE`` is applied as a safety net
+      - standard regex escapes still apply, e.g. ``torch\\.tensor`` to match the literal dot
+    """
+    return [
+        regex_pattern
+        for regex_pattern in regex_patterns
+        if re.search(regex_pattern, normalized_answer, re.IGNORECASE)
+    ]
 
 
 def match_required_phrases(
@@ -208,53 +231,52 @@ def build_label_notes(
     any_of_match_result: dict[str, Any],
     matched_expected_symbols: list[str],
     expected_symbols: list[str],
-) -> str:
-    exact_match_log = ", ".join(phrase_match_result["exact_matches"]) or "none"
-    fuzzy_match_log = ", ".join(phrase_match_result["fuzzy_logs"]) or "none"
-    missing_requirement_log = ", ".join(phrase_match_result["missing"]) or "none"
-    matched_expected_symbols_log = ", ".join(matched_expected_symbols) or "none"
+    matched_forbidden_phrases: list[str],
+    matched_forbidden_regex: list[str],
+) -> BenchmarkLabelNotes:
     missing_expected_symbols = [
         symbol for symbol in expected_symbols if symbol not in matched_expected_symbols
     ]
-    missing_expected_symbols_log = ", ".join(missing_expected_symbols) or "none"
-    matched_any_of_groups_log = (
-        ", ".join(
-            [
-                f"group {match['group']} matched: {match['matched']}"
-                for match in any_of_match_result["matched_groups"]
-            ]
-        )
-        or "none"
-    )
-    missing_any_of_groups_log = (
-        ", ".join([str(group) for group in any_of_match_result["missing_groups"]])
-        or "none"
-    )
-
-    return (
-        f"exact matched: {exact_match_log}; "
-        f"fuzzy matched: {fuzzy_match_log}; "
-        f"missing: {missing_requirement_log}; "
-        f"matched any_of groups: {matched_any_of_groups_log}; "
-        f"missing any_of groups: {missing_any_of_groups_log}; "
-        f"matched expected symbols: {matched_expected_symbols_log}; "
-        f"missed expected symbols: {missing_expected_symbols_log}"
-    )
+    return {
+        "must_include": {
+            "exact_matches": phrase_match_result["exact_matches"],
+            "fuzzy_matches": phrase_match_result["fuzzy_matches"],
+            "fuzzy_logs": phrase_match_result["fuzzy_logs"],
+            "missing": phrase_match_result["missing"],
+        },
+        "must_include_any_of": {
+            "matched_groups": any_of_match_result["matched_groups"],
+            "missing_groups": any_of_match_result["missing_groups"],
+        },
+        "must_not_include": {
+            "matched_phrases": matched_forbidden_phrases,
+            "matched_regex": matched_forbidden_regex,
+        },
+        "expected_symbols": {
+            "matched": matched_expected_symbols,
+            "missing": missing_expected_symbols,
+        },
+    }
 
 
-def get_benchmark_label(item: BenchmarkItem, answer: str) -> tuple[BenchmarkLabel, str]:
+def get_benchmark_label(
+    item: BenchmarkItem, answer: str
+) -> tuple[BenchmarkLabel, BenchmarkLabelNotes]:
     required_phrases = item["must_include"]
     required_any_of_groups = item.get("must_include_any_of") or []
+    must_not_include_regex = item.get("must_not_include_regex") or []
     forbidden_phrases = item["must_not_include"]
     expected_symbols = item["expected_symbols"]
     normalized_answer = normalize_text(answer)
 
-    matched_forbidden_phrase = get_matched_forbidden_phrase(
+    matched_forbidden_phrases = get_matched_forbidden_phrases(
         forbidden_phrases=forbidden_phrases,
         normalized_answer=normalized_answer,
     )
-    if matched_forbidden_phrase:
-        return "incorrect", f"matched must_not_include: {matched_forbidden_phrase}"
+    matched_forbidden_regex = get_matched_forbidden_regex(
+        regex_patterns=must_not_include_regex,
+        normalized_answer=normalized_answer,
+    )
 
     phrase_match_result = match_required_phrases(
         required_phrases=required_phrases,
@@ -278,7 +300,17 @@ def get_benchmark_label(item: BenchmarkItem, answer: str) -> tuple[BenchmarkLabe
         any_of_match_result=any_of_match_result,
         matched_expected_symbols=matched_expected_symbols,
         expected_symbols=expected_symbols,
+        matched_forbidden_phrases=matched_forbidden_phrases,
+        matched_forbidden_regex=matched_forbidden_regex,
     )
+
+    # must_not_include (keyword) is a hard rule: any hit forces incorrect.
+    # This preserves the historical semantics of the keyword layer and keeps
+    # must_not_include and must_not_include_regex as two distinct severity tiers:
+    #   - must_not_include        -> hard forbidden, hit => incorrect
+    #   - must_not_include_regex  -> soft forbidden, hit => at most partially_correct
+    if len(matched_forbidden_phrases) > 0:
+        return "incorrect", notes
 
     if (
         (
@@ -290,14 +322,13 @@ def get_benchmark_label(item: BenchmarkItem, answer: str) -> tuple[BenchmarkLabe
         )
         and len(required_any_of_groups) == len(any_of_match_result["matched_groups"])
         and has_expected_symbol_match
+        and len(matched_forbidden_regex) == 0
     ):
         return "correct", notes
     if (
         phrase_match_result["matched_count"] > 0
         or len(any_of_match_result["matched_groups"]) > 0
+        or len(matched_forbidden_regex) > 0
     ):
         return "partially_correct", notes
-    return (
-        "incorrect",
-        f"matched no must_include: {', '.join(phrase_match_result['missing']) or 'none'}",
-    )
+    return "incorrect", notes
