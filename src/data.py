@@ -11,8 +11,16 @@ class EncodedData(TypedDict):
     labels: torch.Tensor
 
 
-def load_jsonl_data(file_path: str) -> Dataset:
+def load_jsonl_data(
+    file_path: str,
+    max_rows: int | None = None,
+    shuffle_seed: int | None = None,
+) -> Dataset:
     dataset = load_dataset("json", data_files=file_path, split="train")
+    if shuffle_seed is not None and max_rows is not None and max_rows < len(dataset):
+        dataset = dataset.shuffle(seed=shuffle_seed)
+    if max_rows is not None and max_rows < len(dataset):
+        dataset = dataset.select(range(max_rows))
     return dataset
 
 

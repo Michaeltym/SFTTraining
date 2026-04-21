@@ -10,6 +10,20 @@ EPOCHS = 1
 LEARNING_RATE = 1e-4
 DATASET_NAME = "dataset_3"
 
+# Optional slice for the SFT data loader. Set to a positive integer to cap
+# the number of rows used from training/validation jsonl, or set to None to
+# use the full dataset. Useful for a pilot run before a full scale-up.
+# Reset both to None when running the full dataset.
+MAX_TRAIN_ROWS: int | None = 50
+MAX_VAL_ROWS: int | None = 12
+
+# Seed used to shuffle a jsonl dataset before slicing with MAX_TRAIN_ROWS or
+# MAX_VAL_ROWS. With a fixed seed the slice is reproducible across runs but
+# is no longer biased by the file's original row order. Set to None to skip
+# the shuffle (i.e. take the first N rows verbatim, only safe when the file
+# is already random or the cap equals the full dataset).
+PILOT_SHUFFLE_SEED: int | None = 42
+
 HF_CACHE_DIR = Path("./data/hf_home")
 EVAL_RESULTS_DIR = Path("./experiments/eval_results")
 RAW_DATA_DIR = Path("./data/raw")
@@ -20,7 +34,7 @@ CHECKPOINT_PATH = (
     CHECKPOINT_DIR
     / f"{MODEL_NAME.replace('/', '-')}-{DATASET_NAME}-{BATCH_SIZE}-{LEARNING_RATE}.pt"
 )
-BENCHMARK_NAME = "smoke"
+BENCHMARK_NAME = "core"
 BENCHMARK_DATA_PATH = Path(f"./data/eval/benchmark_{BENCHMARK_NAME}_pytorch.jsonl")
 BENCHMARK_RESULTS_DIR = Path("./experiments/eval_results/benchmark")
 PYTORCH_DOCS_SOURCE_DIR = Path("./data/source/pytorch_docs")
@@ -35,7 +49,7 @@ MODE_INFERENCE = "inference"
 MODE_RAG_EVALUATE = "rag_evaluate"
 MODE_HYBRID = "hybrid"
 MODE_HYBRID_WITH_BASE_MODEL = "hybrid_with_base_model"
-MODE = MODE_HYBRID_WITH_BASE_MODEL
+MODE = MODE_HYBRID
 
 RAG_RETRIEVAL_TITLE_TOKEN_WEIGHT = 5
 RAG_RETRIEVAL_TAG_TOKEN_WEIGHT = 3
