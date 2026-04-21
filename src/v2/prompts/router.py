@@ -25,6 +25,9 @@ EXACT_PROMPT_QUERY_KEYWORDS = [
     "non-concatenated",
     "concatenation dimension",
     "same size",
+    "from_numpy",
+    "numpy array",
+    "share memory",
 ]
 
 
