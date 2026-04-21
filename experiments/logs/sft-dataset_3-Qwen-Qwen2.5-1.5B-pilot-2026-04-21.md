@@ -22,6 +22,7 @@
 - Post-SFT checkpoint: [Qwen-Qwen2.5-1.5B-dataset_3-8-0.0001.pt](../../data/checkpoints/Qwen-Qwen2.5-1.5B-dataset_3-8-0.0001.pt)
 - Post-SFT benchmark (hybrid mode): [hybrid-hybrid-Qwen-Qwen2.5-1.5B-core-2026-04-21-111202.json](../eval_results/benchmark/hybrid-hybrid-Qwen-Qwen2.5-1.5B-core-2026-04-21-111202.json)
 - Today's mainline base+hybrid reference: [hybrid_with_base_model-hybrid_with_base_model-Qwen-Qwen2.5-1.5B-core-2026-04-21-101108.json](../eval_results/benchmark/hybrid_with_base_model-hybrid_with_base_model-Qwen-Qwen2.5-1.5B-core-2026-04-21-101108.json) (31/5/0 = 0.8611)
+- Post-fix base+hybrid verification: [hybrid_with_base_model-hybrid_with_base_model-Qwen-Qwen2.5-1.5B-core-2026-04-21-171427.json](../eval_results/benchmark/hybrid_with_base_model-hybrid_with_base_model-Qwen-Qwen2.5-1.5B-core-2026-04-21-171427.json) (30/6/0 = 0.8333 raw, 29/7/0 FP-adjusted)
 - Timestamp: `2026-04-21`
 
 ## Goal
@@ -178,6 +179,72 @@ behaviour specifics. With a 50-row cap over a 200-row source file and a
 `seed=42` shuffle, we did not audit the category distribution of the actual
 slice used.
 
+### Post-fix verification (Next Step #3 — done)
+
+After the pilot, `autograd_001` was root-caused to a **symbol-index
+pollution** bug, not a RAG passage bug as originally suspected. Body text
+in several docs contains example code using object-prefix placeholders
+(`loss.backward()`, `optimizer.zero_grad()`, `model.train()`). These were
+being emitted as symbol-index keys during corpus build, each mapping back
+to every doc whose body mentioned the placeholder. A query for
+`loss.backward` was then exact-matching the polluted key and pulling 6
+unrelated docs — the top doc was `api_docs_optimizer_zero_grad`, which
+explains why both base and SFT confidently prescribed `zero_grad()` as
+the fix.
+
+Fix applied in `src/v2/corpus/build.py`: `OBJECT_EXAMPLE_PREFIXES =
+{"loss", "optimizer", "model", "f"}` is now a **noise** set, not an
+allowlist. `is_noise_symbol` returns `True` for any symbol whose first
+segment is in that set, so these placeholders never reach the symbol
+index. Canonical API names (`Tensor.backward`, `Optimizer.zero_grad`,
+`Module.train`) remain indexed under their real names; queries written in
+placeholder form fall through to them via the alias fallback on the short
+form (`backward`, `zero_grad`, `train`).
+
+Index rebuilt: `99 -> 87` entries, 12 polluted entries removed, canonical
+entries intact.
+
+Scope verification — smoke first, then core:
+
+- **Smoke** (12 rows, regression harness): 10/12 byte-equal to pre-fix,
+  only `autograd_001` and `nn_module_modes_001` changed. Exactly the two
+  queries whose symbols were in the pollution set. Surgical.
+- **Core** (36 rows): `30 byte-equal / 6 content-changed / 0
+  retrieval-only`. The 6 touched rows are all in the
+  `autograd / optim / nn.Module.modes` cluster, exactly where
+  object-prefix pollution was concentrated. No unexpected ripples on the
+  other 30.
+
+Raw score drift: `31/5/0 -> 30/6/0`. The `-1 correct` is `autograd_001`
+demoting from `correct` to `partially_correct`, which is the **desired**
+outcome: the old answer was a scorer-labelled correct while containing a
+dangerous wrong fix; the new answer is less helpful but not actively
+misleading.
+
+Per-row FP re-audit on the four base-run FPs identified earlier:
+
+| Row                      | Pre-fix label | Post-fix label | FP still present? |
+|--------------------------|---------------|----------------|-------------------|
+| `autograd_001`           | correct       | partially_correct | No — label now captures the quality; new answer no longer prescribes `zero_grad()` |
+| `nn_module_modes_001`    | correct       | correct        | No — new answer correctly says training mode applies dropout (old said disabled in both modes) |
+| `optim_training_loop_001`| correct       | correct        | No — self-contradiction ("clears" vs "added to") removed, answer now clean on `.grad = None` |
+| `tensor_creation_001`    | correct       | correct        | **Yes, unchanged** — unrelated to symbol-index fix, still wrong about `torch.tensor` not accepting numpy arrays |
+
+Post-fix FP-adjusted score for base+hybrid: `29/7/0 = 0.8056`, up from
+`27/9/0 = 0.750` before the fix. Quality gain of `+2 correct` on the
+FP-adjusted scale even though raw count went `-1`. One remaining hard FP
+(`tensor_creation_001`), which is a training-data / phrasing issue, not a
+retrieval issue.
+
+### Implication for the SFT comparison
+
+The pre-fix comparison (`27/9/0` base vs `28/8/0` SFT, adjusted) was
+based on a retrieval stack that was silently biasing both runs. The
+symbol-index fix benefits base and any future SFT run equally, so the
+apples-to-apples comparison still needs a **fresh SFT + hybrid run** on
+the post-fix stack. That re-run is not required yet; it is gated on the
+scorer work (Next Step #1 and #2).
+
 ## Next Step
 
 **Do not scale to 200 rows yet.** The `+1 correct` signal is within FP noise
@@ -197,19 +264,23 @@ measurement layer, then rerun:
 2. Add the six FPs / FP-like failures above as **scorer unit tests** so we
    do not regress this again. Seeding the scorer with the actual strings
    from today's runs gives us a concrete target.
-3. Audit the `autograd_001` RAG passage — same wrong "zero_grad fixes it"
-   conclusion appears in base and SFT. This is not an SFT issue, it is a
-   retrieval / template issue that should be fixed before any SFT
-   comparison is trusted.
-4. After the scorer is tighter and `autograd_001` is independently fixed,
-   rerun **base + hybrid** on `benchmark_core` to re-establish the baseline
-   under the new scorer. Keep that number as the real plateau.
+3. ~~Audit the `autograd_001` RAG passage~~ — **done** (see "Post-fix
+   verification" above). Root cause was symbol-index pollution from
+   object-prefix placeholders, not the RAG passage itself. Fix landed in
+   `src/v2/corpus/build.py`, verified with smoke + core re-run. Three of
+   the four base-run FPs are eliminated, one remains
+   (`tensor_creation_001`, unrelated to retrieval).
+4. After the scorer is tighter, rerun **base + hybrid** on
+   `benchmark_core` to re-establish the baseline under the new scorer.
+   Keep that number as the real plateau. (The post-fix `30/6/0` /
+   `29/7/0-adjusted` from 171427.json is the current baseline.)
 5. Only then, rerun the SFT pilot (same config, same seed) under the new
-   scorer. If the delta is still near zero or negative, the SFT-broke /
-   SFT-fixed swap in this run is the true signal: concept-level gain, API
-   precision loss, net near zero. In that case the next SFT experiment
-   should change the **training data mix**, not the **scale**, to include
-   more argument-level, shape, and debugging rows.
+   scorer and post-fix retrieval. If the delta is still near zero or
+   negative, the SFT-broke / SFT-fixed swap in this run is the true
+   signal: concept-level gain, API precision loss, net near zero. In that
+   case the next SFT experiment should change the **training data mix**,
+   not the **scale**, to include more argument-level, shape, and
+   debugging rows.
 
 ## Other Important Info
 
@@ -244,3 +315,8 @@ measurement layer, then rerun:
   definition rows. This would be worth checking before the next SFT run.
 - This log closes the SFT pilot. The next round of changes is expected to
   target the scorer and `autograd_001` RAG bug, not the training loop.
+- **Update after post-fix verification:** the `autograd_001` fix landed
+  as a symbol-index build change (not a RAG passage change). Remaining
+  next-round work is the scorer. All retrieval-side changes are in
+  `src/v2/corpus/build.py` under `OBJECT_EXAMPLE_PREFIXES` and
+  `NOISE_OBJECT_PREFIXES` with inline comments explaining each rule.

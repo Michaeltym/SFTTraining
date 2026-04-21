@@ -153,54 +153,6 @@
       "zero_grad"
     ]
   },
-  "Optimizer.zero_grad": {
-    "symbol": "Optimizer.zero_grad",
-    "doc_ids": [
-      "api_docs_optimizer_zero_grad"
-    ],
-    "aliases": [
-      "zero_grad"
-    ]
-  },
-  "optimizer.zero_grad": {
-    "symbol": "optimizer.zero_grad",
-    "doc_ids": [
-      "api_docs_optimizer_zero_grad",
-      "api_docs_optimizer_step",
-      "api_docs_optim_sgd",
-      "api_docs_optim_adam",
-      "api_docs_tensor_grad"
-    ],
-    "aliases": [
-      "zero_grad"
-    ]
-  },
-  "loss.backward": {
-    "symbol": "loss.backward",
-    "doc_ids": [
-      "api_docs_optimizer_zero_grad",
-      "api_docs_optimizer_step",
-      "api_docs_optim_sgd",
-      "api_docs_optim_adam",
-      "api_docs_tensor_requires_grad",
-      "api_docs_tensor_grad"
-    ],
-    "aliases": [
-      "backward"
-    ]
-  },
-  "optimizer.step": {
-    "symbol": "optimizer.step",
-    "doc_ids": [
-      "api_docs_optimizer_zero_grad",
-      "api_docs_optim_sgd",
-      "api_docs_optim_adam",
-      "api_docs_torch_checkpoint"
-    ],
-    "aliases": [
-      "step"
-    ]
-  },
   "torch.optim.Optimizer.step": {
     "symbol": "torch.optim.Optimizer.step",
     "doc_ids": [
@@ -209,15 +161,6 @@
     "aliases": [
       "Optimizer.step",
       "Optimizer step",
-      "step"
-    ]
-  },
-  "Optimizer.step": {
-    "symbol": "Optimizer.step",
-    "doc_ids": [
-      "api_docs_optimizer_step"
-    ],
-    "aliases": [
       "step"
     ]
   },
@@ -238,37 +181,6 @@
     ],
     "aliases": [
       "grad"
-    ]
-  },
-  "optimizer.state_dict": {
-    "symbol": "optimizer.state_dict",
-    "doc_ids": [
-      "api_docs_optimizer_step",
-      "api_docs_optim_sgd",
-      "api_docs_optim_adam"
-    ],
-    "aliases": [
-      "state_dict"
-    ]
-  },
-  "optimizer.load_state_dict": {
-    "symbol": "optimizer.load_state_dict",
-    "doc_ids": [
-      "api_docs_optimizer_step",
-      "api_docs_optim_sgd"
-    ],
-    "aliases": [
-      "load_state_dict"
-    ]
-  },
-  "model.state_dict": {
-    "symbol": "model.state_dict",
-    "doc_ids": [
-      "api_docs_optimizer_step",
-      "api_docs_optim_adam"
-    ],
-    "aliases": [
-      "state_dict"
     ]
   },
   "nn.CrossEntropyLoss": {
@@ -428,15 +340,6 @@
     ],
     "aliases": [
       "requires_grad_"
-    ]
-  },
-  "model.parameters": {
-    "symbol": "model.parameters",
-    "doc_ids": [
-      "api_docs_tensor_requires_grad"
-    ],
-    "aliases": [
-      "parameters"
     ]
   },
   "Tensor.detach": {
@@ -865,15 +768,6 @@
       "item"
     ]
   },
-  "loss.item": {
-    "symbol": "loss.item",
-    "doc_ids": [
-      "api_docs_tensor_item"
-    ],
-    "aliases": [
-      "item"
-    ]
-  },
   "torch.argmax": {
     "symbol": "torch.argmax",
     "doc_ids": [
@@ -919,32 +813,6 @@
     ],
     "aliases": [
       "train"
-    ]
-  },
-  "model.train": {
-    "symbol": "model.train",
-    "doc_ids": [
-      "api_docs_module_train",
-      "api_docs_module_eval",
-      "api_docs_nn_dropout",
-      "api_docs_nn_batchnorm",
-      "api_docs_torch_no_grad"
-    ],
-    "aliases": [
-      "train"
-    ]
-  },
-  "model.eval": {
-    "symbol": "model.eval",
-    "doc_ids": [
-      "api_docs_module_train",
-      "api_docs_module_eval",
-      "api_docs_nn_dropout",
-      "api_docs_nn_batchnorm",
-      "api_docs_torch_no_grad"
-    ],
-    "aliases": [
-      "eval"
     ]
   },
   "Module.eval": {
