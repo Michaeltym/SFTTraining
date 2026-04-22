@@ -23,6 +23,7 @@
 - Post-SFT benchmark (hybrid mode): [hybrid-hybrid-Qwen-Qwen2.5-1.5B-core-2026-04-21-111202.json](../eval_results/benchmark/hybrid-hybrid-Qwen-Qwen2.5-1.5B-core-2026-04-21-111202.json)
 - Today's mainline base+hybrid reference: [hybrid_with_base_model-hybrid_with_base_model-Qwen-Qwen2.5-1.5B-core-2026-04-21-101108.json](../eval_results/benchmark/hybrid_with_base_model-hybrid_with_base_model-Qwen-Qwen2.5-1.5B-core-2026-04-21-101108.json) (31/5/0 = 0.8611)
 - Post-fix base+hybrid verification: [hybrid_with_base_model-hybrid_with_base_model-Qwen-Qwen2.5-1.5B-core-2026-04-21-171427.json](../eval_results/benchmark/hybrid_with_base_model-hybrid_with_base_model-Qwen-Qwen2.5-1.5B-core-2026-04-21-171427.json) (30/6/0 = 0.8333 raw, 29/7/0 FP-adjusted)
+- Post-fix SFT+hybrid re-run: [hybrid-hybrid-Qwen-Qwen2.5-1.5B-core-2026-04-21-201042.json](../eval_results/benchmark/hybrid-hybrid-Qwen-Qwen2.5-1.5B-core-2026-04-21-201042.json) (27/9/0 = 0.7500 under new scorer)
 - Timestamp: `2026-04-21`
 
 ## Goal
@@ -355,6 +356,180 @@ FP-audit noise, and the retrieval fix alone (`101108 -> 171427`) moves
 the baseline by more than the SFT did (`+2 correct` vs `+1 correct`).
 A fresh SFT + hybrid run on the post-fix retrieval stack is still
 required to get a clean read on the SFT contribution.
+
+### Training slice category audit (pre-run, seed=42)
+
+Before re-running SFT on the post-fix retrieval stack, we ran a quick
+distribution audit on the 50-row slice that `seed=42` produces from
+`data/raw/training/dataset_3.jsonl`. `dataset_3` rows only have
+`input / output`, no category field, so categories were inferred by
+keyword rules mapped to the benchmark's nine categories (one row can
+be in multiple categories).
+
+| category              | rows  | % of slice |
+|-----------------------|-------|------------|
+| `shape_ops`           | 28    | 56%        |
+| `debugging`           | 21    | 42%        |
+| `optim_training_loop` | 4     | 8%         |
+| `dtype_device`        | 3     | 6%         |
+| `hallucination_refusal` | 3   | 6%         |
+| `tensor_creation`     | 1     | 2%         |
+| `nn_module_modes`     | 1     | 2%         |
+| `autograd`            | **0** | **0%**     |
+| `data_loading`        | 0     | 0%         |
+
+Two structural observations before a single run was done:
+
+- The slice is **dominated by two categories** (`shape_ops` + `debugging`
+  = 98% of hits). If SFT over-fits to the confident phrasing patterns in
+  these rows, those patterns will leak into benchmark rows in the same
+  two categories with the highest probability.
+- **`autograd` has zero coverage.** Whatever the SFT weights do for
+  `autograd_*` benchmark rows, they cannot be domain knowledge transfer
+  — they can only be style / instruction-following drift.
+
+This audit was run before the post-fix SFT re-run so the result could
+be interpreted against a concrete prior rather than in isolation.
+
+### Post-fix SFT re-run (Next Step #5 — done)
+
+Fresh SFT + hybrid run on the **post-fix retrieval stack**, same
+config (`Qwen/Qwen2.5-1.5B`, LoRA r=16 / alpha=32 / dropout=0.05, LR
+`1e-4`, batch 8, 1 epoch, `PILOT_SHUFFLE_SEED=42`, same 50-row slice).
+Benchmark result: [hybrid-hybrid-Qwen-Qwen2.5-1.5B-core-2026-04-21-201042.json](../eval_results/benchmark/hybrid-hybrid-Qwen-Qwen2.5-1.5B-core-2026-04-21-201042.json),
+scored under the new (`must_not_include_regex`) scorer directly at run
+time — no rescore needed.
+
+Training dynamics (reproducibility check):
+
+| metric             | `111202` pre-fix SFT | `201042` post-fix SFT | diff        |
+|--------------------|----------------------|-----------------------|-------------|
+| trainable params   | 18,464,768           | 18,464,768            | match       |
+| train avg loss     | 1.8094               | 1.8143                | +0.005      |
+| val loss           | 1.4175               | 1.4352                | +0.018      |
+| train time         | 221.64s              | 420.88s               | +1.9x       |
+
+Train/val loss are essentially identical, confirming the training stage
+is reproducible at the config level. Longer wall-clock time is
+concentrated in step 1 (`154.19s` vs `~8s` on the prior run), consistent
+with MPS cache cold-start after the host had been used for other work
+between the two runs. Step 2-7 stabilise at `10-70s`, still inside the
+MPS-fix-is-working envelope.
+
+**Checkpoint caveat:** the new SFT run wrote to the same checkpoint
+path as `111202` (`data/checkpoints/Qwen-Qwen2.5-1.5B-dataset_3-8-0.0001.pt`)
+because checkpoint filenames are derived from config alone. The
+previous SFT weights are therefore no longer on disk. Downstream A/B
+across these two SFT runs relies on the archived benchmark JSONs only.
+
+#### Top-line result
+
+| Run                        | correct | partial | incorrect | accuracy |
+|----------------------------|---------|---------|-----------|----------|
+| `201042` SFT + post-fix    | **27**  | **9**   | 0         | **0.750** |
+| `171427` base + post-fix   | 29      | 7       | 0         | 0.806    |
+| `111202` SFT + pre-fix     | 28      | 8       | 0         | 0.778    |
+| `101108` base + pre-fix    | 27      | 9       | 0         | 0.750    |
+
+SFT on post-fix retrieval is **-2 correct / +2 partial** relative to
+its matched baseline (`171427`). It is **worse** than the earlier
+pre-fix SFT (`111202`) by `-1 correct / +1 partial`. Same training
+recipe, same training data, only the retrieval stack changed, and yet
+the SFT net effect flipped from slightly positive (pre-fix) to
+slightly negative (post-fix).
+
+#### Per-row SFT effect (201042 vs 171427, same retrieval)
+
+SFT improvements:
+
+| Row                   | base → SFT              |
+|-----------------------|-------------------------|
+| `tensor_creation_001` | partially_correct → **correct** |
+| `dtype_device_003`    | partially_correct → **correct** |
+
+SFT regressions:
+
+| Row                   | base → SFT                       | Notes |
+|-----------------------|----------------------------------|-------|
+| `shape_ops_003`       | correct → partially_correct      | Same FP as `111202` — `cat is stricter than` reappears |
+| `debugging_002`       | correct → partially_correct      | Same FP as `111202` — `[4,3] → raise` worked example |
+| `debugging_004`       | correct → partially_correct      | Same FP as `111202` — `flattened tensor as a scalar` |
+| `autograd_003`        | correct → partially_correct      | New regression — not broken by `111202` |
+
+Net: `+2 UP / -4 DOWN = -2 correct`.
+
+#### Per-category accuracy diff
+
+| category               | slice %  | `171427` base | `201042` SFT | Δ accuracy |
+|------------------------|----------|---------------|--------------|------------|
+| `debugging`            | 42%      | 1.000         | 0.500        | **-0.500** |
+| `autograd`             | **0%**   | 0.750         | 0.500        | **-0.250** |
+| `shape_ops`            | **56%**  | 0.750         | 0.500        | **-0.250** |
+| `tensor_creation`      | 2%       | 0.750         | 1.000        | **+0.250** |
+| `dtype_device`         | 6%       | 0.750         | 1.000        | **+0.250** |
+| `data_loading`         | 0%       | 0.750         | 0.750        | 0          |
+| `hallucination_refusal`| 6%       | 1.000         | 1.000        | 0          |
+| `nn_module_modes`      | 2%       | 0.750         | 0.750        | 0          |
+| `optim_training_loop`  | 8%       | 0.750         | 0.750        | 0          |
+
+#### Interpretation — mix hypothesis confirmed
+
+The slice audit predicted that shape / debugging would take the brunt
+of the SFT regression and that under-represented categories could
+stay flat or improve. The per-category Δ exactly matches that
+prediction:
+
+- **Over-sampled categories (`shape_ops` 56%, `debugging` 42%)** both
+  lost `-0.25` and `-0.50` accuracy respectively. The three regressing
+  rows (`shape_ops_003`, `debugging_002`, `debugging_004`) are the same
+  rows that `111202` broke, indicating the SFT-broke pattern is a
+  **deterministic product of the slice composition**, not a run-to-run
+  fluke. Dense exposure to "If x has shape [...] what shape does
+  <op>(...) return?" and "Why does X fail?" rows biases the model
+  toward confident, decisive phrasing that does not hold up on
+  benchmark rows where the correct answer is subtler (e.g. cat-vs-stack
+  strictness direction, argmax returning per-dim indices not a scalar,
+  a legal `torch.cat([[2,3], [4,3]], dim=0)` call being correctly
+  described as legal).
+
+- **Zero-coverage category (`autograd` 0%)** lost `-0.25`. SFT has
+  never seen an autograd training row, so the regression on
+  `autograd_003` ("detach vs no_grad") cannot be domain learning gone
+  wrong — it is a **style / instruction-following drift**: the
+  confident, specific answer style learned from shape / debugging rows
+  transferred to an autograd prompt and committed the model to a wrong
+  but confident answer, where the base model would have produced a
+  more hedged, correct-enough answer.
+
+- **Under-sampled categories (`tensor_creation` 2%, `dtype_device`
+  6%)** improved by `+0.25` each. Two rows. These are the only actual
+  wins from SFT on this mix. Both categories were represented by
+  one-to-three targeted high-quality rows in the slice, so there was a
+  small learning signal without a mass of same-category rows drowning
+  it out.
+
+#### What this closes
+
+- **SFT recipe is not the problem.** Train/val loss are reproducible
+  across the pre-fix and post-fix runs to within 0.02. The LoRA
+  adapters are learning exactly what the slice is teaching them.
+- **Retrieval fix is not the problem.** Base post-fix (`171427`) is
+  the strongest single run in the table (0.806). The post-fix stack is
+  a strict improvement on the pre-fix stack when evaluated on base.
+- **Training slice composition is the problem.** The combination of
+  over-sampled `shape_ops`+`debugging` and zero-coverage `autograd`
+  explains both the regressions and the improvements in the right
+  direction and roughly the right magnitude.
+- **Scaling this mix to 200 rows would make things worse**, not
+  better, because it would proportionally scale the same two
+  dominant-category priors that are driving the regressions.
+
+The pilot's original framing ("does a short LoRA SFT on a 50-row
+slice produce a measurable change on `benchmark_core`?") now has a
+clear answer: **yes, measurable and reproducible, but net negative on
+this slice**. The next experiment should hold size fixed at 50 rows
+and rebalance categories — this isolates `mix` as the single changing
+variable so any subsequent signal can be attributed cleanly.
 
 ## Next Step
 

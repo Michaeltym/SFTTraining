@@ -10,12 +10,14 @@ tags: as_tensor, tensor, copy, reuse, numpy
 
 # Key facts
 
-- `torch.tensor(...)` copies input data.
-- `torch.as_tensor(...)` reuses existing data when possible.
-- `torch.as_tensor(...)` avoids a copy only when it can safely reuse the source representation.
+- `torch.tensor(...)` always copies input data into a new tensor.
+- `torch.as_tensor(...)` reuses the underlying storage when the input is already a tensor or a NumPy array with matching dtype and device. In that case no copy is made and the two objects share memory.
+- `torch.as_tensor(...)` falls back to copying when a conversion is needed, for example when dtype or device differs, or when the input is a Python list.
+- Because `torch.as_tensor(...)` can share memory, modifying the source NumPy array afterwards can change the tensor.
 
 # Useful assistant behavior
 
 - If the user asks for the difference between `torch.as_tensor` and `torch.tensor`, explain possible reuse vs guaranteed copy.
+- If the user asks when `torch.as_tensor` actually shares memory, mention that it requires a matching-dtype, matching-device NumPy array or existing tensor.
 - Do not claim that `torch.as_tensor(...)` always copies.
 - Do not claim that `torch.tensor(...)` reuses input storage.

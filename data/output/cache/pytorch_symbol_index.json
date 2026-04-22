@@ -327,7 +327,8 @@
   "nn.Module": {
     "symbol": "nn.Module",
     "doc_ids": [
-      "api_docs_tensor_requires_grad"
+      "api_docs_tensor_requires_grad",
+      "api_docs_module_train"
     ],
     "aliases": [
       "Module"
@@ -815,6 +816,51 @@
       "train"
     ]
   },
+  "nn.Dropout": {
+    "symbol": "nn.Dropout",
+    "doc_ids": [
+      "api_docs_module_train",
+      "api_docs_module_eval",
+      "api_docs_nn_dropout"
+    ],
+    "aliases": [
+      "Dropout"
+    ]
+  },
+  "nn.BatchNorm": {
+    "symbol": "nn.BatchNorm",
+    "doc_ids": [
+      "api_docs_module_train",
+      "api_docs_module_eval"
+    ],
+    "aliases": [
+      "BatchNorm"
+    ]
+  },
+  "torch.nn.Dropout": {
+    "symbol": "torch.nn.Dropout",
+    "doc_ids": [
+      "api_docs_module_train",
+      "api_docs_nn_dropout"
+    ],
+    "aliases": [
+      "nn.Dropout",
+      "nn Dropout",
+      "Dropout"
+    ]
+  },
+  "torch.nn.BatchNorm2d": {
+    "symbol": "torch.nn.BatchNorm2d",
+    "doc_ids": [
+      "api_docs_module_train",
+      "api_docs_nn_batchnorm"
+    ],
+    "aliases": [
+      "nn.BatchNorm2d",
+      "nn BatchNorm2d",
+      "BatchNorm2d"
+    ]
+  },
   "Module.eval": {
     "symbol": "Module.eval",
     "doc_ids": [
@@ -824,43 +870,12 @@
       "eval"
     ]
   },
-  "nn.Dropout": {
-    "symbol": "nn.Dropout",
-    "doc_ids": [
-      "api_docs_nn_dropout"
-    ],
-    "aliases": [
-      "Dropout"
-    ]
-  },
-  "torch.nn.Dropout": {
-    "symbol": "torch.nn.Dropout",
-    "doc_ids": [
-      "api_docs_nn_dropout"
-    ],
-    "aliases": [
-      "nn.Dropout",
-      "nn Dropout",
-      "Dropout"
-    ]
-  },
   "nn.BatchNorm2d": {
     "symbol": "nn.BatchNorm2d",
     "doc_ids": [
       "api_docs_nn_batchnorm"
     ],
     "aliases": [
-      "BatchNorm2d"
-    ]
-  },
-  "torch.nn.BatchNorm2d": {
-    "symbol": "torch.nn.BatchNorm2d",
-    "doc_ids": [
-      "api_docs_nn_batchnorm"
-    ],
-    "aliases": [
-      "nn.BatchNorm2d",
-      "nn BatchNorm2d",
       "BatchNorm2d"
     ]
   }
