@@ -42,6 +42,7 @@ class BenchmarkItem(TypedDict):
     must_not_include: list[str]
     requires_citation: bool
     difficulty: BenchmarkDifficulty
+    must_not_include_regex: NotRequired[list[str]]
 
 
 class BenchmarkCitation(TypedDict):
@@ -61,6 +62,40 @@ class BenchmarkAnswer(TypedDict):
 BenchmarkAnswerFn = Callable[[str], BenchmarkAnswer]
 
 
+class MustIncludeNotes(TypedDict):
+    exact_matches: list[str]
+    fuzzy_matches: list[str]
+    fuzzy_logs: list[str]
+    missing: list[str]
+
+
+class AnyOfGroupMatch(TypedDict):
+    group: list[str]
+    matched: list[str]
+
+
+class MustIncludeAnyOfNotes(TypedDict):
+    matched_groups: list[AnyOfGroupMatch]
+    missing_groups: list[list[str]]
+
+
+class MustNotIncludeNotes(TypedDict):
+    matched_phrases: list[str]
+    matched_regex: list[str]
+
+
+class ExpectedSymbolsNotes(TypedDict):
+    matched: list[str]
+    missing: list[str]
+
+
+class BenchmarkLabelNotes(TypedDict):
+    must_include: MustIncludeNotes
+    must_include_any_of: MustIncludeAnyOfNotes
+    must_not_include: MustNotIncludeNotes
+    expected_symbols: ExpectedSymbolsNotes
+
+
 class BenchmarkResultItem(BenchmarkItem):
     answer: str
     citations: list[BenchmarkCitation]
@@ -68,7 +103,7 @@ class BenchmarkResultItem(BenchmarkItem):
     abstained: bool
     confidence_band: BenchmarkConfidenceBand
     label: BenchmarkLabel
-    notes: NotRequired[str]
+    notes: NotRequired[BenchmarkLabelNotes]
     retrieval_debug: NotRequired[RetrievalDebug]
 
 

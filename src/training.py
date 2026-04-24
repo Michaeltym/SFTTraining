@@ -18,6 +18,9 @@ from src.config import (
     LORA_TARGET_MODULES,
     MODEL_NAME,
     DATASET_NAME,
+    MAX_TRAIN_ROWS,
+    MAX_VAL_ROWS,
+    PILOT_SHUFFLE_SEED,
 )
 
 
@@ -25,7 +28,13 @@ def get_dataloaders(
     dataset_name: str, batch_size: int, model_name: str
 ) -> tuple[DataLoader, DataLoader]:
     training_dataset = load_jsonl_data(
-        file_path=f"./data/raw/training/{dataset_name}.jsonl"
+        file_path=f"./data/raw/training/{dataset_name}.jsonl",
+        max_rows=MAX_TRAIN_ROWS,
+        shuffle_seed=PILOT_SHUFFLE_SEED,
+    )
+    print(
+        f"[data] training rows used: {len(training_dataset)}"
+        f" (cap: {MAX_TRAIN_ROWS}, seed: {PILOT_SHUFFLE_SEED})"
     )
     formatted_training_data = format_jsonl_data(dataset=training_dataset)
     encoded_training_data = encode_data(formatted_training_data, model_name=model_name)
@@ -37,7 +46,13 @@ def get_dataloaders(
         model_name=model_name,
     )
     validation_dataset = load_jsonl_data(
-        file_path=f"./data/raw/validation/{dataset_name}.jsonl"
+        file_path=f"./data/raw/validation/{dataset_name}.jsonl",
+        max_rows=MAX_VAL_ROWS,
+        shuffle_seed=PILOT_SHUFFLE_SEED,
+    )
+    print(
+        f"[data] validation rows used: {len(validation_dataset)}"
+        f" (cap: {MAX_VAL_ROWS}, seed: {PILOT_SHUFFLE_SEED})"
     )
     formatted_validation_data = format_jsonl_data(dataset=validation_dataset)
     encoded_validation_data = encode_data(
@@ -65,7 +80,9 @@ def run_training(
     total_steps = len(dataloader)
     running_loss = 0
     start_time = time.time()
+    is_mps = device.type == "mps"
     for step, batch in enumerate(dataloader):
+        step_start = time.time()
         optimizer.zero_grad()
         input_ids = batch["input_ids"].to(device)
         labels = batch["labels"].to(device)
@@ -79,10 +96,17 @@ def run_training(
         running_loss += loss.item()
         loss.backward()
         optimizer.step()
+        # Release MPS-side intermediate allocations each step. Without this,
+        # Apple's unified memory pressure accumulates across steps and step
+        # time grows catastrophically (observed 8s -> 45s -> 444s on MPS).
+        if is_mps:
+            torch.mps.empty_cache()
+        step_duration = time.time() - step_start
 
         print(
             f"Epoch {epoch + 1} step {step + 1}/{total_steps} "
-            f"Avg loss: {(running_loss / (step + 1)):.4f} Time: {(time.time() - start_time):.2f}s"
+            f"Avg loss: {(running_loss / (step + 1)):.4f} "
+            f"Step: {step_duration:.2f}s Cum: {(time.time() - start_time):.2f}s"
         )
 
     average_training_loss = running_loss / total_steps

@@ -248,6 +248,46 @@ Evaluation should include both:
 
 If possible, keep a fixed prompt set under version control.
 
+### Benchmark Scorer Audit Rule
+
+The keyword/regex-based benchmark scorer can miss factual errors when a wrong
+answer still contains the expected keywords (false positive) and can
+over-penalize a correct answer that uses unexpected phrasing (false negative).
+
+After **every** benchmark run, do a manual FP/FN audit before quoting the
+score as a result:
+
+1. Read every answer labeled `correct` and check for hidden factual errors
+   (wrong mechanism, swapped concepts, inverted semantics, API confusion
+   across adjacent layers, and so on). Any such case is a **false positive**.
+2. Read every answer labeled `partially_correct` and check whether the answer
+   is in fact plainly wrong (should be `incorrect`) or plainly correct
+   (should be `correct`). Either direction is an audit finding.
+3. Read the `incorrect` answers to confirm they really are wrong and not
+   penalized only for missing a rigid required phrase.
+4. When comparing two runs (for example baseline vs SFT), pull the answers
+   to the same benchmark ids side by side for any category that moved. A
+   per-item comparison catches scorer inconsistency (same type of error
+   graded differently across runs).
+
+Record in the experiment log:
+
+- the number of FPs / FNs / mis-severity cases found
+- the benchmark ids and the short nature of each miss
+- a hand-regraded score for context (for example
+  `scorer: 29/7/0 = 0.806 -> hand-regrade: 27/7/2 = 0.750`)
+
+If the same FP pattern appears in two or more runs, treat it as a scorer
+blind spot and add a rule to the benchmark item:
+
+- a `must_not_include` entry for a hard semantic violation (forces
+  `incorrect`)
+- a `must_not_include_regex` entry for a softer phrasing confusion
+  (demotes to `partially_correct`)
+
+Never quote a benchmark delta as a finding without the FP/FN audit. The
+keyword scorer is a dashboard, not ground truth.
+
 ## Output Layout
 
 Recommended output areas:

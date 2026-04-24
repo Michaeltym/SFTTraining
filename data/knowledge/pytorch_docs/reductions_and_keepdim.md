@@ -14,7 +14,7 @@ Reduction operations remove or retain dimensions depending on the arguments used
 - `mean(dim=...)` reduces the specified dimension.
 - When `keepdim=False` or omitted, the reduced dimension is removed.
 - When `keepdim=True`, the reduced dimension stays in the result with size `1`.
-- `argmax(dim=...)` returns indices and removes the reduced dimension unless the API explicitly supports keeping it.
+- `argmax(dim=...)` returns indices and removes the reduced dimension unless `keepdim=True` is passed. See `argmax_dim_semantics.md` for the full no-`dim` vs `dim=k` behavior and the shape contrast.
 
 # Useful assistant behavior
 

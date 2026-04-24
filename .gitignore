@@ -10,3 +10,5 @@ data/adapters/
 .env
 .vscode
 .DS_Store
+.claude
+scripts

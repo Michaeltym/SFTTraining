@@ -14,10 +14,48 @@ from src.v2.corpus.types import (
     SymbolIndex,
 )
 
+# The four rules below together decide which textual references count as a
+# real PyTorch API symbol and therefore become symbol-index keys. Query-side
+# extraction uses SYMBOL_PATTERN unfiltered so users can type
+# `loss.backward()` and still route; the filters only apply when building
+# index keys from chunk body text.
+
+# Dotted identifier with at least two segments, optional trailing `()`.
+# Matches both canonical API paths (`torch.cat`, `Tensor.backward`) and
+# variable-name usage (`loss.backward()`, `x.shape`). Downstream filters
+# narrow this down for indexing.
 SYMBOL_PATTERN = r"\b\w+(?:\.\w+)+(?:\(\))?\b"
+
+# Dotted symbol whose first segment is a single character. Almost always an
+# example variable in code snippets (`x.shape`, `a.to`, `y.backward()`),
+# never a real API path. Caught by `is_noise_symbol` so single-letter-prefix
+# forms never become index keys.
 NOISE_SYMBOL_PATTERN = r"\b\w\.\w+(?:\(\))?\b"
+
+# Top-level namespace prefixes that are too general to route on. If
+# indexed, a query containing `torch.optim` would exact-match every doc
+# that mentions the namespace, flooding retrieval with top-level hits.
+# Excluded from chunk symbol lists even when the body text mentions them
+# literally. Canonical full paths (`torch.optim.SGD`,
+# `torch.nn.Module.train`) still get indexed under their real names.
 BROAD_SYMBOLS = ["torch.optim", "torch.tensor", "torch.utils", "torch.nn"]
-ALLOWED_OBJECT_PREFIXES = {"loss", "optimizer", "model", "F"}
+
+# Variable-name prefixes used in PyTorch docs examples (`loss.backward()`,
+# `optimizer.zero_grad()`, `model.train()`, `F.relu(x)`). These are
+# placeholders users write in their own code, not real API paths. If
+# allowed as symbol-index keys, a doc whose body happens to mention
+# `loss.backward()` in an example becomes a symbol-hit target for the
+# query "loss.backward" and drags unrelated docs (e.g.
+# `api_docs_optimizer_zero_grad`) into retrieval. The canonical API forms
+# (`Tensor.backward`, `Optimizer.zero_grad`, `Module.train`) stay in the
+# index under their real names, and queries fall through to those via
+# alias match on the short form (`backward`, `zero_grad`, `train`).
+OBJECT_EXAMPLE_PREFIXES = {"loss", "optimizer", "model", "f"}
+
+# Pedagogical placeholder names used in generic Python examples
+# (`self.foo`, `obj.bar`, `foo.x`, `bar.y`). These never refer to real
+# PyTorch APIs. Excluded from symbol-index keys so they cannot pollute
+# retrieval regardless of how often they appear in docs body text.
 NOISE_OBJECT_PREFIXES = {"self", "obj", "foo", "bar"}
 
 
@@ -55,8 +93,8 @@ def is_broad_symbol(symbol: str) -> bool:
 
 def is_noise_symbol(symbol: str) -> bool:
     prefix = symbol.split(".", 1)[0].lower()
-    if prefix in ALLOWED_OBJECT_PREFIXES:
-        return False
+    if prefix in OBJECT_EXAMPLE_PREFIXES:
+        return True
     if prefix in NOISE_OBJECT_PREFIXES:
         return True
     return bool(re.fullmatch(NOISE_SYMBOL_PATTERN, symbol))

@@ -12,7 +12,7 @@ PyTorch operations usually require tensors involved in the same operation to be 
 
 - A common device mismatch error happens when one tensor is on CPU and another is on CUDA.
 - PyTorch does not automatically move tensors across devices for you in normal tensor operations.
-- A typical fix is to move tensors to the same device with `.to(device)`, `.cuda()`, or `.cpu()`.
+- The recommended fix is to move tensors to the same device with `.to(device)`; `.cuda()` and `.cpu()` still work but are older, less flexible forms.
 - Model parameters, inputs, and targets used together should generally be on the same device.
 
 # Useful assistant behavior
